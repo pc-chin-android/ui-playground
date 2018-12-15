@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25">
+
+        <ImageButton
+            android:id="@+id/main_menu_invaders_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_ttt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_l_text"
+            app:srcCompat="@drawable/invaders_icon" />
+
+        <ImageButton
+            android:id="@+id/main_menu_snakes_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_snakes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/main_menu_ttt_img"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_l_text"
+            app:srcCompat="@drawable/snakes_icon" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".08"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/main_menu_invaders_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="@string/main_menu_invaders"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/main_menu_snakes_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="@string/main_menu_snakes"
+            android:textSize="20sp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25">
+
+        <ImageView
+            android:id="@+id/main_menu_chess_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_chess"
+            app:srcCompat="@drawable/chess_icon" />
+
+        <ImageView
+            android:id="@+id/main_menu_asteroids_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_asteroids"
+            app:srcCompat="@drawable/asteroids_icon" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".08"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/main_menu_chess_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:text="@string/main_menu_chess"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/main_menu_asteroids_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:text="@string/main_menu_asteroids"
+            android:textSize="20sp" />
+    </TableRow>
+
+</TableLayout>

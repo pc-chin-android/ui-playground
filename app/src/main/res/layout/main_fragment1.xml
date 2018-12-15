@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25">
+
+        <ImageButton
+            android:id="@+id/main_menu_ttt_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_ttt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_l_text"
+            app:srcCompat="@drawable/ttt_icon" />
+
+        <ImageButton
+            android:id="@+id/main_menu_pac_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_pac"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/main_menu_ttt_img"
+            app:layout_constraintTop_toBottomOf="@+id/main_menu_l_text"
+            app:srcCompat="@drawable/pac_icon" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".08"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/main_menu_ttt_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="@string/main_menu_ttt"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/main_menu_pac_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="@string/main_menu_pac"
+            android:textSize="20sp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25">
+
+        <ImageView
+            android:id="@+id/main_menu_tetris_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_tetris"
+            app:srcCompat="@drawable/tetris_icon" />
+
+        <ImageView
+            android:id="@+id/main_menu_pong_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_pong"
+            app:srcCompat="@drawable/pong_icon" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".08"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/main_menu_tetris_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:text="@string/main_menu_tetris"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/main_menu_pong_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:text="@string/main_menu_pong"
+            android:textSize="20sp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25">
+
+        <ImageView
+            android:id="@+id/main_menu_go_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_go"
+            app:srcCompat="@drawable/go_icon" />
+
+        <ImageView
+            android:id="@+id/main_menu_sudoku_img"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:contentDescription="@string/main_menu_sudoku"
+            app:srcCompat="@drawable/sudoku_icon" />
+    </TableRow>
+
+    <TableRow
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".08" >
+
+        <Button
+            android:id="@+id/main_menu_go_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:text="@string/main_menu_go"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/main_menu_sudoku_text"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:text="@string/main_menu_sudoku"
+            android:textSize="20sp" />
+    </TableRow>
+</TableLayout>
