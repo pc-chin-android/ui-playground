@@ -15,10 +15,4 @@ public class MainMenuFragment2 extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.main_fragment2, container, false);
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Add listener of buttons if needed to
-        // TODO: Add OnClickListener
-    }
 }

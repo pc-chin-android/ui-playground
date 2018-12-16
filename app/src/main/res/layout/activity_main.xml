@@ -29,7 +29,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/main_menu_r_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
+        android:fastScrollEnabled="false"/>
 
     <TextView
         android:id="@+id/main_menu_r_text"
@@ -41,7 +42,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/main_menu_l_text"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_main" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_main"
+        android:fastScrollEnabled="false"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_menu_pager"

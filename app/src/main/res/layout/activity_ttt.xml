@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TttActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_ttt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/main_menu_ttt" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttt_playerNum">
+
+        <TableRow
+            android:id="@+id/ttt_row_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1">
+
+            <ImageButton
+                android:id="@+id/ttt_btn_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ttt_btn_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ttt_btn_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/ttt_row_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1">
+
+            <ImageButton
+                android:id="@+id/ttt_btn_4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ttt_btn_5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ttt_btn_6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/ttt_row_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1">
+
+            <ImageButton
+                android:id="@+id/ttt_btn_7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ttt_btn_8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/ttt_btn_9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".1"
+                android:contentDescription="@string/blank"
+                android:onClick="onImgBtnSelected"
+                app:srcCompat="@android:color/white" />
+        </TableRow>
+    </TableLayout>
+
+    <RadioGroup
+        android:id="@+id/ttt_playerNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:checkedButton="@+id/ttt_l_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ttt_btn"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ttt">
+
+        <RadioButton
+            android:id="@+id/ttt_l_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ttt_l_button"
+            android:textSize="24sp" />
+
+        <RadioButton
+            android:id="@+id/ttt_r_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ttt_r_button"
+            android:textSize="24sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/ttt_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="19dp"
+        android:onClick="resetGame"
+        android:text="@string/reset"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_ttt" />
+
+</android.support.constraint.ConstraintLayout>

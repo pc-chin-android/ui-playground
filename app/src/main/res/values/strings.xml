@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">UI Playground</string>
+    <string name="app_name">Game Corner</string>
     <string name="blank" />
+
+    <!-- General phrases -->
     <string name="button_return">Return</string>
+    <string name="reset">Reset</string>
+    <string name="game_over">Game Over</string>
+    <string name="you_win">You win!</string>
+    <string name="you_lost">You lost.</string>
+    <string name="player_1_wins">Player 1 wins!</string>
+    <string name="player_2_wins">Player 2 wins!</string>
+    <string name="draw_details">The game ends in a draw.</string>
+    <string name="stalemate_details">The game ends in a stalemate.</string>
+    <string name="ok">OK</string>
 
     <!-- Main Menu -->
     <string name="coin">Coin</string>
@@ -20,6 +31,10 @@
     <!-- About Menu -->
     <string name="about_menu_top">Made by PC Chin</string>
     <string name="about_menu_bottom">Version: </string>
+
+    <!-- Tic Tac Toe -->
+    <string name="ttt_l_button">1 Player</string>
+    <string name="ttt_r_button">2 Player</string>
 
     <!-- Popup strings -->
     <string name="loading_popup_text">Loading…</string>
