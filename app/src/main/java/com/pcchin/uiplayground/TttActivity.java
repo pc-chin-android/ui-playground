@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -41,6 +42,18 @@ public class TttActivity extends AppCompatActivity {
 
         // Reset game
         resetGame(getCurrentFocus());
+
+        // Set change state listeners for both buttons
+        RadioButton button1 = findViewById(R.id.ttt_l_button);
+        RadioButton button2 = findViewById(R.id.ttt_r_button);
+        CompoundButton.OnCheckedChangeListener resetListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                resetGame(buttonView);
+            }
+        };
+        button1.setOnCheckedChangeListener(resetListener);
+        button2.setOnCheckedChangeListener(resetListener);
     }
 
     @Override
