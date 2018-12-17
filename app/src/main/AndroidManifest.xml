@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AboutActivity" />
-        <activity android:name=".TttActivity"/>
+        <activity android:name=".TttActivity" />
     </application>
 
 </manifest>

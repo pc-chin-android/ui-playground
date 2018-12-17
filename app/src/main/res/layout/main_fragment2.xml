@@ -49,7 +49,7 @@
             android:gravity="center"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_invaders"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/main_menu_snakes_text"
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_snakes"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </TableRow>
 
     <TableRow
@@ -101,7 +101,7 @@
             android:layout_weight=".5"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_chess"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/main_menu_asteroids_text"
@@ -111,7 +111,7 @@
             android:layout_weight=".5"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_asteroids"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </TableRow>
 
 </TableLayout>

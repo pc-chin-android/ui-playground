@@ -49,7 +49,7 @@
             android:gravity="center"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_ttt"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/main_menu_pac_text"
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_pac"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </TableRow>
 
     <TableRow
@@ -101,7 +101,7 @@
             android:layout_weight=".5"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_tetris"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/main_menu_pong_text"
@@ -111,7 +111,7 @@
             android:layout_weight=".5"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_pong"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </TableRow>
 
     <TableRow
@@ -152,7 +152,7 @@
             android:layout_weight=".5"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_go"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/main_menu_sudoku_text"
@@ -162,6 +162,6 @@
             android:layout_weight=".5"
             android:onClick="onButtonClick"
             android:text="@string/main_menu_sudoku"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </TableRow>
 </TableLayout>
