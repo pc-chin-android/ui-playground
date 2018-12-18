@@ -127,14 +127,8 @@ public class TttActivity extends AppCompatActivity {
 
             // Check if 1 player is selected
             if (! radioButton.isChecked()) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 // Computer moves
                 List<Integer> possibleMoves = new ArrayList<>();
-                Random random = new Random();
                 for (int i=0; i < tttList.size(); i++) {
                     if (((int) tttList.get(i).getTag() == 0)) {
                         possibleMoves.add(i);
@@ -143,7 +137,8 @@ public class TttActivity extends AppCompatActivity {
 
                 // Check if possibleMoves is empty
                 if (! (possibleMoves.size() == 0)) {
-                    int moveTaken = possibleMoves.get(random.nextInt(possibleMoves.size()));
+                    int moveTaken = bestMove(possibleMoves, tttList);
+
                     tttList.get(moveTaken).setImageResource(R.drawable.ttt_circle);
                     tttList.get(moveTaken).setTag(-1);
                 }
@@ -270,6 +265,29 @@ public class TttActivity extends AppCompatActivity {
         displayDialog.show();
     }
 
+    private int bestMove(@NonNull List<Integer> possibleMoves, List<ImageButton> tttList) {
+        Random random = new Random();
+        // Move taken priority: Win game --> Centre --> Random
+
+        // Check if any of the moves can result in victory
+        for (int i=0; i < possibleMoves.size(); i++) {
+            tttList.get(possibleMoves.get(i)).setTag(-1);
+            if (checkWinner(tttList)) {
+                return possibleMoves.get(i);
+            }
+            tttList.get(possibleMoves.get(i)).setTag(0);
+        }
+
+        // Get centre
+        if (possibleMoves.contains(4)) {
+            return 4;
+        }
+
+        // Random move
+        return possibleMoves.get(random.nextInt(possibleMoves.size()));
+
+    }
+
     // Enable/disable user input
 
     public void setTouchable(boolean isTouchable) {
@@ -283,4 +301,5 @@ public class TttActivity extends AppCompatActivity {
         }
         return false; // Block touch event
     }
+
 }
