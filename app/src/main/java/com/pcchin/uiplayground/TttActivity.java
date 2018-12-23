@@ -267,7 +267,7 @@ public class TttActivity extends AppCompatActivity {
 
     private int bestMove(@NonNull List<Integer> possibleMoves, List<ImageButton> tttList) {
         Random random = new Random();
-        // Move taken priority: Win game --> Centre --> Random
+        // Move taken priority: Win game --> Prevent player from winning --> Random
 
         // Check if any of the moves can result in victory
         for (int i=0; i < possibleMoves.size(); i++) {
@@ -278,9 +278,17 @@ public class TttActivity extends AppCompatActivity {
             tttList.get(possibleMoves.get(i)).setTag(0);
         }
 
-        // Get centre
-        if (possibleMoves.contains(4)) {
-            return 4;
+        // Prevent player from winning
+        for (int i=0; i < possibleMoves.size(); i++) {
+            tttList.get(possibleMoves.get(i)).setTag(1);
+            player1Playing = !player1Playing;
+            if (checkWinner(tttList)) {
+                player1Playing = !player1Playing;
+                tttList.get(possibleMoves.get(i)).setTag(0);
+                return possibleMoves.get(i);
+            }
+            player1Playing = !player1Playing;
+            tttList.get(possibleMoves.get(i)).setTag(0);
         }
 
         // Random move

@@ -83,8 +83,15 @@ public class MainActivity extends AppCompatActivity {
             // Tic Tac Toe
             case (R.id.main_menu_ttt_img ):
             case (R.id.main_menu_ttt_text):
-                Intent intent = new Intent(this, TttActivity.class);
-                startActivity(intent);
+                Intent intent_ttt = new Intent(this, TttActivity.class);
+                startActivity(intent_ttt);
+                break;
+
+            // Pong
+            case (R.id.main_menu_pong_img ):
+            case (R.id.main_menu_pong_text):
+                Intent intent_pong = new Intent(this, PongActivity.class);
+                startActivity(intent_pong);
                 break;
             // TODO: Add on click listeners in the future
         }

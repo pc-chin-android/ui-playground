@@ -3,6 +3,10 @@
     <string name="blank" />
 
     <!-- General phrases -->
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="stopped">Game stopped.</string>
     <string name="button_return">Return</string>
     <string name="reset">Reset</string>
     <string name="game_over">Game Over</string>
