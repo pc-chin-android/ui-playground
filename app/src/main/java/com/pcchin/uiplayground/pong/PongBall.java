@@ -9,7 +9,7 @@ import com.pcchin.uiplayground.R;
 
 class PongBall extends GameObject {
     // Velocity of game character (pixel/millisecond)
-    private static final float VELOCITY = 0.1f;
+    private static float VELOCITY = 0.4f;
 
     private int movingVectorX = 10;
     private int movingVectorY = 5;
@@ -24,6 +24,7 @@ class PongBall extends GameObject {
         super(GeneralFunctions.getBitmap(R.drawable.white_circle, pongSurfaceView.getContext()), x, y);
         this.pongImg = GeneralFunctions.getBitmap(R.drawable.white_circle, pongSurfaceView.getContext());
         this.pongSurfaceView = pongSurfaceView;
+        VELOCITY = 0.4f;
     }
 
     void update(){
@@ -63,6 +64,14 @@ class PongBall extends GameObject {
             this.y= this.pongSurfaceView.getHeight()- height;
             this.movingVectorY = - this.movingVectorY;
         }
+
+        float deltaV;
+        if (VELOCITY < 1) {
+            deltaV = (float)0.0015;
+        } else {
+            deltaV = (float)0.0015/VELOCITY;
+        }
+        VELOCITY += deltaV;
     }
 
     void draw(Canvas canvas)  {
@@ -77,5 +86,5 @@ class PongBall extends GameObject {
         this.movingVectorY = movingVectorY;
     }
 
-    // TODO: Finish ball
+    // TODO: Object Collision
 }

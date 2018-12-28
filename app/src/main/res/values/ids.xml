@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="pong_score_l" type="id" />
+    <item name="pong_score_r" type="id" />
+    <item name="pong_score_centre" type="id" />
+</resources>
