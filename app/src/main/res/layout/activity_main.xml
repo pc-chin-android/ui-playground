@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toStartOf="@id/main_menu_r_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
-        android:fastScrollEnabled="false"/>
+        android:fastScrollEnabled="false" />
 
     <TextView
         android:id="@+id/main_menu_r_text"

@@ -16,8 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.pcchin.uiplayground.MainMenu.MainMenuFragment1;
-import com.pcchin.uiplayground.MainMenu.MainMenuFragment2;
+import com.pcchin.uiplayground.mainmenu.MainMenuFragment1;
+import com.pcchin.uiplayground.mainmenu.MainMenuFragment2;
+import com.pcchin.uiplayground.pong.PongActivity;
 
 import java.util.Objects;
 

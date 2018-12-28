@@ -6,6 +6,8 @@
     <string name="start">Start</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
+    <string name="started">Game started.</string>
+    <string name="paused">Game paused.</string>
     <string name="stopped">Game stopped.</string>
     <string name="button_return">Return</string>
     <string name="reset">Reset</string>
@@ -39,6 +41,9 @@
     <!-- Tic Tac Toe -->
     <string name="ttt_l_button">1 Player</string>
     <string name="ttt_r_button">2 Player</string>
+
+    <!-- Pong -->
+    <string name="pong_limit">Number of scores needed to win game</string>
 
     <!-- Popup strings -->
     <string name="loading_popup_text">Loading…</string>
