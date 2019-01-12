@@ -11,7 +11,7 @@ public abstract class GameObject {
     int x;
     int y;
 
-    GameObject(@NonNull Bitmap image, int x, int y)  {
+    public GameObject(@NonNull Bitmap image, int x, int y)  {
 
         this.image = image;
 

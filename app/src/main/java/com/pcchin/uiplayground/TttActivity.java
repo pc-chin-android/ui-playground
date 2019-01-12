@@ -3,7 +3,6 @@ package com.pcchin.uiplayground;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,11 +21,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class TttActivity extends AppCompatActivity {
-    private final int DRAW = 0;
-    private final int ONE_WIN = 1;
-    private final int ONE_LOSE = 2;
-    private final int TWO_1_WIN = -1;
-    private final int TWO_2_WIN = -2;
 
     private boolean isTouchable= true;
     private boolean player1Playing;
@@ -75,6 +69,13 @@ public class TttActivity extends AppCompatActivity {
     }
 
     public void onImgBtnSelected(View view) {
+        DialogInterface.OnDismissListener listener = new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                resetGame(getCurrentFocus());
+            }
+        };
+
         setTouchable(false);
         ImageView view1 = (ImageView)view;
         if (Objects.equals(view1.getTag(), 0)) {
@@ -107,19 +108,19 @@ public class TttActivity extends AppCompatActivity {
                 // Check if game won
                 if (radioButton.isChecked()) {
                     if (player1Playing) {
-                        displayDialog(TWO_1_WIN);
+                        GeneralFunctions.displayDialog(this, GeneralFunctions.TWO_1_WIN, listener);
                         return;
                     } else {
-                        displayDialog(TWO_2_WIN);
+                        GeneralFunctions.displayDialog(this, GeneralFunctions.TWO_2_WIN, listener);
                         return;
                     }
                 } else {
-                    displayDialog(ONE_WIN);
+                    GeneralFunctions.displayDialog(this, GeneralFunctions.ONE_WIN, listener);
                     return;
                 }
             } else if (checkDraw(tttList)) {
                 // Check if draw
-                displayDialog(DRAW);
+                GeneralFunctions.displayDialog(this, GeneralFunctions.DRAW, listener);
                 return;
             }
 
@@ -144,10 +145,10 @@ public class TttActivity extends AppCompatActivity {
                 }
 
                 if (checkWinner(tttList)) {
-                    displayDialog(ONE_LOSE);
+                    GeneralFunctions.displayDialog(this, GeneralFunctions.ONE_LOSE, listener);
                     return;
                 } else if (checkDraw(tttList)) {
-                    displayDialog(DRAW);
+                    GeneralFunctions.displayDialog(this, GeneralFunctions.DRAW, listener);
                     return;
                 }
 
@@ -224,45 +225,6 @@ public class TttActivity extends AppCompatActivity {
             }
         }
         return true;
-    }
-
-    private void displayDialog(int state) {
-        AlertDialog.Builder displayDialogBuilder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert);
-        displayDialogBuilder.setTitle(R.string.game_over);
-        // Bind OK button to dismiss dialog
-        displayDialogBuilder.setPositiveButton(getString(R.string.ok),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        displayDialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                resetGame(getCurrentFocus());
-            }
-        });
-        // Display game over dialog
-        switch (state) {
-            case DRAW:
-                displayDialogBuilder.setMessage(getString(R.string.draw_details));
-                break;
-            case ONE_WIN:
-                displayDialogBuilder.setMessage(getString(R.string.you_win));
-                break;
-            case ONE_LOSE:
-                displayDialogBuilder.setMessage(getString(R.string.you_lost));
-                break;
-            case TWO_1_WIN:
-                displayDialogBuilder.setMessage(getString(R.string.player_1_wins));
-                break;
-            case TWO_2_WIN:
-                displayDialogBuilder.setMessage(getString(R.string.player_2_wins));
-                break;
-        }
-        AlertDialog displayDialog = displayDialogBuilder.create();
-        displayDialog.show();
     }
 
     private int bestMove(@NonNull List<Integer> possibleMoves, List<ImageButton> tttList) {
