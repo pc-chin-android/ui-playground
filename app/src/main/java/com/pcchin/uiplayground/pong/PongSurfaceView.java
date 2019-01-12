@@ -14,8 +14,8 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     // TODO: Finish Pong game
 
     private PongThread pongThread;
-    private Paddle paddleL;
-    private Paddle paddleR;
+    Paddle paddleL;
+    Paddle paddleR;
     private PongBall ball;
 
     public PongSurfaceView(Context context) {
@@ -29,14 +29,14 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        int PADDLE_WALL_DIST = 32;
+        int PADDLE_WALL_DIST = 48;
         int PADDLE_HEIGHT = 80;
         int PADDLE_WIDTH = 16;
         int BALL_DIAMETER = 16;
 
         this.paddleL = new Paddle(this, PADDLE_WALL_DIST, getHeight()/2 - PADDLE_HEIGHT);
         this.paddleR = new Paddle(this, getWidth() - PADDLE_WALL_DIST - PADDLE_WIDTH, getHeight()/2 - PADDLE_HEIGHT);
-        this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER /2, getHeight()/2 - BALL_DIAMETER /2);
+        this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER /2, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR);
 
         this.pongThread.setRunning(true);
         this.pongThread.start();
@@ -77,12 +77,13 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                if ((event.getX() == this.paddleL.getX()) && (event.getY() == this.paddleL.getY())) {
-                    this.paddleL.setX((int)event.getX());
+                // Set coordinates of paddle if touched within 300dp(x) and 10dp(y) of paddle to touch position
+                if ((Math.abs(event.getX() - this.paddleL.getX()) < 30) && (Math.abs(event.getY() - this.paddleL.getY())) < 10) {
                     this.paddleL.setY((int)event.getY());
-                } else if ((event.getX() == this.paddleL.getX()) && (event.getY() == this.paddleL.getY())) {
-                    this.paddleR.setX((int)event.getX());
+                    return true;
+                } else if ((Math.abs(event.getX() - this.paddleR.getX()) < 30) && (Math.abs(event.getY() - this.paddleR.getY())) < 10) {
                     this.paddleR.setY((int)event.getY());
+                    return true;
                 }
         }
         return false;

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
+import com.pcchin.uiplayground.GameObject;
 import com.pcchin.uiplayground.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 
@@ -46,6 +47,4 @@ class Paddle extends GameObject {
     void setY(int y) {
         this.y = y;
     }
-
-    // TODO: Finish paddle
 }

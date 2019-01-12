@@ -1,4 +1,4 @@
-package com.pcchin.uiplayground.pong;
+package com.pcchin.uiplayground;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 public abstract class GameObject {
     protected Bitmap image;
 
-    final int width;
-    final int height;
-    int x;
-    int y;
+    public final int width;
+    public final int height;
+    public int x;
+    public int y;
 
     public GameObject(@NonNull Bitmap image, int x, int y)  {
 
