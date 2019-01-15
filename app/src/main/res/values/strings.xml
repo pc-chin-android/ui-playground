@@ -21,7 +21,7 @@
     <string name="ok">OK</string>
 
     <!-- Main Menu -->
-    <string name="coin">Coin</string>
+    <string name="coin">About</string>
     <string name="dot">•</string>
     <string name="main_menu_ttt">Tic Tac Toe</string>
     <string name="main_menu_pac">Pac-man</string>

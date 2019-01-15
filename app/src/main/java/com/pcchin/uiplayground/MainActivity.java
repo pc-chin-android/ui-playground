@@ -23,6 +23,11 @@ import com.pcchin.uiplayground.pong.PongActivity;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    // FIXME: LICENSE LIST BELOW
+    // Pac Man: https://en.bandainamcoent.eu/register-a-game
+    // Pong & Asteroids: No need
+    // Tetris: https://tetris.com/contact-us
+    // Space Invaders: https://iterator45.wordpress.com/2012/01/13/im-gonna-get-sued-by-medway/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
