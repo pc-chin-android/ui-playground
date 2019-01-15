@@ -3,6 +3,7 @@ package com.pcchin.uiplayground.pong;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.pcchin.uiplayground.GameObject;
 import com.pcchin.uiplayground.GeneralFunctions;
@@ -54,8 +55,8 @@ class PongBall extends GameObject {
 
         // TODO: Finish object collision
         // Object collision with paddle (Exact dimensions)
-        if (((Math.abs(this.x - this.paddleL.getX()) < 41) && (Math.abs(this.y - this.paddleL.getY())) < 9)
-                || ((Math.abs(this.x - this.paddleR.getX()) < 41) && (Math.abs(this.y - this.paddleR.getY())) < 9)) {
+        if (((Math.abs(this.x - (this.paddleL.getX() + (this.paddleL.width /2))) < 41) && (Math.abs(this.y - (this.paddleL.getY() + (this.paddleL.height /2))) < 9))
+                || ((Math.abs(this.x - (this.paddleR.getX() + (this.paddleR.width /2))) < 41) && (Math.abs(this.y - (this.paddleR.getY() + (this.paddleR.height /2))) < 9))) {
             this.movingVectorX = -this.movingVectorX;
         }
 

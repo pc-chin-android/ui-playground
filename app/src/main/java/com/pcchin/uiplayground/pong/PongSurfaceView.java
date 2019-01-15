@@ -29,7 +29,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        int PADDLE_WALL_DIST = 48;
+        int PADDLE_WALL_DIST = 64;
         int PADDLE_HEIGHT = 80;
         int PADDLE_WIDTH = 16;
         int BALL_DIAMETER = 16;
@@ -71,22 +71,29 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         drawDotted(canvas);
     }
 
+    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                // Set coordinates of paddle if touched within 300dp(x) and 10dp(y) of paddle to touch position
-                if ((Math.abs(event.getX() - this.paddleL.getX()) < 30) && (Math.abs(event.getY() - this.paddleL.getY())) < 10) {
-                    this.paddleL.setY((int)event.getY());
-                    return true;
-                } else if ((Math.abs(event.getX() - this.paddleR.getX()) < 30) && (Math.abs(event.getY() - this.paddleR.getY())) < 10) {
-                    this.paddleR.setY((int)event.getY());
-                    return true;
-                }
+        int ptrCount = event.getPointerCount();
+        // One for each pointer on screen
+        for (int i = 0; i < ptrCount; i++) {
+            int ptrX = (int) event.getX(event.getPointerId(i));
+            int ptrY = (int) event.getY(event.getPointerId(i));
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_POINTER_DOWN:
+                case MotionEvent.ACTION_MOVE:
+                    // Set coordinates of paddle if touched within 20dp(x) and -10dp(y) of paddle to touch position
+                    if ((Math.abs(ptrX - this.paddleL.getX() - (this.paddleL.getWidth() / 2)) < ((this.paddleL.getWidth() / 2) + 20)) && (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) - 10))) {
+                        this.paddleL.setY(ptrY - (this.paddleL.getHeight() / 2));
+                    } else if ((Math.abs(ptrX - this.paddleR.getX() - (this.paddleR.getWidth() / 2)) < ((this.paddleR.getWidth() / 2) + 20)) && (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) - 10))) {
+                        this.paddleR.setY(ptrY - (this.paddleL.getHeight() / 2));
+                    }
+            }
         }
-        return false;
+        return true;
     }
 
     public void update() {
@@ -95,6 +102,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.ball.update();
     }
 
+    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     private void drawDotted(@NonNull Canvas canvas) {
         // Start x, start y, end x, end y
         Paint paint = new Paint();
