@@ -5,10 +5,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     // TODO: Finish Pong game
@@ -17,7 +20,9 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     Paddle paddleL;
     Paddle paddleR;
     private PongBall ball;
+    private boolean twoUser;
 
+    // Original constructor, keeping it as it is if needed
     public PongSurfaceView(Context context) {
         super(context);
 
@@ -25,6 +30,18 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.getHolder().addCallback(this);
 
         pongThread = new PongThread(this, getHolder());
+    }
+
+    // Current constructor in use, allowing us to pass on the twoUser value
+    public PongSurfaceView(Context context, boolean twoUser) {
+        super(context);
+
+        this.setFocusable(true);
+        this.getHolder().addCallback(this);
+
+        pongThread = new PongThread(this, getHolder());
+
+        this.twoUser = twoUser;
     }
 
     @Override
@@ -76,21 +93,40 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int ptrCount = event.getPointerCount();
+        // Get display height
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int height = size.y;
         // One for each pointer on screen
         for (int i = 0; i < ptrCount; i++) {
+            // TODO: Solve IllegalArgumentException
+
             int ptrX = (int) event.getX(event.getPointerId(i));
             int ptrY = (int) event.getY(event.getPointerId(i));
-
-            switch (event.getAction()) {
+            switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_POINTER_DOWN:
                 case MotionEvent.ACTION_MOVE:
-                    // Set coordinates of paddle if touched within 20dp(x) and -10dp(y) of paddle to touch position
-                    if ((Math.abs(ptrX - this.paddleL.getX() - (this.paddleL.getWidth() / 2)) < ((this.paddleL.getWidth() / 2) + 20)) && (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) - 10))) {
-                        this.paddleL.setY(ptrY - (this.paddleL.getHeight() / 2));
-                    } else if ((Math.abs(ptrX - this.paddleR.getX() - (this.paddleR.getWidth() / 2)) < ((this.paddleR.getWidth() / 2) + 20)) && (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) - 10))) {
-                        this.paddleR.setY(ptrY - (this.paddleL.getHeight() / 2));
-                    }
+                /* Firstly, check if 2 players are playing. If not, disable the left paddle.
+                 *  Then, check if pointer is within 20dp(x) and -10dp(y) of either paddle.
+                 *  Thirdly, check if pointer's y-coordinates is within top boundary.
+                 *  Lastly, check if its y-coordinates is within bottom boundary.
+                 *  If all above prerequisites are met, the paddle's y-coordinates are set to that of the pointer's.
+                */
+                if (this.twoUser &&
+                        (Math.abs(ptrX - this.paddleL.getX() - (this.paddleL.getWidth() / 2)) < ((this.paddleL.getWidth() / 2) + 20)) &&
+                        (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) - 10)) &&
+                        ((ptrY - (this.paddleL.getHeight() / 2)) > 0) &&
+                        ((ptrY + (this.paddleL.getHeight() / 2)) < height)) {
+                    this.paddleL.setY(ptrY - (this.paddleL.getHeight() / 2));
+                } else if ((Math.abs(ptrX - this.paddleR.getX() - (this.paddleR.getWidth() / 2)) < ((this.paddleR.getWidth() / 2) + 20)) &&
+                        (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) - 10)) &&
+                        ((ptrY - (this.paddleR.getHeight() / 2)) > 0) &&
+                        ((ptrY + (this.paddleR.getHeight() / 2)) < height)) {
+                    this.paddleR.setY(ptrY - (this.paddleR.getHeight() / 2));
+                }
             }
         }
         return true;

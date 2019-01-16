@@ -23,6 +23,7 @@ import com.pcchin.uiplayground.pong.PongActivity;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    // TODO: Split apps into smaller ones after all 10 complete
     // FIXME: LICENSE LIST BELOW
     // Pac Man: https://en.bandainamcoent.eu/register-a-game
     // Pong & Asteroids: No need
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * A simple pager adapter that represents 2 ScreenSlidePageFragment objects, in
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

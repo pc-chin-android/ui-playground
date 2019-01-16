@@ -55,14 +55,14 @@ class PongBall extends GameObject {
         // TODO: Finish object collision
         // Object collision with paddle (Exact dimensions)
         if (((
-                this.x + (this.width/2) - this.paddleL.getX() - (this.paddleL.getWidth()/2) < this.paddleL.getWidth()
+                (this.x + (this.width/2) - this.paddleL.getX() - (this.paddleL.getWidth()/2)) < this.paddleL.getWidth()
         ) && (
-                this.y + (this.height/2) - this.paddleL.getY() - (this.paddleL.getHeight()/2) < this.paddleL.getHeight()
+                (this.y + (this.height/2) - this.paddleL.getY() - (this.paddleL.getHeight()/2)) < this.paddleL.getHeight()
         ))
                 || ((
-                this.x + (this.width/2) - this.paddleR.getX() - (this.paddleR.getWidth()/2) < this.paddleR.getWidth()
+                (this.x + (this.width/2) - this.paddleR.getX() - (this.paddleR.getWidth()/2)) < this.paddleR.getWidth()
         ) && (
-                this.y + (this.height/2) - this.paddleR.getY() - (this.paddleR.getHeight()/2) < this.paddleR.getHeight()
+                (this.y + (this.height/2) - this.paddleR.getY() - (this.paddleR.getHeight()/2)) < this.paddleR.getHeight()
         ))) {
             this.movingVectorX = -this.movingVectorX;
         }
