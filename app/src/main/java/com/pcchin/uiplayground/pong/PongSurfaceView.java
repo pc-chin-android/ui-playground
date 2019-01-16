@@ -14,7 +14,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    // TODO: Finish Pong game
+    // TODO: Scoring system
 
     private PongThread pongThread;
     Paddle paddleL;

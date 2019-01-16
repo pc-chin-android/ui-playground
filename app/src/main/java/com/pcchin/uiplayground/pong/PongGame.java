@@ -12,10 +12,11 @@ public class PongGame extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new PongSurfaceView(this, playerCount != 1));
 
         Intent intent = getIntent();
         playerCount = intent.getIntExtra("Player", 1);
+
+        setContentView(new PongSurfaceView(this, playerCount != 1));
     }
 
     @Override

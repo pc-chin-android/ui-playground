@@ -52,29 +52,21 @@ class PongBall extends GameObject {
         this.x = x +  (int)(distance* movingVectorX / movingVectorLength);
         this.y = y +  (int)(distance* movingVectorY / movingVectorLength);
 
-        // TODO: Finish object collision
-        // Object collision with paddle (Exact dimensions)
+        // Object collision with paddle (Exact Dimensions)
         if (((
-                (this.x + (this.width/2) - this.paddleL.getX() - (this.paddleL.getWidth()/2)) < this.paddleL.getWidth()
+                Math.abs(this.x + this.width/2 - paddleL.x - paddleL.width/2) < (this.width + this.paddleL.getWidth())/2
         ) && (
-                (this.y + (this.height/2) - this.paddleL.getY() - (this.paddleL.getHeight()/2)) < this.paddleL.getHeight()
+                Math.abs(this.y + this.height/2 - paddleL.y - paddleL.height/2) < (this.height + this.paddleL.getHeight())/2
         ))
                 || ((
-                (this.x + (this.width/2) - this.paddleR.getX() - (this.paddleR.getWidth()/2)) < this.paddleR.getWidth()
+                Math.abs(this.x + this.width/2 - paddleR.x - paddleR.width/2) < (this.width + this.paddleR.getWidth())/2
         ) && (
-                (this.y + (this.height/2) - this.paddleR.getY() - (this.paddleR.getHeight()/2)) < this.paddleR.getHeight()
+                Math.abs(this.y + this.height/2 - paddleR.y - paddleR.height/2) < (this.height + this.paddleR.getHeight())/2
         ))) {
             this.movingVectorX = -this.movingVectorX;
         }
 
-        // When the game's character touches the edge of the screen, then change direction
-        if(this.x < 0 )  {
-            this.x = 0;
-            this.movingVectorX = - this.movingVectorX;
-        } else if(this.x > this.pongSurfaceView.getWidth() -width)  {
-            this.x= this.pongSurfaceView.getWidth()-width;
-            this.movingVectorX = - this.movingVectorX;
-        }
+        // When the game's character touches the top/bottom of the screen, then change direction
 
         if(this.y < 0 )  {
             this.y = 0;
