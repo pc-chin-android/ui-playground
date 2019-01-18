@@ -8,6 +8,7 @@ import android.view.View;
 public class PongGame extends Activity {
 
     int playerCount;
+    int winCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +16,9 @@ public class PongGame extends Activity {
 
         Intent intent = getIntent();
         playerCount = intent.getIntExtra("Player", 1);
+        winCount = intent.getIntExtra("WinCount", 0);
 
-        setContentView(new PongSurfaceView(this, playerCount != 1));
+        setContentView(new PongSurfaceView(this, playerCount != 1, winCount));
     }
 
     @Override

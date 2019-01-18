@@ -26,10 +26,6 @@
             android:screenOrientation="landscape" />
         <activity android:name=".pong.PongGame"
             android:screenOrientation="landscape" />
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

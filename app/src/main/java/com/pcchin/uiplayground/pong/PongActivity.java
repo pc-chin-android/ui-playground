@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.pcchin.uiplayground.MainActivity;
 import com.pcchin.uiplayground.R;
@@ -27,8 +28,18 @@ public class PongActivity extends AppCompatActivity {
         findViewById(R.id.pong_1p_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Get limit text
+                EditText limitNum = findViewById(R.id.pong_limit);
+                int winCount;
+                try {
+                    winCount = Integer.parseInt(limitNum.getText().toString());
+                } catch (NumberFormatException e) {
+                    winCount = 0;
+                }
+
                 Intent intent = new Intent(getApplicationContext(), PongGame.class);
                 intent.putExtra("Player", 1);
+                intent.putExtra("WinCount", winCount);
                 startActivity(intent);
             }
         });
@@ -36,8 +47,18 @@ public class PongActivity extends AppCompatActivity {
         findViewById(R.id.pong_2p_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Get limit text
+                EditText limitNum = findViewById(R.id.pong_limit);
+                int winCount;
+                try {
+                    winCount = Integer.parseInt(limitNum.getText().toString());
+                } catch (NumberFormatException e) {
+                    winCount = 0;
+                }
+
                 Intent intent = new Intent(getApplicationContext(), PongGame.class);
                 intent.putExtra("Player", 2);
+                intent.putExtra("WinCount", winCount);
                 startActivity(intent);
             }
         });

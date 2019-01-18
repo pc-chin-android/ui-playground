@@ -5,15 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.text.TextPaint;
 
 public class GeneralFunctions {
     static final int DRAW = 0;
-    static final int ONE_WIN = 1;
-    static final int ONE_LOSE = 2;
-    static final int TWO_1_WIN = -1;
-    static final int TWO_2_WIN = -2;
+    public static final int ONE_WIN = 1;
+    public static final int ONE_LOSE = 2;
+    public static final int TWO_1_WIN = -1;
+    public static final int TWO_2_WIN = -2;
 
     public static Bitmap getBitmap(int drawableRes, @NonNull Context context) {
         Drawable drawable = context.getResources().getDrawable(drawableRes);
@@ -26,7 +29,32 @@ public class GeneralFunctions {
         return bitmap;
     }
 
-    static void displayDialog(Context context, int state, DialogInterface.OnDismissListener listener) {
+    public static Bitmap textToBitmap(String text, int textColor, float textSize, String fontFamily,
+                                      int typefaceType, boolean importFont, @NonNull Context context) {
+        // Set up text properties
+        TextPaint paint = new TextPaint();
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+
+        // Special for imported text
+        if (importFont) {
+            paint.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/" + fontFamily + ".ttf"));
+        } else {
+            paint.setTypeface(Typeface.create(fontFamily, typefaceType));
+        }
+        paint.setTextAlign(Paint.Align.LEFT);
+
+        // Drawing actual text
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.5f); // round
+        int height = (int) (baseline + paint.descent() + 0.5f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
+    }
+
+    public static void displayDialog(Context context, int state, DialogInterface.OnDismissListener listener) {
         AlertDialog.Builder displayDialogBuilder = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
         displayDialogBuilder.setTitle(R.string.game_over);
         // Bind OK button to dismiss dialog

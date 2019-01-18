@@ -13,13 +13,11 @@ class Paddle extends GameObject {
 
     private long lastDrawNanoTime =-1;
 
-    private PongSurfaceView pongSurfaceView;
     private Bitmap paddle;
 
     Paddle(@NonNull PongSurfaceView pongSurfaceView, int x, int y) {
         super(GeneralFunctions.getBitmap(R.drawable.pong_paddle, pongSurfaceView.getContext()), x, y);
         this.paddle = GeneralFunctions.getBitmap(R.drawable.pong_paddle, pongSurfaceView.getContext());
-        this.pongSurfaceView = pongSurfaceView;
     }
 
     void update(){
@@ -40,9 +38,7 @@ class Paddle extends GameObject {
         this.lastDrawNanoTime= System.nanoTime();
     }
 
-    void setX(int x) {
-        this.x = x;
-    }
+    void setX(int x) { this.x = x; }
 
     void setY(int y) {
         this.y = y;
