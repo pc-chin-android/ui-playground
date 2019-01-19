@@ -67,7 +67,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
         this.paddleL = new Paddle(this, PADDLE_WALL_DIST, getHeight()/2 - PADDLE_HEIGHT);
         this.paddleR = new Paddle(this, getWidth() - PADDLE_WALL_DIST - PADDLE_WIDTH, getHeight()/2 - PADDLE_HEIGHT);
-        this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 16, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR);
+        this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR);
         this.scoreL = new Score(this,Double.valueOf(getWidth()*0.25).intValue(), 10);
         this.scoreR = new Score(this,Double.valueOf(getWidth()*0.75).intValue() - Score.scoreToBitmap(0, this.getContext()).getWidth(), 10);
 
@@ -132,19 +132,19 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                     case MotionEvent.ACTION_POINTER_DOWN:
                     case MotionEvent.ACTION_MOVE:
                         /* Firstly, check if 2 players are playing. If not, disable the left paddle.
-                         *  Then, check if pointer is within 20dp(x) and -10dp(y) of either paddle.
+                         *  Then, check if pointer is within 40dp(x) and 20dp(y) of either paddle.
                          *  Thirdly, check if pointer's y-coordinates is within top boundary.
                          *  Lastly, check if its y-coordinates is within bottom boundary.
                          *  If all above prerequisites are met, the paddle's y-coordinates are set to that of the pointer's.
                          */
                         if (this.twoUser &&
-                                (Math.abs(ptrX - this.paddleL.getX() - (this.paddleL.getWidth() / 2)) < ((this.paddleL.getWidth() / 2) + 20)) &&
-                                (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) - 10)) &&
+                                (Math.abs(ptrX - this.paddleL.getX() - (this.paddleL.getWidth() / 2)) < ((this.paddleL.getWidth() / 2) + 40)) &&
+                                (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) + 20)) &&
                                 ((ptrY - (this.paddleL.getHeight() / 2)) > 0) &&
                                 ((ptrY + (this.paddleL.getHeight() / 2)) < height)) {
                             this.paddleL.setY(ptrY - (this.paddleL.getHeight() / 2));
-                        } else if ((Math.abs(ptrX - this.paddleR.getX() - (this.paddleR.getWidth() / 2)) < ((this.paddleR.getWidth() / 2) + 20)) &&
-                                (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) - 10)) &&
+                        } else if ((Math.abs(ptrX - this.paddleR.getX() - (this.paddleR.getWidth() / 2)) < ((this.paddleR.getWidth() / 2) + 40)) &&
+                                (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) + 20)) &&
                                 ((ptrY - (this.paddleR.getHeight() / 2)) > 0) &&
                                 ((ptrY + (this.paddleR.getHeight() / 2)) < height)) {
                             this.paddleR.setY(ptrY - (this.paddleR.getHeight() / 2));
@@ -188,6 +188,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             this.ball.setEnabled(false);
         }
 
+        /*
         // Check winner
         DialogInterface.OnDismissListener listener = new DialogInterface.OnDismissListener() {
             @Override
@@ -211,6 +212,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                 GeneralFunctions.displayDialog(context, GeneralFunctions.ONE_WIN, listener);
             }
         }
+        */
     }
 
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
