@@ -18,7 +18,7 @@ class PongBall extends GameObject {
     private int movingVectorY = 5;
 
     private long lastDrawNanoTime =-1;
-    private boolean enabled;
+    boolean enabled;
 
     private Paddle paddleL;
     private Paddle paddleR;

@@ -73,4 +73,11 @@ public class PongActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
     }
+
+    @Override
+    public void onBackPressed() {
+        // Ensure that the game will not be resumed
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }

@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -26,11 +29,13 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private int winCount;
     Paddle paddleL;
     Paddle paddleR;
+    PongBall ball;
+    Score paused;
     private Score scoreL;
     private Score scoreR;
-    private PongBall ball;
     private boolean twoUser;
-    private boolean touchEnabled;
+    boolean touchEnabled;
+    boolean gameOverDisplayed;
 
     private static final int PADDLE_WALL_DIST = 64;
     private static final int PADDLE_HEIGHT = 80;
@@ -45,6 +50,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.getHolder().addCallback(this);
 
         this.context = context;
+        this.gameOverDisplayed = false;
         pongThread = new PongThread(this, getHolder());
     }
 
@@ -60,20 +66,24 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context;
         this.twoUser = twoUser;
         this.winCount = winCount;
+        this.gameOverDisplayed = false;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Bitmap pausedBitmap = GeneralFunctions.textToBitmap("Game paused", Color.RED,
+                120, "orbitron", Typeface.BOLD, true, this.getContext());
 
         this.paddleL = new Paddle(this, PADDLE_WALL_DIST, getHeight()/2 - PADDLE_HEIGHT);
         this.paddleR = new Paddle(this, getWidth() - PADDLE_WALL_DIST - PADDLE_WIDTH, getHeight()/2 - PADDLE_HEIGHT);
         this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR);
         this.scoreL = new Score(this,Double.valueOf(getWidth()*0.25).intValue(), 10);
         this.scoreR = new Score(this,Double.valueOf(getWidth()*0.75).intValue() - Score.scoreToBitmap(0, this.getContext()).getWidth(), 10);
-
+        this.paused = new Score(this, getWidth()/2 - pausedBitmap.getWidth()/2, getHeight()/2 - pausedBitmap.getHeight()/2, "Game paused");
         this.touchEnabled = true;
         this.pongThread.setRunning(true);
         this.pongThread.start();
+        ((PongGame) context).gameState = PongGame.NORMAL;
     }
 
     @Override
@@ -106,6 +116,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.ball.draw(canvas);
         this.scoreL.draw(canvas);
         this.scoreR.draw(canvas);
+        this.paused.draw(canvas);
         drawDotted(canvas);
     }
 
@@ -152,19 +163,38 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         } else if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            // Restart game
-            this.pongThread.start();
-            this.touchEnabled = true;
-            this.ball.setEnabled(true);
+            switch (((PongGame) context).gameState) {
+                case PongGame.NORMAL:
+                    // Restart game if the game is not paused
+                    this.pongThread.start();
+                    this.touchEnabled = true;
+                    this.ball.setEnabled(true);
+                case PongGame.PAUSED:
+                    // Resume game if game is paused
+                    ((PongGame) context).enableAll(true);
+                case PongGame.GAME_OVER:
+                    // Return to selection menu
+                    Intent intent = new Intent(context, PongActivity.class);
+                    context.startActivity(intent);
+            }
         }
         return true;
     }
 
     public void update() {
+        // TODO: Pong AI
+
         this.paddleL.update();
         this.paddleR.update();
         this.ball.update();
 
+        checkScore();
+
+        checkWin();
+    }
+
+    // Only used in update(), split to increase readability
+    private void checkScore() {
         // Score is made
         if ((this.ball.getX() < 0) || (this.ball.getX() > getWidth())) {
             this.touchEnabled = false;
@@ -187,32 +217,28 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             this.ball.setY(getHeight()/2 - BALL_DIAMETER /2);
             this.ball.setEnabled(false);
         }
+    }
 
-        /*
-        // Check winner
-        DialogInterface.OnDismissListener listener = new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                Intent intent = new Intent(context, PongActivity.class);
-                context.startActivity(intent);
-            }
-        };
-        // Check left paddle
-        if (Objects.equals(this.scoreL.currentScore, this.winCount)) {
-            if (twoUser) {
-                GeneralFunctions.displayDialog(context, GeneralFunctions.TWO_1_WIN, listener);
-            } else {
-                GeneralFunctions.displayDialog(context, GeneralFunctions.ONE_LOSE, listener);
-            }
-        // Right paddle
-        } else if (Objects.equals(this.scoreR.currentScore, this.winCount)) {
-            if (twoUser) {
-                GeneralFunctions.displayDialog(context, GeneralFunctions.TWO_2_WIN, listener);
-            } else {
-                GeneralFunctions.displayDialog(context, GeneralFunctions.ONE_WIN, listener);
+    // Only used in update(), split to increase readability
+    private void checkWin() {
+        // Check if a dialog is already displayed
+        if (!this.gameOverDisplayed) {
+            // Check left paddle
+            if (Objects.equals(this.scoreL.currentScore, this.winCount) && (this.scoreL.currentScore != 0)) {
+                if (twoUser) {
+                    gameOver(GeneralFunctions.TWO_1_WIN);
+                } else {
+                    gameOver(GeneralFunctions.ONE_LOSE);
+                }
+                // Right paddle
+            } else if (Objects.equals(this.scoreR.currentScore, this.winCount) && (this.scoreR.currentScore != 0)) {
+                if (twoUser) {
+                    gameOver(GeneralFunctions.TWO_2_WIN);
+                } else {
+                    gameOver(GeneralFunctions.ONE_WIN);
+                }
             }
         }
-        */
     }
 
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
@@ -225,5 +251,25 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setStrokeWidth(16);
 
         canvas.drawLine(getWidth()/2 - 8, 0, getWidth()/2 + 8, getHeight(), paint);
+    }
+
+    // Triggered when game ends
+    private void gameOver(final int status) {
+        this.gameOverDisplayed = true;
+        ((PongGame) context).gameState = PongGame.GAME_OVER;
+        this.touchEnabled = false;
+
+        ((PongGame) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DialogInterface.OnDismissListener listener = new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(@NonNull DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+                };
+                GeneralFunctions.displayDialog(context, status, listener);
+            }
+        });
     }
 }

@@ -272,4 +272,11 @@ public class TttActivity extends AppCompatActivity {
         return false; // Block touch event
     }
 
+    @Override
+    public void onBackPressed() {
+        // Return to main menu
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
