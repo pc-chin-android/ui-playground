@@ -19,10 +19,12 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.pcchin.uiplayground.GeneralFunctions;
+import com.pcchin.uiplayground.R;
 
 import java.util.Objects;
 
 class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+    // TODO: Fix paused bug
 
     private PongThread pongThread;
     private Context context;
@@ -30,10 +32,11 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     Paddle paddleL;
     Paddle paddleR;
     PongBall ball;
+    private PongBall fakeBall;
     Score paused;
     private Score scoreL;
     private Score scoreR;
-    private boolean twoUser;
+    boolean twoUser;
     boolean touchEnabled;
     boolean gameOverDisplayed;
 
@@ -76,7 +79,10 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
         this.paddleL = new Paddle(this, PADDLE_WALL_DIST, getHeight()/2 - PADDLE_HEIGHT);
         this.paddleR = new Paddle(this, getWidth() - PADDLE_WALL_DIST - PADDLE_WIDTH, getHeight()/2 - PADDLE_HEIGHT);
-        this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR);
+        this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR,
+                GeneralFunctions.getBitmap(R.drawable.white_circle, getContext()), true);
+        this.fakeBall = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR,
+                Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888), false);
         this.scoreL = new Score(this,Double.valueOf(getWidth()*0.25).intValue(), 10);
         this.scoreR = new Score(this,Double.valueOf(getWidth()*0.75).intValue() - Score.scoreToBitmap(0, this.getContext()).getWidth(), 10);
         this.paused = new Score(this, getWidth()/2 - pausedBitmap.getWidth()/2, getHeight()/2 - pausedBitmap.getHeight()/2, "Game paused");
@@ -114,6 +120,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.paddleL.draw(canvas);
         this.paddleR.draw(canvas);
         this.ball.draw(canvas);
+        this.fakeBall.draw(canvas);
         this.scoreL.draw(canvas);
         this.scoreR.draw(canvas);
         this.paused.draw(canvas);
@@ -134,7 +141,8 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             int height = size.y;
             // One for each pointer on screen
             for (int i = 0; i < ptrCount; i++) {
-                // TODO: Suppress IllegalArgumentException
+                // IllegalArgumentException will appear here
+                // However, it cannot be suppressed with try/catch due to reasons unknown
 
                 int ptrX = (int) event.getX(event.getPointerId(i));
                 int ptrY = (int) event.getY(event.getPointerId(i));
@@ -143,19 +151,19 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                     case MotionEvent.ACTION_POINTER_DOWN:
                     case MotionEvent.ACTION_MOVE:
                         /* Firstly, check if 2 players are playing. If not, disable the left paddle.
-                         *  Then, check if pointer is within 40dp(x) and 20dp(y) of either paddle.
+                         *  Then, check if pointer is within 40dp(x) and 30dp(y) of either paddle.
                          *  Thirdly, check if pointer's y-coordinates is within top boundary.
                          *  Lastly, check if its y-coordinates is within bottom boundary.
                          *  If all above prerequisites are met, the paddle's y-coordinates are set to that of the pointer's.
                          */
                         if (this.twoUser &&
                                 (Math.abs(ptrX - this.paddleL.getX() - (this.paddleL.getWidth() / 2)) < ((this.paddleL.getWidth() / 2) + 40)) &&
-                                (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) + 20)) &&
+                                (Math.abs(ptrY - this.paddleL.getY() - (this.paddleL.getHeight() / 2)) < ((this.paddleL.getHeight() / 2) + 30)) &&
                                 ((ptrY - (this.paddleL.getHeight() / 2)) > 0) &&
                                 ((ptrY + (this.paddleL.getHeight() / 2)) < height)) {
                             this.paddleL.setY(ptrY - (this.paddleL.getHeight() / 2));
                         } else if ((Math.abs(ptrX - this.paddleR.getX() - (this.paddleR.getWidth() / 2)) < ((this.paddleR.getWidth() / 2) + 40)) &&
-                                (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) + 20)) &&
+                                (Math.abs(ptrY - this.paddleR.getY() - (this.paddleR.getHeight() / 2)) < ((this.paddleR.getHeight() / 2) + 30)) &&
                                 ((ptrY - (this.paddleR.getHeight() / 2)) > 0) &&
                                 ((ptrY + (this.paddleR.getHeight() / 2)) < height)) {
                             this.paddleR.setY(ptrY - (this.paddleR.getHeight() / 2));
@@ -169,24 +177,30 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                     this.pongThread.start();
                     this.touchEnabled = true;
                     this.ball.setEnabled(true);
+                    this.fakeBall.setEnabled(true);
+                    break;
                 case PongGame.PAUSED:
                     // Resume game if game is paused
                     ((PongGame) context).enableAll(true);
+                    break;
                 case PongGame.GAME_OVER:
                     // Return to selection menu
                     Intent intent = new Intent(context, PongActivity.class);
                     context.startActivity(intent);
+                    break;
             }
         }
         return true;
     }
 
     public void update() {
-        // TODO: Pong AI
-
+        if ((!twoUser) && this.touchEnabled) {
+            this.updateAi();
+        }
         this.paddleL.update();
         this.paddleR.update();
         this.ball.update();
+        this.fakeBall.update();
 
         checkScore();
 
@@ -216,6 +230,10 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             this.ball.setX(getWidth()/2 - 16 - BALL_DIAMETER/2);
             this.ball.setY(getHeight()/2 - BALL_DIAMETER /2);
             this.ball.setEnabled(false);
+            this.fakeBall.setX(getWidth()/2 - 16 - BALL_DIAMETER/2);
+            this.fakeBall.setY(getHeight()/2 - BALL_DIAMETER /2);
+            this.fakeBall.setEnabled(false);
+
         }
     }
 
@@ -271,5 +289,17 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                 GeneralFunctions.displayDialog(context, status, listener);
             }
         });
+    }
+
+    // To update location of left paddle if 1 player
+    private void updateAi() {
+        this.paddleL.setY(this.fakeBall.getY() - this.paddleL.getHeight()/2 + this.fakeBall.getHeight()/2);
+
+        // Boundary check
+        if (this.paddleL.y < 0) {
+            this.paddleL.setY(0);
+        } else if (this.paddleL.y + this.paddleL.getHeight() > this.getHeight()) {
+            this.paddleL.setY(this.getHeight() - this.paddleL.getHeight());
+        }
     }
 }

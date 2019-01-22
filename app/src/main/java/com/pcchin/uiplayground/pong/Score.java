@@ -56,11 +56,21 @@ class Score extends GameObject {
     }
 
     void pauseShow(boolean show) {
-        if (show) {
-            this.currentBmp = GeneralFunctions.textToBitmap(content, Color.RED, 120,
-                    "orbitron", Typeface.BOLD, true, pongSurfaceView.getContext());
-        } else {
-            this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+        System.out.println("Pauseshow called");
+
+        // Current time in nanoseconds
+        long now = System.nanoTime();
+
+        // Never once did draw.
+        if (lastDrawNanoTime == -1) {
+            lastDrawNanoTime = now;
+
+            if (show) {
+                this.currentBmp = GeneralFunctions.textToBitmap(content, Color.RED, 120,
+                        "orbitron", Typeface.BOLD, true, pongSurfaceView.getContext());
+            } else {
+                this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            }
         }
     }
 
