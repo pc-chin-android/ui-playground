@@ -28,7 +28,7 @@ class Score extends GameObject {
 
     // For paused
     Score(@NonNull PongSurfaceView pongSurfaceView, int x, int y, String content) {
-        super(Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888), x, y);
+        super(Bitmap.createBitmap(16, 1, Bitmap.Config.ARGB_8888), x, y);
         this.pongSurfaceView = pongSurfaceView;
         this.content = content;
         this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
@@ -56,7 +56,6 @@ class Score extends GameObject {
     }
 
     void pauseShow(boolean show) {
-        System.out.println("Pauseshow called");
 
         // Current time in nanoseconds
         long now = System.nanoTime();
@@ -64,13 +63,14 @@ class Score extends GameObject {
         // Never once did draw.
         if (lastDrawNanoTime == -1) {
             lastDrawNanoTime = now;
+        }
 
-            if (show) {
-                this.currentBmp = GeneralFunctions.textToBitmap(content, Color.RED, 120,
-                        "orbitron", Typeface.BOLD, true, pongSurfaceView.getContext());
-            } else {
-                this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-            }
+        if (show) {
+            this.currentBmp = GeneralFunctions.textToBitmap(content, Color.RED, 120,
+                    "orbitron", Typeface.BOLD, true, pongSurfaceView.getContext());
+            System.out.println("Change");
+        } else {
+            this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         }
     }
 

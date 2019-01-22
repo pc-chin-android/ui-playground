@@ -24,7 +24,6 @@ import com.pcchin.uiplayground.R;
 import java.util.Objects;
 
 class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    // TODO: Fix paused bug
 
     private PongThread pongThread;
     private Context context;
