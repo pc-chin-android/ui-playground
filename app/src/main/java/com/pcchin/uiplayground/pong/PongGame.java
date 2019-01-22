@@ -99,6 +99,6 @@ public class PongGame extends Activity {
             public void run() {
                 doubleBackToExitPressedOnce=false;
             }
-        }, 2000);
+        }, 1500);
     }
 }
