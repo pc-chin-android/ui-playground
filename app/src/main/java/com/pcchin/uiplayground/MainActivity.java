@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.pcchin.uiplayground.mainmenu.MainMenuFragment1;
 import com.pcchin.uiplayground.mainmenu.MainMenuFragment2;
 import com.pcchin.uiplayground.pong.PongActivity;
+import com.pcchin.uiplayground.tetris.TetrisActivity;
 
 import java.util.Objects;
 
@@ -100,6 +101,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent_pong = new Intent(this, PongActivity.class);
                 startActivity(intent_pong);
                 break;
+
+            // Tetris
+            case (R.id.main_menu_tetris_img ):
+            case (R.id.main_menu_tetris_text):
+                Intent intent_tetris = new Intent(this, TetrisActivity.class);
+                startActivity(intent_tetris);
+                break;
+
             // TODO: Add on click listeners in the future
         }
     }

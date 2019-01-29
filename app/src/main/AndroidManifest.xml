@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".tetris.TetrisActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -24,7 +25,8 @@
         <activity
             android:name=".pong.PongActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".pong.PongGame"
+        <activity
+            android:name=".pong.PongGame"
             android:screenOrientation="landscape" />
     </application>
 
