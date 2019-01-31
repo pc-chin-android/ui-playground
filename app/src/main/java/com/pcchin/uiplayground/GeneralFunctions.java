@@ -8,8 +8,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class GeneralFunctions {
     static final int DRAW = 0;
@@ -87,5 +94,40 @@ public class GeneralFunctions {
         }
         AlertDialog displayDialog = displayDialogBuilder.create();
         displayDialog.show();
+    }
+
+    public static void playAudioOnce(final Context context,final int res) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer mediaPlayer = MediaPlayer.create(context, res);
+                mediaPlayer.start();
+                try {
+                    Thread.sleep(mediaPlayer.getDuration());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.release();
+            }
+        }).start();
+    }
+
+    @NonNull
+    static String getReadTextFromAssets(@NonNull Context context, String textFileName) {
+        String text;
+        StringBuilder stringBuilder = new StringBuilder();
+        InputStream inputStream;
+        try {
+            inputStream = context.getAssets().open(textFileName);
+            BufferedReader bufferedReader =
+                    new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            while ((text = bufferedReader.readLine()) != null) {
+                stringBuilder.append(text);
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 }

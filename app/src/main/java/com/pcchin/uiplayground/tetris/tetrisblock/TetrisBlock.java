@@ -13,6 +13,8 @@ public class TetrisBlock extends GameObject {
 
     private Bitmap block;
     private Context context;
+    int gridX;
+    int gridY;
     String type;
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, @NonNull Bitmap image, String type, int x, int y) {

@@ -210,6 +210,8 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private void checkScore() {
         // Score is made
         if ((this.ball.getX() < 0) || (this.ball.getX() > getWidth())) {
+            GeneralFunctions.playAudioOnce(context, R.raw.bleep);
+
             this.touchEnabled = false;
             this.pongThread = new PongThread(this, getHolder());
 
@@ -272,6 +274,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Triggered when game ends
     private void gameOver(final int status) {
+        GeneralFunctions.playAudioOnce(context, R.raw.robot_bleep);
         this.gameOverDisplayed = true;
         ((PongGame) context).gameState = PongGame.GAME_OVER;
         this.touchEnabled = false;

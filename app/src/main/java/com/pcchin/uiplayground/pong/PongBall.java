@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
 import com.pcchin.uiplayground.GameObject;
+import com.pcchin.uiplayground.GeneralFunctions;
+import com.pcchin.uiplayground.R;
 
 import java.util.Random;
 
@@ -114,6 +116,7 @@ class PongBall extends GameObject {
         )) && (
                 ((lastDrawNanoTime - lastVectorXChange) / 1000000) > 25
         )) {
+            GeneralFunctions.playAudioOnce(pongSurfaceView.getContext(), R.raw.beep);
             // Reduce randomness when playing with AI
             if (pongSurfaceView.twoUser) {
                 this.movingVectorX = -this.movingVectorX + 2 - random.nextInt(4);

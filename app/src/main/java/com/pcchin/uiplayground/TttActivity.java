@@ -158,7 +158,6 @@ public class TttActivity extends AppCompatActivity {
         setTouchable(true);
     }
 
-    @SuppressWarnings("unused")
     public void resetGame(View view) {
         // Add all imageButtons to array
         List<ImageButton> tttList = new ArrayList<>();

@@ -42,6 +42,7 @@
     <!-- About Menu -->
     <string name="about_menu_top">Made by PC Chin</string>
     <string name="about_menu_bottom">Version: </string>
+    <string name="about_menu_license">License</string>
 
     <!-- Tic Tac Toe -->
     <string name="ttt_l_button">1 Player</string>

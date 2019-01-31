@@ -1,10 +1,13 @@
 package com.pcchin.uiplayground;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,16 +15,15 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
-public class AboutActivity extends AppCompatActivity {
+public class LicenseActivity extends AppCompatActivity {
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_license);
 
         // Set action bar
-        Toolbar toolbar = findViewById(R.id.toolbar_about);
+        Toolbar toolbar = findViewById(R.id.toolbar_license);
         setSupportActionBar(toolbar);
 
         // Hide status bar
@@ -29,9 +31,18 @@ public class AboutActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
-        // Set version
-        TextView textView = findViewById(R.id.about_menu_bottom_text);
-        textView.setText(getString(R.string.about_menu_bottom) + BuildConfig.VERSION_NAME);
+        // Set license text
+        Spanned license;
+        String licenseText = GeneralFunctions.getReadTextFromAssets(this, "license.txt");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            license = Html.fromHtml(licenseText, Html.FROM_HTML_MODE_LEGACY); // Adds hyperlink to text
+        } else {
+            license = Html.fromHtml(licenseText);
+        }
+        TextView licenseView = findViewById(R.id.license_text);
+        licenseView.setTextSize(18);
+        licenseView.setText(license);
+        licenseView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -43,8 +54,9 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Return button at top
         if (Objects.equals(item.getItemId(), R.id.menu_return)) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
             return true;
         } else {
@@ -54,13 +66,8 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Return to main menu
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void displayLicense(View view) {
-        Intent intent = new Intent(this, LicenseActivity.class);
+        // Return to about menu
+        Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 }
