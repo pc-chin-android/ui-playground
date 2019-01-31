@@ -19,6 +19,11 @@
     <string name="draw_details">The game ends in a draw.</string>
     <string name="stalemate_details">The game ends in a stalemate.</string>
     <string name="ok">OK</string>
+    <string name="next">Next</string>
+    <string name="up">▲</string>
+    <string name="down">▼</string>
+    <string name="left">◀</string>
+    <string name="right">▶</string>
 
     <!-- Main Menu -->
     <string name="coin">About</string>
