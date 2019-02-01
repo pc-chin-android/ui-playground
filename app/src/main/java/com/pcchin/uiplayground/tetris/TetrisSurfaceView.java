@@ -1,18 +1,14 @@
 package com.pcchin.uiplayground.tetris;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
-import android.widget.Toast;
 
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
@@ -74,7 +70,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         tetrisThread = new TetrisThread(this, getHolder());
-        draw(holder.lockCanvas());
     }
 
     @Override
@@ -115,14 +110,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     public void resetGame() {
         this.score = 0;
-        // TODO: Finish reset score
     }
 
     // Triggered when game ends
     private void gameOver() {
         this.gameOverDisplayed = true;
-
-        // TODO: Custom dialog to show score
     }
 
     private void drawGrid(@NonNull Canvas canvas) {

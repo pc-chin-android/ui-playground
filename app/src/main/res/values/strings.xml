@@ -2,28 +2,32 @@
     <string name="app_name">UI Playground</string>
     <string name="blank" />
 
-    <!-- General phrases -->
+    <!-- Buttons -->
     <string name="start">Start</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
+    <string name="button_return">Return</string>
+    <string name="reset">Reset</string>
+    <string name="ok">OK</string>
+    <string name="next">Next</string>
+
+    <!-- Game states -->
     <string name="started">Game started.</string>
     <string name="paused">Game paused.</string>
     <string name="stopped">Game stopped.</string>
-    <string name="button_return">Return</string>
-    <string name="reset">Reset</string>
     <string name="game_over">Game Over</string>
+
+    <!-- Game over -->
     <string name="you_win">You win!</string>
     <string name="you_lost">You lost.</string>
     <string name="player_1_wins">Player 1 wins!</string>
     <string name="player_2_wins">Player 2 wins!</string>
     <string name="draw_details">The game ends in a draw.</string>
     <string name="stalemate_details">The game ends in a stalemate.</string>
-    <string name="ok">OK</string>
-    <string name="next">Next</string>
-    <string name="up">▲</string>
-    <string name="down">▼</string>
-    <string name="left">◀</string>
-    <string name="right">▶</string>
+
+    <!-- Controls -->
+    <string name="up_arrow">^</string>
+    <string name="left_arrow">&lt;</string>
 
     <!-- Main Menu -->
     <string name="coin">About</string>

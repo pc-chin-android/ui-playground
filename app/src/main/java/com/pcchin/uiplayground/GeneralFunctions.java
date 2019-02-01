@@ -116,14 +116,12 @@ public class GeneralFunctions {
                 AssetFileDescriptor afd = context.getResources().openRawResourceFd(res);
                 try {
                     mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
                     mediaPlayer.prepare();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    // Refer to IllegalStateException below
+                } catch (IllegalStateException e) {
+                    /* This error fires if two mediaPlayer is called very rapidly.
+                     As this does not seem to affect the game, it is ignored. */
                 }
                 // Listeners are used to ensure that they won't trigger too early
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
