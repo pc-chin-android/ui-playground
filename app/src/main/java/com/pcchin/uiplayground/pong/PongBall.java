@@ -116,7 +116,7 @@ class PongBall extends GameObject {
         )) && (
                 ((lastDrawNanoTime - lastVectorXChange) / 1000000) > 25
         )) {
-            GeneralFunctions.playAudioOnce(pongSurfaceView.getContext(), R.raw.beep);
+            GeneralFunctions.playAudioOnce(pongSurfaceView.getContext(), R.raw.beep, pongSurfaceView.mediaPlayer);
             // Reduce randomness when playing with AI
             if (pongSurfaceView.twoUser) {
                 this.movingVectorX = -this.movingVectorX + 2 - random.nextInt(4);

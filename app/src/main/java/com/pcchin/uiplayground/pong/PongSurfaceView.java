@@ -11,6 +11,8 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -38,6 +40,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     boolean twoUser;
     boolean touchEnabled;
     boolean gameOverDisplayed;
+    MediaPlayer mediaPlayer;
 
     private static final int PADDLE_WALL_DIST = 64;
     private static final int PADDLE_HEIGHT = 80;
@@ -89,6 +92,8 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.pongThread.setRunning(true);
         this.pongThread.start();
         ((PongGame) context).gameState = PongGame.NORMAL;
+
+        mediaPlayer = GeneralFunctions.mediaPlayerCreator(context, AudioAttributes.CONTENT_TYPE_SONIFICATION);
     }
 
     @Override
@@ -122,8 +127,8 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.fakeBall.draw(canvas);
         this.scoreL.draw(canvas);
         this.scoreR.draw(canvas);
-        this.paused.draw(canvas);
         drawDotted(canvas);
+        this.paused.draw(canvas);
     }
 
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
@@ -184,6 +189,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
                     break;
                 case PongGame.GAME_OVER:
                     // Return to selection menu
+                    mediaPlayer.release();
                     Intent intent = new Intent(context, PongActivity.class);
                     context.startActivity(intent);
                     break;
@@ -210,7 +216,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private void checkScore() {
         // Score is made
         if ((this.ball.getX() < 0) || (this.ball.getX() > getWidth())) {
-            GeneralFunctions.playAudioOnce(context, R.raw.bleep);
+            GeneralFunctions.playAudioOnce(context, R.raw.bleep, mediaPlayer);
 
             this.touchEnabled = false;
             this.pongThread = new PongThread(this, getHolder());
@@ -274,7 +280,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     // Triggered when game ends
     private void gameOver(final int status) {
-        GeneralFunctions.playAudioOnce(context, R.raw.robot_bleep);
+        GeneralFunctions.playAudioOnce(context, R.raw.robot_bleep, mediaPlayer);
         this.gameOverDisplayed = true;
         ((PongGame) context).gameState = PongGame.GAME_OVER;
         this.touchEnabled = false;
