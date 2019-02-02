@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
@@ -103,46 +103,6 @@ public class GeneralFunctions {
         displayDialog.show();
     }
 
-    public static void playAudioOnce(final Context context, final int res, final MediaPlayer mediaPlayer) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (mediaPlayer.isPlaying()) {
-                    // Stops current audio if playing
-                    mediaPlayer.stop();
-                    mediaPlayer.reset();
-                }
-                // Set AssetFileDescriptor for file
-                AssetFileDescriptor afd = context.getResources().openRawResourceFd(res);
-                try {
-                    mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    // Refer to IllegalStateException below
-                } catch (IllegalStateException e) {
-                    /* This error fires if two mediaPlayer is called very rapidly.
-                     As this does not seem to affect the game, it is ignored. */
-                }
-                // Listeners are used to ensure that they won't trigger too early
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        // Start when the mediaPlayer is prepared
-                        mediaPlayer.start();
-                    }
-                });
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        // Start when the mediaPlayer starts playing
-                        mediaPlayer.stop();
-                        mediaPlayer.reset();
-                    }
-                });
-            }
-        }).start();
-    }
-
     public static MediaPlayer mediaPlayerCreator(@NonNull Context context, int contentType) {
         MediaPlayer mediaPlayer = getMediaPlayer(context);
         mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
@@ -202,5 +162,4 @@ public class GeneralFunctions {
         }
         return mediaplayer;
     }
-
 }

@@ -68,7 +68,6 @@ class Score extends GameObject {
         if (show) {
             this.currentBmp = GeneralFunctions.textToBitmap(content, Color.RED, 120,
                     "orbitron", Typeface.BOLD, true, pongSurfaceView.getContext());
-            System.out.println("Change");
         } else {
             this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         }

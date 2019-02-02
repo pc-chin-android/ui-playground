@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
 import com.pcchin.uiplayground.GameObject;
-import com.pcchin.uiplayground.GeneralFunctions;
-import com.pcchin.uiplayground.R;
 
 import java.util.Random;
 
@@ -114,9 +112,10 @@ class PongBall extends GameObject {
         ) && (
                 Math.abs(this.y + this.height / 2 - paddleR.y - paddleR.height / 2) < (this.height + this.paddleR.getHeight()) / 2
         )) && (
-                ((lastDrawNanoTime - lastVectorXChange) / 1000000) > 25
+                ((lastDrawNanoTime - lastVectorXChange) / 1000000) > 50
         )) {
-            GeneralFunctions.playAudioOnce(pongSurfaceView.getContext(), R.raw.beep, pongSurfaceView.mediaPlayer);
+            // Play R.raw.beep
+            pongSurfaceView.soundPool.play(pongSurfaceView.soundIds[0], 1, 1, 1, 0, (float) 1.0);
             // Reduce randomness when playing with AI
             if (pongSurfaceView.twoUser) {
                 this.movingVectorX = -this.movingVectorX + 2 - random.nextInt(4);
@@ -125,7 +124,6 @@ class PongBall extends GameObject {
             }
             this.lastVectorXChange = now;
         }
-
         // When the game's character touches the top/bottom of the screen, then change direction
         if (this.y < 0) {
             this.y = 0;
