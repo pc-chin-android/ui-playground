@@ -69,10 +69,8 @@ public class TetrisActivity extends AppCompatActivity {
     }
 
     public void onMainBtnPressed(View view) {
-        // Check for nullPointerException
         String text = ((Button) view).getText().toString();
         if (text.equals(getString(R.string.start))) {
-            (findViewById(R.id.tetris_stop)).setEnabled(true);
             tetrisSurfaceView.onGameStart();
         } else if (text.equals(getString(R.string.pause))) {
             tetrisSurfaceView.onGamePause();

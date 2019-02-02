@@ -122,7 +122,7 @@ public class GeneralFunctions {
     }
 
     @SuppressLint("PrivateApi")
-    private static MediaPlayer getMediaPlayer(Context context, int contentType) {
+    public static MediaPlayer getMediaPlayer(Context context, int contentType) {
         // Removes "No subtitles" error for MediaPlayer
         MediaPlayer mediaplayer = new MediaPlayer();
         try {
