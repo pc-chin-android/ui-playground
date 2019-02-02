@@ -1,5 +1,6 @@
 package com.pcchin.uiplayground.tetris;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,7 +10,9 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 
+import com.pcchin.uiplayground.R;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 import java.util.ArrayList;
@@ -99,24 +102,43 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         drawGrid(canvas);
     }
 
+    void onGameStart() {
+        (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(true);
+        ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
+        resetGame();
+    }
+
+    void onGamePause() {
+        ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.resume);
+    }
+
+    void onGameResume() {
+        ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
+    }
+
+    void onGameStop() {
+        (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(false);
+        ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
+    }
+
+    // Triggered when game ends
+    private void onGameOver() {
+        this.gameOverDisplayed = true;
+        ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
+
+    }
+
     public void update() {
 
-        checkScore();
+        ((TetrisActivity)context).updateScore();
 
         checkLose();
     }
-
-    public void checkScore() {}
 
     public void checkLose() {}
 
     public void resetGame() {
         this.score = 0;
-    }
-
-    // Triggered when game ends
-    private void gameOver() {
-        this.gameOverDisplayed = true;
     }
 
     private void drawGrid(@NonNull Canvas canvas) {

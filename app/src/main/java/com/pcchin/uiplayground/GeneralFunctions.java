@@ -11,7 +11,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
@@ -103,16 +102,6 @@ public class GeneralFunctions {
         displayDialog.show();
     }
 
-    public static MediaPlayer mediaPlayerCreator(@NonNull Context context, int contentType) {
-        MediaPlayer mediaPlayer = getMediaPlayer(context);
-        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(contentType)
-                .build());
-
-        return mediaPlayer;
-    }
-
     @NonNull
     static String getReadTextFromAssets(@NonNull Context context, String textFileName) {
         String text;
@@ -133,7 +122,7 @@ public class GeneralFunctions {
     }
 
     @SuppressLint("PrivateApi")
-    private static MediaPlayer getMediaPlayer(Context context) {
+    private static MediaPlayer getMediaPlayer(Context context, int contentType) {
         // Removes "No subtitles" error for MediaPlayer
         MediaPlayer mediaplayer = new MediaPlayer();
         try {
@@ -160,6 +149,12 @@ public class GeneralFunctions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        mediaplayer.setAudioAttributes(new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(contentType)
+                .build());
+
         return mediaplayer;
     }
 }

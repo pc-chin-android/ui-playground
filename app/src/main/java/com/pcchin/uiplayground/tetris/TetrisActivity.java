@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import java.util.Objects;
 
 public class TetrisActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
+    private TetrisSurfaceView tetrisSurfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,13 @@ public class TetrisActivity extends AppCompatActivity {
         // Set action bar
         Toolbar toolbar = findViewById(R.id.toolbar_tetris);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        (findViewById(R.id.tetris_stop)).setEnabled(false);
+        tetrisSurfaceView = findViewById(R.id.tetrisSurfaceView);
     }
 
     @Override
@@ -56,6 +66,24 @@ public class TetrisActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onMainBtnPressed(View view) {
+        // Check for nullPointerException
+        String text = ((Button) view).getText().toString();
+        if (text.equals(getString(R.string.start))) {
+            (findViewById(R.id.tetris_stop)).setEnabled(true);
+            tetrisSurfaceView.onGameStart();
+        } else if (text.equals(getString(R.string.pause))) {
+            tetrisSurfaceView.onGamePause();
+        } else if (text.equals(getString(R.string.resume))) {
+            tetrisSurfaceView.onGameResume();
+        }
+    }
+
+    // Carry over function
+    public void onResetBtnPressed(View view) {
+        tetrisSurfaceView.onGameStop();
     }
 
     void pressExit() {
