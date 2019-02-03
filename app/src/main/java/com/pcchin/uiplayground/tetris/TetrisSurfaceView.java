@@ -9,9 +9,11 @@ import android.graphics.Paint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 
@@ -34,8 +36,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public int score;
     private static int GRID_TOTAL_X; // Total number of columns in the grid
     private static int GRID_TOTAL_Y; // Total number of rows in the grid
-    private static final int GRID_WIDTH_HEIGHT = 20; // Width and height of each box in pixels
-    private static final int GRID_LINE_WIDTH = 2; // Width of each line
+    private static final int GRID_WIDTH_HEIGHT = 50; // Width and height of each box in pixels
+    private static final int GRID_LINE_WIDTH = 10; // Width of each line
     private ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);
     private ArrayList<Integer> colCoords; // X-coordinates of each column (Reference pt tetrisSurfaceView);
 
@@ -68,6 +70,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.blockList = new ArrayList<>();
         this.colCoords = new ArrayList<>();
         this.rowCoords = new ArrayList<>();
+
+        tetrisThread = new TetrisThread(this, getHolder());
 
         // Set up music
         mediaPlayer = GeneralFunctions.getMediaPlayer(context, AudioAttributes.CONTENT_TYPE_MUSIC);
@@ -105,7 +109,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        tetrisThread = new TetrisThread(this, getHolder());
+        tetrisThread.setRunning(true);
+        tetrisThread.start();
     }
 
     @Override
@@ -195,14 +200,14 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         int currentY = 0;
 
         for(int i = 0; i < GRID_TOTAL_X; i++) {
-            canvas.drawLine(currentX, 0, currentX + GRID_LINE_WIDTH, getHeight(), paint);
+            canvas.drawLine(currentX, 0, currentX, getHeight(), paint);
             // Draw columns
             colCoords.add(currentX);
             currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
         }
 
         for(int j = 0; j < GRID_TOTAL_Y; j++) {
-            canvas.drawLine(0, currentY, getWidth(), currentY + GRID_LINE_WIDTH, paint);
+            canvas.drawLine(0, currentY, getWidth(), currentY, paint);
             // Draw rows
             rowCoords.add(currentY);
             currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;

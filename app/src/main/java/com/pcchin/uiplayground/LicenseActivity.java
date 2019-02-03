@@ -17,6 +17,7 @@ import java.util.Objects;
 
 public class LicenseActivity extends AppCompatActivity {
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

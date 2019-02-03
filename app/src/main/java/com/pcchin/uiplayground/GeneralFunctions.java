@@ -1,6 +1,7 @@
 package com.pcchin.uiplayground;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,7 +33,7 @@ public class GeneralFunctions {
     public static final int TWO_2_WIN = -2;
 
     public static Bitmap getBitmap(int drawableRes, @NonNull Context context) {
-        Drawable drawable = context.getResources().getDrawable(drawableRes);
+        Drawable drawable = context.getResources().getDrawable(drawableRes, context.getTheme());
         Canvas canvas = new Canvas();
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         canvas.setBitmap(bitmap);
