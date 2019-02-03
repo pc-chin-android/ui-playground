@@ -28,6 +28,7 @@
     <!-- Controls -->
     <string name="up_arrow">^</string>
     <string name="left_arrow">&lt;</string>
+    <string name="rotate">Rotate</string>
 
     <!-- Main Menu -->
     <string name="coin">About</string>

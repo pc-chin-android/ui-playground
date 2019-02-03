@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -28,6 +27,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private Context context;
     private boolean gameOverDisplayed;
     private ArrayList<TetrisBlock> blockList;
+    private ArrayList<ArrayList<GridBlock>> gridList; // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
+
     private MediaPlayer mediaPlayer;
     private AssetFileDescriptor assetBgmDescriptor;
 
@@ -138,23 +139,27 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     void onGameStart() {
         (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(true);
+        (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(true);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
         resetGame();
         mediaPlayer.start();
     }
 
     void onGamePause() {
+        (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.resume);
         mediaPlayer.pause();
     }
 
     void onGameResume() {
+        (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(true);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
         mediaPlayer.start();
     }
 
     void onGameStop() {
         (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(false);
+        (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
         mediaPlayer.stop();
 
@@ -172,6 +177,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     // Triggered when game ends
     private void onGameOver() {
         this.gameOverDisplayed = true;
+        (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(false);
+        (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
         mediaPlayer.stop();
     }
@@ -189,10 +196,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public void resetGame() {
     }
 
-    private void drawGrid(@NonNull Canvas canvas) {
+    private void drawGrid(Canvas canvas) {
         // Set paint
         Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.GRAY);
+        paint.setStrokeWidth(GRID_LINE_WIDTH);
 
         int currentX = 0;
         int currentY = 0;
@@ -209,6 +217,15 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             // Draw rows
             rowCoords.add(currentY);
             currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+        }
+
+        // Insert gridBlocks
+        for (int k = 0; k < GRID_TOTAL_X; k++) {
+            ArrayList<GridBlock> tempList = new ArrayList<>();
+            for (int l = 0; l < GRID_TOTAL_Y; l++) {
+                tempList.add(new GridBlock(this, colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
+            }
+            gridList.add(tempList);
         }
     }
 }

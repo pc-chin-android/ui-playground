@@ -13,14 +13,15 @@ public class TetrisBlock extends GameObject {
 
     private Bitmap block;
     private Context context;
-    int gridX;
-    int gridY;
+    private int color;
     String type;
 
-    TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, @NonNull Bitmap image, String type, int x, int y) {
+    TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, @NonNull Bitmap image, String type, int color, int x, int y) {
         super(image, x, y);
         this.context = tetrisSurfaceView.getContext();
         this.block = image;
+        this.type = type;
+        this.color = color;
     }
 
     void update(){
@@ -46,4 +47,10 @@ public class TetrisBlock extends GameObject {
     void setY(int y) {
         this.y = y;
     }
+
+    int getColor() {
+        return this.color;
+    }
+
+    void rotate() {}
 }

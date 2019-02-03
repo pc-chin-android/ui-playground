@@ -36,6 +36,7 @@ public class TetrisActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         (findViewById(R.id.tetris_stop)).setEnabled(false);
+        (findViewById(R.id.tetris_rotate)).setEnabled(false);
         tetrisSurfaceView = findViewById(R.id.tetrisSurfaceView);
     }
 
