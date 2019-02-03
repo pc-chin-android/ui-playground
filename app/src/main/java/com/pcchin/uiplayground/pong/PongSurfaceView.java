@@ -220,8 +220,6 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.fakeBall.update();
 
         checkScore();
-
-        checkWin();
     }
 
     // Only used in update(), split to increase readability
@@ -254,10 +252,12 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             this.fakeBall.setY(getHeight()/2 - BALL_DIAMETER /2);
             this.fakeBall.setEnabled(false);
 
+            checkWin();
         }
     }
 
-    // Only used in update(), split to increase readability
+    // Only used in checkScore(), split to increase readability
+    // Originally in update(), changed to improve performance
     private void checkWin() {
         // Check if a dialog is already displayed
         if (!this.gameOverDisplayed) {

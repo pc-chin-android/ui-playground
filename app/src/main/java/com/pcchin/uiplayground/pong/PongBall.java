@@ -111,18 +111,19 @@ class PongBall extends GameObject {
                 Math.abs(this.x + this.width / 2 - paddleR.x - paddleR.width / 2) < (this.width + this.paddleR.getWidth()) / 2
         ) && (
                 Math.abs(this.y + this.height / 2 - paddleR.y - paddleR.height / 2) < (this.height + this.paddleR.getHeight()) / 2
-        )) && (
-                ((lastDrawNanoTime - lastVectorXChange) / 1000000) > 50
-        )) {
-            // Play R.raw.beep
-            pongSurfaceView.soundPool.play(pongSurfaceView.soundIds[0], 1, 1, 1, 0, (float) 1.0);
-            // Reduce randomness when playing with AI
-            if (pongSurfaceView.twoUser) {
-                this.movingVectorX = -this.movingVectorX + 2 - random.nextInt(4);
-            } else {
-                this.movingVectorX = -this.movingVectorX;
+        ))) {
+            // Condition seperated from main If statement as Java can only deal with a && b, not a && b && c
+            if (((lastDrawNanoTime - lastVectorXChange) / 1000000) > 50) {
+                // Play R.raw.beep
+                pongSurfaceView.soundPool.play(pongSurfaceView.soundIds[0], 1, 1, 1, 0, (float) 1.0);
+                // Reduce randomness when playing with AI
+                if (pongSurfaceView.twoUser) {
+                    this.movingVectorX = -this.movingVectorX + 2 - random.nextInt(4);
+                } else {
+                    this.movingVectorX = -this.movingVectorX;
+                }
+                this.lastVectorXChange = now;
             }
-            this.lastVectorXChange = now;
         }
         // When the game's character touches the top/bottom of the screen, then change direction
         if (this.y < 0) {
