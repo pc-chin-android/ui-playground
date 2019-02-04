@@ -72,19 +72,6 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context;
         this.gameOverDisplayed = false;
         pongThread = new PongThread(this, getHolder());
-
-        // Setting up sound
-        AudioAttributes attrs = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setMaxStreams(3)
-                .setAudioAttributes(attrs)
-                .build();
-        soundIds[0] = soundPool.load(context, R.raw.beep, 1);
-        soundIds[1] = soundPool.load(context, R.raw.bleep, 1);
-        soundIds[2] = soundPool.load(context, R.raw.robot_bleep, 1);
     }
 
     @Override
@@ -102,11 +89,26 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.scoreR = new Score(this,Double.valueOf(getWidth()*0.75).intValue() - Score.scoreToBitmap(0, this.getContext()).getWidth(), 10);
         this.paused = new Score(this, getWidth()/2 - pausedBitmap.getWidth()/2, getHeight()/2 - pausedBitmap.getHeight()/2, "Game paused");
         this.touchEnabled = true;
-        this.pongThread.setRunning(true);
-        if (!this.pongThread.isAlive()) {
-            this.pongThread.start();
-        }
         ((PongGame) context).gameState = PongGame.NORMAL;
+
+        // Setting up sound
+        AudioAttributes attrs = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(3)
+                .setAudioAttributes(attrs)
+                .build();
+        soundIds[0] = soundPool.load(context, R.raw.beep, 1);
+        soundIds[1] = soundPool.load(context, R.raw.bleep, 1);
+        soundIds[2] = soundPool.load(context, R.raw.robot_bleep, 1);
+
+        if (this.pongThread.getState() == Thread.State.TERMINATED) {
+            this.pongThread = new PongThread(this, holder);
+        }
+        this.pongThread.setRunning(true);
+        this.pongThread.start();
     }
 
     @Override

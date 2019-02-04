@@ -75,6 +75,18 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         this.tetrisThread = new TetrisThread(this, getHolder());
 
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                GRID_TOTAL_X = getWidth() /GRID_WIDTH_HEIGHT;
+                GRID_TOTAL_Y = getHeight() /GRID_WIDTH_HEIGHT;
+            }
+        });
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
         // Set up music
         mediaPlayer = GeneralFunctions.getMediaPlayer(context, AudioAttributes.CONTENT_TYPE_MUSIC);
         assetBgmDescriptor = context.getResources().openRawResourceFd(R.raw.tetris);
@@ -99,22 +111,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }).start();
 
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                GRID_TOTAL_X = getWidth() /GRID_WIDTH_HEIGHT;
-                GRID_TOTAL_Y = getHeight() /GRID_WIDTH_HEIGHT;
-            }
-        });
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        this.tetrisThread.setRunning(true);
-        if (!this.tetrisThread.isAlive()) {
-            this.tetrisThread.start();
+        if (this.tetrisThread.getState() == Thread.State.TERMINATED) {
+            this.tetrisThread = new TetrisThread(this, holder);
         }
+        this.tetrisThread.setRunning(true);
+        this.tetrisThread.start();
     }
 
     @Override

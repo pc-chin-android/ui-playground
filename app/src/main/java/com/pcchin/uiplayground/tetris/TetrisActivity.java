@@ -43,6 +43,11 @@ public class TetrisActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             Intent intent = new Intent(this, MainActivity.class);
