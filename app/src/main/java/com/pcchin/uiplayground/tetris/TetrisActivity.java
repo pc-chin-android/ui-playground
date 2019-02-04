@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.pcchin.uiplayground.MainActivity;
 import com.pcchin.uiplayground.R;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -21,6 +22,7 @@ import java.util.Objects;
 public class TetrisActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     private TetrisSurfaceView tetrisSurfaceView;
+    private TetrisBlock targetBlock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

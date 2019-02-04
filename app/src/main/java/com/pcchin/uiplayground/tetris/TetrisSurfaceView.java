@@ -27,14 +27,14 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private Context context;
     private boolean gameOverDisplayed;
     private ArrayList<TetrisBlock> blockList;
-    private ArrayList<ArrayList<GridBlock>> gridList; // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
+    public ArrayList<ArrayList<GridBlock>> gridList; // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
 
     private MediaPlayer mediaPlayer;
     private AssetFileDescriptor assetBgmDescriptor;
 
     public int score;
-    private static int GRID_TOTAL_X; // Total number of columns in the grid
-    private static int GRID_TOTAL_Y; // Total number of rows in the grid
+    public static int GRID_TOTAL_X; // Total number of columns in the grid
+    public static int GRID_TOTAL_Y; // Total number of rows in the grid
     private static final int GRID_WIDTH_HEIGHT = 50; // Width and height of each box in pixels
     private static final int GRID_LINE_WIDTH = 10; // Width of each line
     private ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);

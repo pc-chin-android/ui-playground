@@ -10,4 +10,9 @@ public class TetrisS extends TetrisBlock {
     public TetrisS(@NonNull TetrisSurfaceView tetrisSurfaceView, @NonNull Bitmap image, int x, int y) {
         super(tetrisSurfaceView, image, "TetrisS", Color.YELLOW, x, y);
     }
+
+    @Override
+    void setStartingCoords() {
+
+    }
 }

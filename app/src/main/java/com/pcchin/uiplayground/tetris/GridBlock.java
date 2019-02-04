@@ -13,6 +13,9 @@ public class GridBlock extends GameObject {
     private TetrisBlock block;
     private boolean isCenter;
 
+    private int x;
+    private int y;
+
     GridBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, int x, int y, int widthHeight) {
         super(Bitmap.createBitmap(widthHeight, widthHeight, Bitmap.Config.ARGB_8888), x, y);
         this.bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -25,6 +28,10 @@ public class GridBlock extends GameObject {
 
     public void unbindBlock() {
         this.block = null;
+    }
+
+    public TetrisBlock getBlock() {
+        return this.block;
     }
 
     public TetrisBlock checkBlock() {

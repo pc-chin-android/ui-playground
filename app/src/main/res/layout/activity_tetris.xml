@@ -113,16 +113,6 @@
         app:layout_constraintStart_toStartOf="@+id/tetrisSurfaceView">
 
         <Button
-            android:id="@+id/tetris_dir_up"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal|top"
-            android:background="#7FFFFFFF"
-            android:gravity="center|top"
-            android:text="@string/up_arrow"
-            android:textSize="48sp" />
-
-        <Button
             android:id="@+id/tetris_dir_down"
             android:layout_width="60dp"
             android:layout_height="60dp"
