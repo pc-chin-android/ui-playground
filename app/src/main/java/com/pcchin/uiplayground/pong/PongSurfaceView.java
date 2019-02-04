@@ -103,7 +103,9 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         this.paused = new Score(this, getWidth()/2 - pausedBitmap.getWidth()/2, getHeight()/2 - pausedBitmap.getHeight()/2, "Game paused");
         this.touchEnabled = true;
         this.pongThread.setRunning(true);
-        this.pongThread.start();
+        if (!this.pongThread.isAlive()) {
+            this.pongThread.start();
+        }
         ((PongGame) context).gameState = PongGame.NORMAL;
     }
 

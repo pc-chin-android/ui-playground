@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
+import com.pcchin.uiplayground.pong.PongGame;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,8 +71,17 @@ public class GeneralFunctions {
     }
 
     public static void displayDialog(Context context, int state, DialogInterface.OnDismissListener listener) {
+        int iconType = R.drawable.ic_launcher_foreground;
+        try {
+            ((TttActivity)context).setVisible(true);
+            iconType = R.drawable.ttt_icon;
+        } catch (Exception e) {
+            // Test if function came from TttActivity
+        }
+
         AlertDialog.Builder displayDialogBuilder = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
         displayDialogBuilder.setTitle(R.string.game_over);
+        displayDialogBuilder.setIcon(iconType);
         // Bind OK button to dismiss dialog
         displayDialogBuilder.setPositiveButton(R.string.ok,
                 new DialogInterface.OnClickListener() {

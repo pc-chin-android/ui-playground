@@ -2,12 +2,14 @@ package com.pcchin.uiplayground.tetris;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,10 +22,11 @@ import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     // TODO: Finish Tetris
-    private TetrisThread tetrisThread;
+    TetrisThread tetrisThread;
     private Context context;
     private boolean gameOverDisplayed;
     private ArrayList<TetrisBlock> blockList;
@@ -70,7 +73,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.colCoords = new ArrayList<>();
         this.rowCoords = new ArrayList<>();
 
-        tetrisThread = new TetrisThread(this, getHolder());
+        this.tetrisThread = new TetrisThread(this, getHolder());
 
         // Set up music
         mediaPlayer = GeneralFunctions.getMediaPlayer(context, AudioAttributes.CONTENT_TYPE_MUSIC);
@@ -108,8 +111,10 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        tetrisThread.setRunning(true);
-        tetrisThread.start();
+        this.tetrisThread.setRunning(true);
+        if (!this.tetrisThread.isAlive()) {
+            this.tetrisThread.start();
+        }
     }
 
     @Override
@@ -119,6 +124,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        // Close bgm
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
+
         boolean retry = true;
         while (retry) {
             try{
@@ -177,6 +187,21 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     // Triggered when game ends
     private void onGameOver() {
         this.gameOverDisplayed = true;
+
+        // Display alert dialog
+        AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Dialog_Alert);
+        scoreDialogBuilder.setTitle(R.string.game_over);
+        scoreDialogBuilder.setIcon(R.drawable.tetris_icon);
+        scoreDialogBuilder.setMessage(String.format(Locale.ENGLISH, "Your score is %d", score));
+        scoreDialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog scoreDialog = scoreDialogBuilder.create();
+        scoreDialog.show();
+
         (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(false);
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
