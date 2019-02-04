@@ -48,9 +48,20 @@ public abstract class TetrisBlock extends GameObject {
         if(lastDrawNanoTime==-1) {
             lastDrawNanoTime= now;
         }
+    }
 
+    private void bindGrid() {
         // Set gridBlocks according to currentBlockCoords
+        for (ArrayList<Integer> i: this.currentBlockCoords) {
+            tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).bindBlock(this);
+        }
+    }
 
+    private void unbindGrid() {
+        // Remove current gridBlocks from reference
+        for (ArrayList<Integer> i: this.currentBlockCoords) {
+            tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).unbindBlock();
+        }
     }
 
     void draw(Canvas canvas)  {
@@ -62,7 +73,7 @@ public abstract class TetrisBlock extends GameObject {
 
     // Return true if able to move down, else return false;
     public boolean moveDown() {
-        for (ArrayList<Integer> i: currentBlockCoords) {
+        for (ArrayList<Integer> i: this.currentBlockCoords) {
             // Check if bottom of grid reached
             if ((i.get(1) + 1) > TetrisSurfaceView.GRID_TOTAL_Y - 1) {
                 return false;
@@ -72,11 +83,14 @@ public abstract class TetrisBlock extends GameObject {
             }
         }
 
+        this.unbindGrid();
+
         // Updates coords
-        for (ArrayList<Integer> i: currentBlockCoords) {
+        for (ArrayList<Integer> i: this.currentBlockCoords) {
             i.set(1, i.get(1) + 1);
         }
 
+        this.bindGrid();
         this.update();
         return true;
     }
@@ -84,7 +98,7 @@ public abstract class TetrisBlock extends GameObject {
     void moveLeft() {
         boolean canMove = true;
 
-        for (ArrayList<Integer> i: currentBlockCoords) {
+        for (ArrayList<Integer> i: this.currentBlockCoords) {
             // Exit if left of grid reached
             if ((i.get(0) - 1) < 0) {
                 canMove = false;
@@ -96,9 +110,13 @@ public abstract class TetrisBlock extends GameObject {
 
         // Check if all gridBlocks fits argument before changing all x coords by -1
         if (canMove) {
-            for (ArrayList<Integer> i: currentBlockCoords) {
+            this.unbindGrid();
+
+            for (ArrayList<Integer> i: this.currentBlockCoords) {
                 i.set(0, i.get(0) - 1);
             }
+
+            this.bindGrid();
             this.update();
         }
     }
@@ -106,7 +124,7 @@ public abstract class TetrisBlock extends GameObject {
     void moveRight() {
         boolean canMove = true;
 
-        for (ArrayList<Integer> i: currentBlockCoords) {
+        for (ArrayList<Integer> i: this.currentBlockCoords) {
             // Exit if right of grid reached
             if ((i.get(0) + 1) > TetrisSurfaceView.GRID_TOTAL_X - 1) {
                 canMove = false;
@@ -118,9 +136,13 @@ public abstract class TetrisBlock extends GameObject {
 
         // Check if all gridBlocks fits argument before changing all x coords by +1
         if (canMove) {
-            for (ArrayList<Integer> i: currentBlockCoords) {
+            this.unbindGrid();
+
+            for (ArrayList<Integer> i: this.currentBlockCoords) {
                 i.set(0, i.get(0) + 1);
             }
+
+            this.bindGrid();
             this.update();
         }
     }
