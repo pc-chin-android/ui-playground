@@ -15,4 +15,9 @@ public class TetrisT extends TetrisBlock {
     void setStartingCoords() {
 
     }
+
+    @Override
+    void rotate() {
+
+    }
 }

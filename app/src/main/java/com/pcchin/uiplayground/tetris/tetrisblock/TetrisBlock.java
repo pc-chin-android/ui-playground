@@ -38,6 +38,8 @@ public abstract class TetrisBlock extends GameObject {
     abstract void setStartingCoords();
     // TODO: setStartingCoords for each
 
+    abstract void rotate();
+
     private void update(){
         // Current time in nanoseconds
         long now = System.nanoTime();
@@ -126,6 +128,4 @@ public abstract class TetrisBlock extends GameObject {
     int getColor() {
         return this.color;
     }
-
-    void rotate() {}
 }
