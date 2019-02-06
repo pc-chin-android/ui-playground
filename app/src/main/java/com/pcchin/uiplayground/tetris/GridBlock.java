@@ -2,19 +2,20 @@ package com.pcchin.uiplayground.tetris;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
-import com.pcchin.uiplayground.GameObject;
+import com.pcchin.uiplayground.gamedata.GameObject;
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 public class GridBlock extends GameObject {
+    private long lastDrawNanoTime =-1;
+
     private Bitmap bitmap;
     private Context context;
     private TetrisBlock block;
     private boolean isCenter;
-
-    private int x;
-    private int y;
 
     GridBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, int x, int y, int widthHeight) {
         super(Bitmap.createBitmap(widthHeight, widthHeight, Bitmap.Config.ARGB_8888), x, y);
@@ -24,17 +25,32 @@ public class GridBlock extends GameObject {
 
     public void bindBlock(TetrisBlock block) {
         this.block = block;
+        this.bitmap = GeneralFunctions.colorToBitmap(this.block.getColor(), TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT);
     }
 
     public void unbindBlock() {
         this.block = null;
+        this.bitmap = Bitmap.createBitmap(TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT, Bitmap.Config.ARGB_8888);
+    }
+
+    void draw(Canvas canvas)  {
+        Bitmap bitmap = this.bitmap;
+        canvas.drawBitmap(bitmap,x, y, null);
+        // Last draw time.
+        this.lastDrawNanoTime= System.nanoTime();
+    }
+
+    void update(){
+        // Current time in nanoseconds
+        long now = System.nanoTime();
+
+        // Never once did draw.
+        if(lastDrawNanoTime==-1) {
+            lastDrawNanoTime= now;
+        }
     }
 
     public TetrisBlock getBlock() {
-        return this.block;
-    }
-
-    public TetrisBlock checkBlock() {
         return this.block;
     }
 

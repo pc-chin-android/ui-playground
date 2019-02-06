@@ -20,7 +20,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.pcchin.uiplayground.GeneralFunctions;
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 
 import java.util.Objects;

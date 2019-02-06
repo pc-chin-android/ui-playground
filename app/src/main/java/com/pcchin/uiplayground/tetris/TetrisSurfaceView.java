@@ -16,7 +16,7 @@ import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 
-import com.pcchin.uiplayground.GeneralFunctions;
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
@@ -38,8 +38,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public int score;
     public static int GRID_TOTAL_X; // Total number of columns in the grid
     public static int GRID_TOTAL_Y; // Total number of rows in the grid
-    private static final int GRID_WIDTH_HEIGHT = 50; // Width and height of each box in pixels
-    private static final int GRID_LINE_WIDTH = 10; // Width of each line
+    public static final int GRID_WIDTH_HEIGHT = 50; // Width and height of each box in pixels
+    private static final int GRID_LINE_WIDTH = 10; // Width of each lineA
     private ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);
     private ArrayList<Integer> colCoords; // X-coordinates of each column (Reference pt tetrisSurfaceView);
 
@@ -145,6 +145,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public void draw(Canvas canvas) {
         super.draw(canvas);
         drawGrid(canvas);
+        for (ArrayList<GridBlock> gridBlockList: gridList) {
+            for (GridBlock gridBlock: gridBlockList) {
+                gridBlock.draw(canvas);
+            }
+        }
     }
 
     void onGameStart() {
@@ -185,7 +190,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     // Triggered when game ends
-    private void onGameOver() {
+    public void onGameOver() {
         this.gameOverDisplayed = true;
 
         // Display alert dialog
@@ -211,6 +216,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public void update() {
 
         ((TetrisActivity)context).updateScore();
+        for (ArrayList<GridBlock> gridBlockList: gridList) {
+            for (GridBlock gridBlock: gridBlockList) {
+                gridBlock.update();
+            }
+        }
 
         checkLose();
     }

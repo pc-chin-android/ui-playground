@@ -1,0 +1,304 @@
+@startuml
+
+title __APP's Class Diagram__\n
+
+  package com.pcchin.uiplayground {
+    class AboutActivity {
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    class BuildConfig {
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    class ExampleInstrumentedTest {
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.gamedata {
+      abstract class GameObject {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.gamedata {
+      class GeneralFunctions {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      class GridBlock {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    class LicenseActivity {
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    class MainActivity {
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.mainmenu {
+      class MainMenuFragment1 {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.mainmenu {
+      class MainMenuFragment2 {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class Paddle {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.gamedata {
+      class PauseReceiver {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class PongActivity {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class PongBall {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class PongGame {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class PongSurfaceView {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class PongThread {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.pong {
+      class Score {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      class TetrisActivity {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        abstract class TetrisBlock {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisI {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisJ {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisL {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisO {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisS {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      class TetrisSurfaceView {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisT {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      class TetrisThread {
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    package com.pcchin.uiplayground.tetris {
+      package com.pcchin.uiplayground.tetris.tetrisblock {
+        class TetrisZ {
+        }
+      }
+    }
+  }
+  
+
+  package com.pcchin.uiplayground {
+    class TttActivity {
+    }
+  }
+  
+
+  AboutActivity -up-|> AppCompatActivity
+  GridBlock -up-|> GameObject
+  GridBlock o-- TetrisBlock : block
+  LicenseActivity -up-|> AppCompatActivity
+  MainActivity -up-|> AppCompatActivity
+  MainMenuFragment1 -up-|> Fragment
+  MainMenuFragment2 -up-|> Fragment
+  Paddle -up-|> GameObject
+  PauseReceiver -up-|> BroadcastReceiver
+  PongActivity -up-|> AppCompatActivity
+  PongBall -up-|> GameObject
+  PongBall o-- Paddle : paddleL
+  PongBall o-- Paddle : paddleR
+  PongBall o-- PongSurfaceView : pongSurfaceView
+  PongGame -up-|> Activity
+  PongGame o-- PongSurfaceView : pongSurfaceView
+  PongSurfaceView -up-|> Callback
+  PongSurfaceView -up-|> SurfaceView
+  PongSurfaceView o-- PongThread : pongThread
+  PongSurfaceView o-- Paddle : paddleL
+  PongSurfaceView o-- Paddle : paddleR
+  PongSurfaceView o-- PongBall : ball
+  PongSurfaceView o-- PongBall : fakeBall
+  PongSurfaceView o-- Score : paused
+  PongSurfaceView o-- Score : scoreL
+  PongSurfaceView o-- Score : scoreR
+  PongThread o-- PongSurfaceView : surfaceView
+  Score -up-|> GameObject
+  Score o-- PongSurfaceView : pongSurfaceView
+  TetrisActivity -up-|> AppCompatActivity
+  TetrisActivity o-- TetrisSurfaceView : tetrisSurfaceView
+  TetrisActivity o-- TetrisBlock : targetBlock
+  TetrisBlock -up-|> GameObject
+  TetrisBlock o-- TetrisSurfaceView : tetrisSurfaceView
+  TetrisI -up-|> TetrisBlock
+  TetrisJ -up-|> TetrisBlock
+  TetrisL -up-|> TetrisBlock
+  TetrisO -up-|> TetrisBlock
+  TetrisS -up-|> TetrisBlock
+  TetrisSurfaceView -up-|> Callback
+  TetrisSurfaceView -up-|> SurfaceView
+  TetrisSurfaceView o-- TetrisThread : tetrisThread
+  TetrisT -up-|> TetrisBlock
+  TetrisThread o-- TetrisSurfaceView : surfaceView
+  TetrisZ -up-|> TetrisBlock
+  TttActivity -up-|> AppCompatActivity
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

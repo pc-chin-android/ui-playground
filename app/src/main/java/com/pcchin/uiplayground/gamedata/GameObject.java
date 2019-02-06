@@ -1,4 +1,4 @@
-package com.pcchin.uiplayground;
+package com.pcchin.uiplayground.gamedata;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;

@@ -2,10 +2,9 @@ package com.pcchin.uiplayground.tetris.tetrisblock;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
-import com.pcchin.uiplayground.GameObject;
+import com.pcchin.uiplayground.gamedata.GameObject;
 import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
 import java.util.ArrayList;
@@ -31,12 +30,22 @@ public abstract class TetrisBlock extends GameObject {
         // Set coordinates to top and centre of code
         this.setStartingCoords();
 
-        // TODO: Check if any collision occurs
+        // Check collision
+        boolean spawnOccupied = false;
+        for (ArrayList<Integer> i: currentBlockCoords) {
+            if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
+                spawnOccupied = true;
+            }
+        }
+        if (spawnOccupied) {
+            tetrisSurfaceView.onGameOver();
+        } else {
+            this.update();
+        }
     }
 
     // Differ for each block
     abstract void setStartingCoords();
-    // TODO: setStartingCoords for each
 
     abstract void rotate();
 
@@ -62,13 +71,6 @@ public abstract class TetrisBlock extends GameObject {
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).unbindBlock();
         }
-    }
-
-    void draw(Canvas canvas)  {
-        Bitmap bitmap = this.block;
-        canvas.drawBitmap(bitmap,x, y, null);
-        // Last draw time.
-        this.lastDrawNanoTime= System.nanoTime();
     }
 
     // Return true if able to move down, else return false;
@@ -147,7 +149,7 @@ public abstract class TetrisBlock extends GameObject {
         }
     }
 
-    int getColor() {
+    public int getColor() {
         return this.color;
     }
 }

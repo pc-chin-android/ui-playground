@@ -1,4 +1,4 @@
-package com.pcchin.uiplayground;
+package com.pcchin.uiplayground.gamedata;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
+import com.pcchin.uiplayground.R;
+import com.pcchin.uiplayground.TttActivity;
 import com.pcchin.uiplayground.pong.PongGame;
 
 import java.io.BufferedReader;
@@ -28,7 +30,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
 public class GeneralFunctions {
-    static final int DRAW = 0;
+    public static final int DRAW = 0;
     public static final int ONE_WIN = 1;
     public static final int ONE_LOSE = 2;
     public static final int TWO_1_WIN = -1;
@@ -68,6 +70,15 @@ public class GeneralFunctions {
         Canvas canvas = new Canvas(image);
         canvas.drawText(text, 0, baseline, paint);
         return image;
+    }
+
+    public static Bitmap colorToBitmap(int bitmapColor, int width, int height) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setColor(bitmapColor);
+        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
+        return bitmap;
     }
 
     public static void displayDialog(Context context, int state, DialogInterface.OnDismissListener listener) {
@@ -115,7 +126,7 @@ public class GeneralFunctions {
     }
 
     @NonNull
-    static String getReadTextFromAssets(@NonNull Context context, String textFileName) {
+    public static String getReadTextFromAssets(@NonNull Context context, String textFileName) {
         String text;
         StringBuilder stringBuilder = new StringBuilder();
         InputStream inputStream;
