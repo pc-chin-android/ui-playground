@@ -36,18 +36,6 @@ public class GridBlock extends GameObject {
     void draw(Canvas canvas)  {
         Bitmap bitmap = this.bitmap;
         canvas.drawBitmap(bitmap,x, y, null);
-        // Last draw time.
-        this.lastDrawNanoTime= System.nanoTime();
-    }
-
-    void update(){
-        // Current time in nanoseconds
-        long now = System.nanoTime();
-
-        // Never once did draw.
-        if(lastDrawNanoTime==-1) {
-            lastDrawNanoTime= now;
-        }
     }
 
     public TetrisBlock getBlock() {

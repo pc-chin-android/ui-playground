@@ -19,19 +19,30 @@ import android.widget.Button;
 import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisI;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisJ;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisL;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisO;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisS;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisT;
+import com.pcchin.uiplayground.tetris.tetrisblock.TetrisZ;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 
 public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    // TODO: Finish Tetris
+    static final int NORMAL = 0;
+    static final int PAUSED = 1;
+    private static final int STOPPED = -1;
+    int gameState;
+
     TetrisThread tetrisThread;
     private Context context;
-    private boolean gameOverDisplayed;
     private ArrayList<TetrisBlock> blockList = new ArrayList<>();
     public ArrayList<ArrayList<GridBlock>> gridList = new ArrayList<>(); // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
-    private TetrisBlock targetBlock;
+    public TetrisBlock targetBlock;
 
     private MediaPlayer mediaPlayer;
     private AssetFileDescriptor assetBgmDescriptor;
@@ -69,7 +80,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.getHolder().addCallback(this);
 
         this.context = context;
-        this.gameOverDisplayed = false;
         this.blockList = new ArrayList<>();
         this.colCoords = new ArrayList<>();
         this.rowCoords = new ArrayList<>();
@@ -168,18 +178,21 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
         resetGame();
         mediaPlayer.start();
+        this.gameState = NORMAL;
     }
 
     void onGamePause() {
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.resume);
         mediaPlayer.pause();
+        this.gameState = PAUSED;
     }
 
     void onGameResume() {
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(true);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
         mediaPlayer.start();
+        this.gameState = NORMAL;
     }
 
     void onGameStop() {
@@ -187,6 +200,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
         mediaPlayer.stop();
+        this.gameState = STOPPED;
 
         boolean retry = true;
         while (retry) {
@@ -201,8 +215,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     // Triggered when game ends
     public void onGameOver() {
-        this.gameOverDisplayed = true;
-
         // Display alert dialog
         AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Dialog_Alert);
         scoreDialogBuilder.setTitle(R.string.game_over);
@@ -224,12 +236,54 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     public void update() {
+        Random rand = new Random();
         ((TetrisActivity)context).updateScore();
 
         // Check if any block is empty
         for (TetrisBlock block: this.blockList) {
             if (block.currentBlockCoords.size() == 0) {
                 this.blockList.remove(block);
+            }
+        }
+
+        // Spawn block if null
+        if (this.targetBlock == null) {
+            switch (rand.nextInt(7)) {
+                case 0:
+                    // I Block
+                    this.targetBlock = new TetrisI(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
+                case 1:
+                    // J Block
+                    this.targetBlock = new TetrisJ(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
+                case 2:
+                    // L Block
+                    this.targetBlock = new TetrisL(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
+                case 3:
+                    // O Block
+                    this.targetBlock = new TetrisO(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
+                case 4:
+                    // S Block
+                    this.targetBlock = new TetrisS(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
+                case 5:
+                    // T Block
+                    this.targetBlock = new TetrisT(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
+                case 6:
+                    // Z Block
+                    this.targetBlock = new TetrisZ(this, 0, 0);
+                    this.blockList.add(this.targetBlock);
+                    break;
             }
         }
 

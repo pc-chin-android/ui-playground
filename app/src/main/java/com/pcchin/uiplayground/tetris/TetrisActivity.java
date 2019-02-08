@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.pcchin.uiplayground.MainActivity;
 import com.pcchin.uiplayground.R;
-import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -44,6 +43,9 @@ public class TetrisActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        if (tetrisSurfaceView.gameState == TetrisSurfaceView.NORMAL) {
+            tetrisSurfaceView.onGamePause();
+        }
     }
 
     @Override
