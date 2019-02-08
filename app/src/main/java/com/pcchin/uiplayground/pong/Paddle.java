@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
-import com.pcchin.uiplayground.GameObject;
-import com.pcchin.uiplayground.GeneralFunctions;
+import com.pcchin.uiplayground.gamedata.GameObject;
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 
 class Paddle extends GameObject {

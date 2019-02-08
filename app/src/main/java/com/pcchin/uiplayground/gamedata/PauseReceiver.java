@@ -1,4 +1,4 @@
-package com.pcchin.uiplayground;
+package com.pcchin.uiplayground.gamedata;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

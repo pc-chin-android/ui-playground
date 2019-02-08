@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 
-import com.pcchin.uiplayground.GameObject;
-import com.pcchin.uiplayground.GeneralFunctions;
+import com.pcchin.uiplayground.gamedata.GameObject;
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 
 class Score extends GameObject {
     private long lastDrawNanoTime =-1;

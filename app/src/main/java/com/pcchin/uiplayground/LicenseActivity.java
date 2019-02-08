@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
+
 import java.util.Objects;
 
 public class LicenseActivity extends AppCompatActivity {
