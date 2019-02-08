@@ -31,6 +31,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private boolean gameOverDisplayed;
     private ArrayList<TetrisBlock> blockList;
     public ArrayList<ArrayList<GridBlock>> gridList; // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
+    private TetrisBlock targetBlock;
 
     private MediaPlayer mediaPlayer;
     private AssetFileDescriptor assetBgmDescriptor;
@@ -145,11 +146,35 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        drawGrid(canvas);
-        for (ArrayList<GridBlock> gridBlockList: gridList) {
-            for (GridBlock gridBlock: gridBlockList) {
-                gridBlock.draw(canvas);
+        // Set paint
+        Paint paint = new Paint();
+        paint.setColor(Color.GRAY);
+        paint.setStrokeWidth(GRID_LINE_WIDTH);
+
+        int currentX = 0;
+        int currentY = 0;
+
+        for(int i = 0; i < GRID_TOTAL_X; i++) {
+            canvas.drawLine(currentX, 0, currentX, getHeight(), paint);
+            // Draw columns
+            colCoords.add(currentX);
+            currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+        }
+
+        for(int j = 0; j < GRID_TOTAL_Y; j++) {
+            canvas.drawLine(0, currentY, getWidth(), currentY, paint);
+            // Draw rows
+            rowCoords.add(currentY);
+            currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+        }
+
+        // Insert gridBlocks
+        for (int k = 0; k < GRID_TOTAL_X; k++) {
+            ArrayList<GridBlock> tempList = new ArrayList<>();
+            for (int l = 0; l < GRID_TOTAL_Y; l++) {
+                tempList.add(new GridBlock(this, colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
             }
+            gridList.add(tempList);
         }
     }
 
@@ -215,53 +240,33 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     public void update() {
-
         ((TetrisActivity)context).updateScore();
-        for (ArrayList<GridBlock> gridBlockList: gridList) {
-            for (GridBlock gridBlock: gridBlockList) {
-                gridBlock.update();
+
+        // Check if any block is empty
+        for (TetrisBlock block: this.blockList) {
+            if (block.currentBlockCoords.size() == 0) {
+                this.blockList.remove(block);
             }
         }
 
         checkLose();
     }
 
-    public void checkLose() {}
+    public void checkLose() {
+
+    }
 
     // Reset game when game starts
     public void resetGame() {
-    }
-
-    private void drawGrid(Canvas canvas) {
-        // Set paint
-        Paint paint = new Paint();
-        paint.setColor(Color.GRAY);
-        paint.setStrokeWidth(GRID_LINE_WIDTH);
-
-        int currentX = 0;
-        int currentY = 0;
-
-        for(int i = 0; i < GRID_TOTAL_X; i++) {
-            canvas.drawLine(currentX, 0, currentX, getHeight(), paint);
-            // Draw columns
-            colCoords.add(currentX);
-            currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
-        }
-
-        for(int j = 0; j < GRID_TOTAL_Y; j++) {
-            canvas.drawLine(0, currentY, getWidth(), currentY, paint);
-            // Draw rows
-            rowCoords.add(currentY);
-            currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
-        }
-
-        // Insert gridBlocks
-        for (int k = 0; k < GRID_TOTAL_X; k++) {
-            ArrayList<GridBlock> tempList = new ArrayList<>();
-            for (int l = 0; l < GRID_TOTAL_Y; l++) {
-                tempList.add(new GridBlock(this, colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
+        // Unbind all blocks in gridList
+        for (ArrayList<GridBlock> i: gridList) {
+            for (GridBlock j: i) {
+                j.unbindBlock();
             }
-            gridList.add(tempList);
         }
+
+        // Clear blockList
+        this.blockList = new ArrayList<>();
+
     }
 }

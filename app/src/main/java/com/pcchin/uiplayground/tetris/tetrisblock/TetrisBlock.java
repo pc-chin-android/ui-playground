@@ -16,8 +16,8 @@ public abstract class TetrisBlock extends GameObject {
     private Context context;
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
-    String type;
-    private ArrayList<ArrayList<Integer>> currentBlockCoords; // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
+    private String type;
+    public ArrayList<ArrayList<Integer>> currentBlockCoords; // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, @NonNull Bitmap image, String type, int color, int x, int y) {
         super(image, x, y);

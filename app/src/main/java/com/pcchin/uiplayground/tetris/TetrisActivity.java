@@ -22,7 +22,6 @@ import java.util.Objects;
 public class TetrisActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     private TetrisSurfaceView tetrisSurfaceView;
-    private TetrisBlock targetBlock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
