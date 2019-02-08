@@ -29,8 +29,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     TetrisThread tetrisThread;
     private Context context;
     private boolean gameOverDisplayed;
-    private ArrayList<TetrisBlock> blockList;
-    public ArrayList<ArrayList<GridBlock>> gridList; // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
+    private ArrayList<TetrisBlock> blockList = new ArrayList<>();
+    public ArrayList<ArrayList<GridBlock>> gridList = new ArrayList<>(); // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
     private TetrisBlock targetBlock;
 
     private MediaPlayer mediaPlayer;
@@ -151,30 +151,14 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         paint.setColor(Color.GRAY);
         paint.setStrokeWidth(GRID_LINE_WIDTH);
 
-        int currentX = 0;
-        int currentY = 0;
+        this.iniArrays();
 
-        for(int i = 0; i < GRID_TOTAL_X; i++) {
-            canvas.drawLine(currentX, 0, currentX, getHeight(), paint);
-            // Draw columns
-            colCoords.add(currentX);
-            currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+        // Draw lines
+        for (int i = 0; i < GRID_TOTAL_X; i++) {
+            canvas.drawLine(colCoords.get(i), 0, colCoords.get(i), getHeight(), paint);
         }
-
-        for(int j = 0; j < GRID_TOTAL_Y; j++) {
-            canvas.drawLine(0, currentY, getWidth(), currentY, paint);
-            // Draw rows
-            rowCoords.add(currentY);
-            currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
-        }
-
-        // Insert gridBlocks
-        for (int k = 0; k < GRID_TOTAL_X; k++) {
-            ArrayList<GridBlock> tempList = new ArrayList<>();
-            for (int l = 0; l < GRID_TOTAL_Y; l++) {
-                tempList.add(new GridBlock(this, colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
-            }
-            gridList.add(tempList);
+        for (int j = 0; j < GRID_TOTAL_Y; j++) {
+            canvas.drawLine(0, rowCoords.get(j), getWidth(), rowCoords.get(j), paint);
         }
     }
 
@@ -267,6 +251,39 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         // Clear blockList
         this.blockList = new ArrayList<>();
+    }
 
+    private void iniArrays() {
+        int currentX = 0;
+        int currentY = 0;
+
+        // Initialize colCoords if empty
+        if (colCoords.size() == 0) {
+            for (int i = 0; i < GRID_TOTAL_X; i++) {
+                // Draw columns
+                colCoords.add(currentX);
+                currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+            }
+        }
+
+        // Initialize rowCoords if empty
+        if (rowCoords.size() == 0) {
+            for (int j = 0; j < GRID_TOTAL_Y; j++) {
+                // Draw rows
+                rowCoords.add(currentY);
+                currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+            }
+        }
+
+        // Initialize gridBlocks if empty
+        if (gridList.size() == 0) {
+            for (int k = 0; k < GRID_TOTAL_X; k++) {
+                ArrayList<GridBlock> tempList = new ArrayList<>();
+                for (int l = 0; l < GRID_TOTAL_Y; l++) {
+                    tempList.add(new GridBlock(this, colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
+                }
+                gridList.add(tempList);
+            }
+        }
     }
 }
