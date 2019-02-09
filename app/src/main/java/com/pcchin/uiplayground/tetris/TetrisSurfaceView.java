@@ -84,6 +84,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.blockList = new ArrayList<>();
         this.colCoords = new ArrayList<>();
         this.rowCoords = new ArrayList<>();
+        this.gameState = STOPPED;
 
         this.tetrisThread = new TetrisThread(this, getHolder());
 
