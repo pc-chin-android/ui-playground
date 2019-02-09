@@ -17,7 +17,7 @@ public abstract class TetrisBlock extends GameObject {
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
     private String type;
-    private boolean isHorizontal;
+    boolean isHorizontal;
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color, int x, int y) {
@@ -33,7 +33,7 @@ public abstract class TetrisBlock extends GameObject {
         this.setStartingCoords();
 
         // Check collision
-        if (this.checkCollision()) {
+        if (this.checkCollision(this.currentBlockCoords)) {
             tetrisSurfaceView.onGameOver();
         }
     }
@@ -59,7 +59,6 @@ public abstract class TetrisBlock extends GameObject {
         }
     }
 
-    // Return true if able to move down, else return false;
     public void moveDown() {
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             // Check if bottom of grid reached
@@ -83,7 +82,7 @@ public abstract class TetrisBlock extends GameObject {
         this.bindGrid();
     }
 
-    void moveLeft() {
+    public void moveLeft() {
         boolean canMove = true;
 
         for (ArrayList<Integer> i: this.currentBlockCoords) {
@@ -108,7 +107,7 @@ public abstract class TetrisBlock extends GameObject {
         }
     }
 
-    void moveRight() {
+    public void moveRight() {
         boolean canMove = true;
 
         for (ArrayList<Integer> i: this.currentBlockCoords) {
@@ -137,9 +136,9 @@ public abstract class TetrisBlock extends GameObject {
         return this.color;
     }
 
-    boolean checkCollision() {
+    boolean checkCollision(ArrayList<ArrayList<Integer>> coordsList) {
         // Check collision
-        for (ArrayList<Integer> i: currentBlockCoords) {
+        for (ArrayList<Integer> i: coordsList) {
             if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
                 return true;
             }

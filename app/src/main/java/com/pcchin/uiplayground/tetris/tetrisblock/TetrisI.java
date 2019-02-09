@@ -31,9 +31,24 @@ public class TetrisI extends TetrisBlock {
     @Override
     public void rotate() {
         ArrayList<Integer> ctrGrid = this.getCtrGrid();
-        ArrayList<ArrayList<Integer>> backupList = this.currentBlockCoords;
-        if (this.checkCollision()) {
-            this.currentBlockCoords = backupList;
+        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            ArrayList<Integer> tempList = new ArrayList<>();
+            if (this.isHorizontal) {
+                // Vertical
+                tempList.add(ctrGrid.get(0));
+                tempList.add(ctrGrid.get(1) + i - 1);
+            } else {
+                // Horizontal
+                tempList.add(ctrGrid.get(0) + i - 1);
+                tempList.add(ctrGrid.get(1));
+            }
+            returnList.add(tempList);
+        }
+
+        if (! this.checkCollision(returnList)) {
+            this.isHorizontal = !this.isHorizontal;
+            this.currentBlockCoords = returnList;
         }
     }
 }

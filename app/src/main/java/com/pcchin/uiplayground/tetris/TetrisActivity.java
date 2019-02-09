@@ -106,6 +106,20 @@ public class TetrisActivity extends AppCompatActivity {
         }
     }
 
+    // Carry over function
+    public void onDirBtnPressed(View view) {
+        if (tetrisSurfaceView.gameState == TetrisSurfaceView.NORMAL) {
+            switch (view.getId()) {
+                case R.id.tetris_dir_left:
+                    tetrisSurfaceView.targetBlock.moveLeft();
+                case R.id.tetris_dir_right:
+                    tetrisSurfaceView.targetBlock.moveRight();
+                case R.id.tetris_dir_down:
+                    tetrisSurfaceView.targetBlock.moveDown();
+            }
+        }
+    }
+
     void pressExit() {
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
