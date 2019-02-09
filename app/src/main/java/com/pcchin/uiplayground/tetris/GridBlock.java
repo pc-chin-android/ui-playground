@@ -28,6 +28,7 @@ public class GridBlock extends GameObject {
 
     public void unbindBlock() {
         this.block = null;
+        this.isCenter = false;
         this.bitmap = Bitmap.createBitmap(TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT, Bitmap.Config.ARGB_8888);
     }
 

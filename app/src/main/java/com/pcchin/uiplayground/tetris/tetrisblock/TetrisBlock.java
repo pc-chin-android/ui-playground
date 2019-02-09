@@ -17,7 +17,8 @@ public abstract class TetrisBlock extends GameObject {
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
     private String type;
-    public ArrayList<ArrayList<Integer>> currentBlockCoords; // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
+    private boolean isHorizontal;
+    public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color, int x, int y) {
         super(GeneralFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), x, y);
@@ -26,18 +27,13 @@ public abstract class TetrisBlock extends GameObject {
         this.block = image;
         this.type = type;
         this.color = color;
+        this.isHorizontal = true;
 
         // Set coordinates to top and centre of code
         this.setStartingCoords();
 
         // Check collision
-        boolean spawnOccupied = false;
-        for (ArrayList<Integer> i: currentBlockCoords) {
-            if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
-                spawnOccupied = true;
-            }
-        }
-        if (spawnOccupied) {
+        if (this.checkCollision()) {
             tetrisSurfaceView.onGameOver();
         }
     }
@@ -45,7 +41,9 @@ public abstract class TetrisBlock extends GameObject {
     // Differ for each block
     abstract void setStartingCoords();
 
-    abstract void rotate();
+    abstract ArrayList<Integer> getCtrGrid();
+
+    public abstract void rotate();
 
     private void bindGrid() {
         // Set gridBlocks according to currentBlockCoords
@@ -137,5 +135,15 @@ public abstract class TetrisBlock extends GameObject {
 
     public int getColor() {
         return this.color;
+    }
+
+    boolean checkCollision() {
+        // Check collision
+        for (ArrayList<Integer> i: currentBlockCoords) {
+            if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
+                return true;
+            }
+        }
+        return false;
     }
 }

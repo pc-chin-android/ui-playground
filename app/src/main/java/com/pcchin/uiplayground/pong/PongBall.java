@@ -70,9 +70,9 @@ class PongBall extends GameObject {
                 }
             } else {
                 if (this.VELOCITY < 1) {
-                    deltaV = (float) 0.00123;
+                    deltaV = (float) 0.00121;
                 } else {
-                    deltaV = (float) 0.00123/ this.VELOCITY;
+                    deltaV = (float) 0.00121/ this.VELOCITY;
                 }
             }
             this.VELOCITY += deltaV;

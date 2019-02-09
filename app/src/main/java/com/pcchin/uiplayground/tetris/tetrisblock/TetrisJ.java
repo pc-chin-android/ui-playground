@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
+import java.util.ArrayList;
+
 public class TetrisJ extends TetrisBlock {
     public TetrisJ(@NonNull TetrisSurfaceView tetrisSurfaceView, int x, int y) {
         super(tetrisSurfaceView, "TetrisJ", Color.GREEN, x, y);
@@ -16,7 +18,16 @@ public class TetrisJ extends TetrisBlock {
     }
 
     @Override
-    void rotate() {
+    ArrayList<Integer> getCtrGrid() {
+        return null;
+    }
 
+    @Override
+    public void rotate() {
+        ArrayList<Integer> ctrGrid = this.getCtrGrid();
+        ArrayList<ArrayList<Integer>> backupList = this.currentBlockCoords;
+        if (this.checkCollision()) {
+            this.currentBlockCoords = backupList;
+        }
     }
 }

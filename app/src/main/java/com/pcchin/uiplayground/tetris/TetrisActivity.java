@@ -99,6 +99,13 @@ public class TetrisActivity extends AppCompatActivity {
         tetrisSurfaceView.onGameStop();
     }
 
+    // Carry over function
+    public void onRotateBtnPressed(View view) {
+        if (tetrisSurfaceView.targetBlock != null) {
+            tetrisSurfaceView.targetBlock.rotate();
+        }
+    }
+
     void pressExit() {
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
