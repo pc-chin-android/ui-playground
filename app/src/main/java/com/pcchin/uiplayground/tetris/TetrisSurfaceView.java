@@ -35,7 +35,7 @@ import java.util.Random;
 public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     static final int NORMAL = 0;
     static final int PAUSED = 1;
-    private static final int STOPPED = -1;
+    static final int STOPPED = -1;
     int gameState;
 
     TetrisThread tetrisThread;
@@ -43,8 +43,9 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private ArrayList<TetrisBlock> blockList = new ArrayList<>();
     public ArrayList<ArrayList<GridBlock>> gridList = new ArrayList<>(); // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
     public TetrisBlock targetBlock;
+    private TetrisBlock nextBlock;
 
-    private MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer;
     private AssetFileDescriptor assetBgmDescriptor;
 
     public int score;
@@ -156,12 +157,21 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
         // Set paint
         Paint paint = new Paint();
         paint.setColor(Color.GRAY);
         paint.setStrokeWidth(GRID_LINE_WIDTH);
 
         this.iniArrays();
+
+        // Draw gridBlocks
+        for (int i = 0; i < gridList.size(); i++) {
+            ArrayList<GridBlock> currentList = gridList.get(i);
+            for (int j = 0; j < currentList.size(); j++) {
+                currentList.get(j).draw(canvas);
+            }
+        }
 
         // Draw lines
         for (int i = 0; i < GRID_TOTAL_X; i++) {
@@ -236,62 +246,23 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     public void update() {
-        Random rand = new Random();
-        ((TetrisActivity)context).updateScore();
+        if (this.gameState == NORMAL) {
+            ((TetrisActivity) context).updateScore();
 
-        // Check if any block is empty
-        for (TetrisBlock block: this.blockList) {
-            if (block.currentBlockCoords.size() == 0) {
-                this.blockList.remove(block);
+            // Check if any block is empty
+            for (TetrisBlock block : this.blockList) {
+                if (block.currentBlockCoords.size() == 0) {
+                    this.blockList.remove(block);
+                }
+            }
+
+            // Spawn block if null
+            if (this.targetBlock == null) {
+                this.targetBlock = this.nextBlock;
+                this.blockList.add(this.targetBlock);
+                this.genNextBlock();
             }
         }
-
-        // Spawn block if null
-        if (this.targetBlock == null) {
-            switch (rand.nextInt(7)) {
-                case 0:
-                    // I Block
-                    this.targetBlock = new TetrisI(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-                case 1:
-                    // J Block
-                    this.targetBlock = new TetrisJ(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-                case 2:
-                    // L Block
-                    this.targetBlock = new TetrisL(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-                case 3:
-                    // O Block
-                    this.targetBlock = new TetrisO(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-                case 4:
-                    // S Block
-                    this.targetBlock = new TetrisS(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-                case 5:
-                    // T Block
-                    this.targetBlock = new TetrisT(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-                case 6:
-                    // Z Block
-                    this.targetBlock = new TetrisZ(this, 0, 0);
-                    this.blockList.add(this.targetBlock);
-                    break;
-            }
-        }
-
-        checkLose();
-    }
-
-    public void checkLose() {
-
     }
 
     // Reset game when game starts
@@ -339,5 +310,41 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 gridList.add(tempList);
             }
         }
+    }
+
+    private void genNextBlock() {
+        Random rand = new Random();
+        switch (rand.nextInt(7)) {
+            case 0:
+                // I Block
+                this.nextBlock = new TetrisI(this, 0, 0);
+                break;
+            case 1:
+                // J Block
+                this.nextBlock = new TetrisJ(this, 0, 0);
+                break;
+            case 2:
+                // L Block
+                this.nextBlock = new TetrisL(this, 0, 0);
+                break;
+            case 3:
+                // O Block
+                this.nextBlock = new TetrisO(this, 0, 0);
+                break;
+            case 4:
+                // S Block
+                this.nextBlock = new TetrisS(this, 0, 0);
+                break;
+            case 5:
+                // T Block
+                this.nextBlock = new TetrisT(this, 0, 0);
+                break;
+            case 6:
+                // Z Block
+                this.nextBlock = new TetrisZ(this, 0, 0);
+                break;
+        }
+
+        // TODO: Update tetris_next_img
     }
 }

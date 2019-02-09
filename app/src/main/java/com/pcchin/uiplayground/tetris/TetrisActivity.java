@@ -51,6 +51,9 @@ public class TetrisActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
+            tetrisSurfaceView.mediaPlayer.stop();
+            tetrisSurfaceView.gameState = TetrisSurfaceView.STOPPED;
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
@@ -69,6 +72,9 @@ public class TetrisActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Return button at top
         if (Objects.equals(item.getItemId(), R.id.menu_return)) {
+            tetrisSurfaceView.mediaPlayer.stop();
+            tetrisSurfaceView.gameState = TetrisSurfaceView.STOPPED;
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             return true;

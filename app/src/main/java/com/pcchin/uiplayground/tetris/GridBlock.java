@@ -10,8 +10,6 @@ import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 public class GridBlock extends GameObject {
-    private long lastDrawNanoTime =-1;
-
     private Bitmap bitmap;
     private Context context;
     private TetrisBlock block;
