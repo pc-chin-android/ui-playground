@@ -12,12 +12,17 @@ import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 import java.util.ArrayList;
 
 public abstract class TetrisBlock extends GameObject {
+    static int DIR_UP = 1;
+    static int DIR_RIGHT = 2;
+    static int DIR_DOWN = 3;
+    static int DIR_LEFT = 4;
+
     private Bitmap block;
     private Context context;
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
     private String type;
-    boolean isHorizontal;
+    int block_dir;
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color, int x, int y) {
@@ -27,7 +32,7 @@ public abstract class TetrisBlock extends GameObject {
         this.block = image;
         this.type = type;
         this.color = color;
-        this.isHorizontal = true;
+        this.block_dir = DIR_LEFT;
 
         // Set coordinates to top and centre of code
         this.setStartingCoords();
@@ -139,6 +144,11 @@ public abstract class TetrisBlock extends GameObject {
     boolean checkCollision(ArrayList<ArrayList<Integer>> coordsList) {
         // Check collision
         for (ArrayList<Integer> i: coordsList) {
+            for (Integer j: i) {
+                if (j < 0) {
+                    return true;
+                }
+            }
             if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
                 return true;
             }

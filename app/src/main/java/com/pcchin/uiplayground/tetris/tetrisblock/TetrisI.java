@@ -16,7 +16,7 @@ public class TetrisI extends TetrisBlock {
     void setStartingCoords() {
         for (int i = 0; i < 4; i++) {
             ArrayList<Integer> tempList = new ArrayList<>();
-            tempList.add((TetrisSurfaceView.GRID_TOTAL_X/2) + i - 2);
+            tempList.add((TetrisSurfaceView.GRID_TOTAL_X/2) + i - 1);
             tempList.add(0);
             this.currentBlockCoords.add(tempList);
         }
@@ -32,22 +32,27 @@ public class TetrisI extends TetrisBlock {
     public void rotate() {
         ArrayList<Integer> ctrGrid = this.getCtrGrid();
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+
         for (int i = 0; i < 4; i++) {
             ArrayList<Integer> tempList = new ArrayList<>();
-            if (this.isHorizontal) {
-                // Vertical
-                tempList.add(ctrGrid.get(0));
-                tempList.add(ctrGrid.get(1) + i - 1);
-            } else {
+            if (this.block_dir == TetrisBlock.DIR_UP) {
                 // Horizontal
                 tempList.add(ctrGrid.get(0) + i - 1);
                 tempList.add(ctrGrid.get(1));
+            } else {
+                // Vertical
+                tempList.add(ctrGrid.get(0));
+                tempList.add(ctrGrid.get(1) + i - 1);
             }
             returnList.add(tempList);
         }
 
         if (! this.checkCollision(returnList)) {
-            this.isHorizontal = !this.isHorizontal;
+            if (this.block_dir == TetrisBlock.DIR_UP) {
+                this.block_dir = TetrisBlock.DIR_LEFT;
+            } else {
+                this.block_dir = TetrisBlock.DIR_UP;
+            }
             this.currentBlockCoords = returnList;
         }
     }
