@@ -155,4 +155,15 @@ public abstract class TetrisBlock extends GameObject {
         }
         return false;
     }
+
+    void swapDir(ArrayList<ArrayList<Integer>> returnList) {
+        if (!this.checkCollision(returnList) && returnList.size() == 4) {
+            this.block_dir++;
+            if (this.block_dir > TetrisBlock.DIR_LEFT) {
+                this.block_dir = TetrisBlock.DIR_UP;
+            }
+
+            this.currentBlockCoords = returnList;
+        }
+    }
 }

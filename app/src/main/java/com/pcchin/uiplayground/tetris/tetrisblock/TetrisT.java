@@ -26,8 +26,6 @@ public class TetrisT extends TetrisBlock {
     public void rotate() {
         ArrayList<Integer> ctrGrid = this.getCtrGrid();
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
-        if (! this.checkCollision(returnList)) {
-            this.currentBlockCoords = returnList;
-        }
+        this.swapDir(returnList);
     }
 }

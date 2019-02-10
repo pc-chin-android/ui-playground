@@ -79,12 +79,6 @@ public class TetrisJ extends TetrisBlock {
             returnList.add(tempList);
         }
 
-        if (! this.checkCollision(returnList)) {
-            this.block_dir++;
-            if (this.block_dir > TetrisBlock.DIR_LEFT) {
-                this.block_dir = TetrisBlock.DIR_UP;
-            }
-            this.currentBlockCoords = returnList;
-        }
+        this.swapDir(returnList);
     }
 }
