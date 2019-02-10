@@ -14,18 +14,71 @@ public class TetrisT extends TetrisBlock {
 
     @Override
     void setStartingCoords() {
-
+        for (int i = 0; i < 3; i++) {
+            ArrayList<Integer> tempList = new ArrayList<>();
+            tempList.add((TetrisSurfaceView.GRID_TOTAL_X/2) + i - 1);
+            tempList.add(0);
+            this.currentBlockCoords.add(tempList);
+        }
+        ArrayList<Integer> tempList = new ArrayList<>();
+        tempList.add(TetrisSurfaceView.GRID_TOTAL_X/2);
+        tempList.add(1);
+        this.currentBlockCoords.add(tempList);
     }
 
     @Override
     ArrayList<Integer> getCtrGrid() {
-        return null;
+        return this.currentBlockCoords.get(1);
     }
 
     @Override
     public void rotate() {
         ArrayList<Integer> ctrGrid = this.getCtrGrid();
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+
+        if (this.block_dir == TetrisBlock.DIR_LEFT || this.block_dir == TetrisBlock.DIR_RIGHT) {
+            // Originally horizontal, now vertical
+            for (int i = 0; i < 3; i++) {
+                ArrayList<Integer> tempList = new ArrayList<>();
+                tempList.add(ctrGrid.get(0));
+                tempList.add(ctrGrid.get(1) - i + 1);
+                returnList.add(tempList);
+            }
+
+            // Final block
+            ArrayList<Integer> tempList = new ArrayList<>();
+            // X-Coords is 1 to left/right
+            if (this.block_dir == TetrisBlock.DIR_LEFT) {
+                tempList.add(ctrGrid.get(0) - 1);
+                tempList.add(ctrGrid.get(1));
+            } else {
+                tempList.add(ctrGrid.get(0) + 1);
+                tempList.add(ctrGrid.get(1));
+            }
+            returnList.add(tempList);
+
+        } else {
+            // Originally vertical, now horizontal
+            for (int i = 0; i < 3; i++) {
+                ArrayList<Integer> tempList = new ArrayList<>();
+                tempList.add(ctrGrid.get(0) - i + 1);
+                tempList.add(ctrGrid.get(1));
+                returnList.add(tempList);
+            }
+
+            // Final block
+            ArrayList<Integer> tempList = new ArrayList<>();
+            // Y-Coords is 1 up/down
+            if (this.block_dir == TetrisBlock.DIR_UP) {
+                tempList.add(ctrGrid.get(0));
+                tempList.add(ctrGrid.get(1) - 1);
+            } else {
+                tempList.add(ctrGrid.get(0));
+                tempList.add(ctrGrid.get(1) + 1);
+            }
+            returnList.add(tempList);
+        }
+
         this.swapDir(returnList);
     }
 }
