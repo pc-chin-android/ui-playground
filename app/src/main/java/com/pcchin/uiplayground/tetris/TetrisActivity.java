@@ -108,7 +108,7 @@ public class TetrisActivity extends AppCompatActivity {
 
     // Carry over function
     public void onDirBtnPressed(View view) {
-        if (tetrisSurfaceView.gameState == TetrisSurfaceView.NORMAL) {
+        if (tetrisSurfaceView.gameState == TetrisSurfaceView.NORMAL && tetrisSurfaceView.targetBlock != null) {
             switch (view.getId()) {
                 case R.id.tetris_dir_left:
                     tetrisSurfaceView.targetBlock.moveLeft();

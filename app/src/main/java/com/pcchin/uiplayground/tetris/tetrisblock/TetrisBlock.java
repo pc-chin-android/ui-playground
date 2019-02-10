@@ -50,14 +50,14 @@ public abstract class TetrisBlock extends GameObject {
 
     public abstract void rotate();
 
-    private void bindGrid() {
+    void bindGrid() {
         // Set gridBlocks according to currentBlockCoords
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).bindBlock(this);
         }
     }
 
-    private void unbindGrid() {
+    void unbindGrid() {
         // Remove current gridBlocks from reference
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).unbindBlock();
@@ -158,12 +158,16 @@ public abstract class TetrisBlock extends GameObject {
 
     void swapDir(ArrayList<ArrayList<Integer>> returnList) {
         if (!this.checkCollision(returnList) && returnList.size() == 4) {
+            this.unbindGrid();
+
             this.block_dir++;
             if (this.block_dir > TetrisBlock.DIR_LEFT) {
                 this.block_dir = TetrisBlock.DIR_UP;
             }
 
             this.currentBlockCoords = returnList;
+
+            this.bindGrid();
         }
     }
 }

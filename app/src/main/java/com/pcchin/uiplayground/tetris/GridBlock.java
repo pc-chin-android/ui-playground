@@ -32,20 +32,12 @@ public class GridBlock extends GameObject {
         this.bitmap = Bitmap.createBitmap(TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT, Bitmap.Config.ARGB_8888);
     }
 
-    void draw(Canvas canvas)  {
+    public void draw(Canvas canvas)  {
         Bitmap bitmap = this.bitmap;
         canvas.drawBitmap(bitmap,x, y, null);
     }
 
     public TetrisBlock getBlock() {
         return this.block;
-    }
-
-    void setCtr(boolean center) {
-        this.isCenter = center;
-    }
-
-    boolean getCtr() {
-        return this.isCenter;
     }
 }

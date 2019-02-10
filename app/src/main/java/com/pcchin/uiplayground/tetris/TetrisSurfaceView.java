@@ -15,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
@@ -75,7 +76,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     // Used in all constructors
-    public void onCreate(Context context) {
+    public void onCreate(final Context context) {
 
         this.setFocusable(true);
         this.getHolder().addCallback(this);
@@ -94,6 +95,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 GRID_TOTAL_X = getWidth() /GRID_WIDTH_HEIGHT;
                 GRID_TOTAL_Y = getHeight() /GRID_WIDTH_HEIGHT;
+                ((TetrisActivity) context).updateScore();
             }
         });
     }
@@ -250,18 +252,18 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         if (this.gameState == NORMAL) {
             ((TetrisActivity) context).updateScore();
 
-            // Check if any block is empty
-            for (TetrisBlock block : this.blockList) {
-                if (block.currentBlockCoords.size() == 0) {
-                    this.blockList.remove(block);
-                }
-            }
-
             // Spawn block if null
             if (this.targetBlock == null) {
                 this.targetBlock = this.nextBlock;
                 this.blockList.add(this.targetBlock);
                 this.genNextBlock();
+            }
+
+            // Check if any block is empty
+            for (TetrisBlock block : this.blockList) {
+                if (block.currentBlockCoords.size() == 0) {
+                    this.blockList.remove(block);
+                }
             }
         }
     }
@@ -315,6 +317,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     private void genNextBlock() {
         Random rand = new Random();
+        ImageView nextImg = findViewById(R.id.tetris_next_img);
         switch (rand.nextInt(7)) {
             case 0:
                 // I Block
