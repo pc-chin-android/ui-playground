@@ -1,7 +1,5 @@
 package com.pcchin.uiplayground.tetris.tetrisblock;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
@@ -17,7 +15,6 @@ public abstract class TetrisBlock extends GameObject {
     // static int DIR_DOWN = 3;
     static int DIR_LEFT = 4;
 
-    private Context context;
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
     private String type;
@@ -27,7 +24,6 @@ public abstract class TetrisBlock extends GameObject {
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color, int x, int y) {
         super(GeneralFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), x, y);
         this.tetrisSurfaceView = tetrisSurfaceView;
-        this.context = tetrisSurfaceView.getContext();
         this.type = type;
         this.color = color;
         this.block_dir = DIR_LEFT;

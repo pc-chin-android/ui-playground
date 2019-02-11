@@ -310,7 +310,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             for (int k = 0; k < GRID_TOTAL_X; k++) {
                 ArrayList<GridBlock> tempList = new ArrayList<>();
                 for (int l = 0; l < GRID_TOTAL_Y; l++) {
-                    tempList.add(new GridBlock(this, colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
+                    tempList.add(new GridBlock(colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
                 }
                 gridList.add(tempList);
             }
