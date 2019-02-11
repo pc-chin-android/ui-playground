@@ -112,10 +112,13 @@ public class TetrisActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.tetris_dir_left:
                     tetrisSurfaceView.targetBlock.moveLeft();
+                    break;
                 case R.id.tetris_dir_right:
                     tetrisSurfaceView.targetBlock.moveRight();
+                    break;
                 case R.id.tetris_dir_down:
                     tetrisSurfaceView.targetBlock.moveDown();
+                    break;
             }
         }
     }

@@ -135,7 +135,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
     }
 
     @Override
@@ -265,6 +264,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
                     this.blockList.remove(block);
                 }
             }
+
+            this.checkRow();
         }
     }
 
@@ -281,6 +282,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.blockList = new ArrayList<>();
     }
 
+    // Only used in draw(), separated for clarity
     private void iniArrays() {
         int currentX = 0;
         int currentY = 0;
@@ -315,6 +317,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
+    // Only used in update(), separated for clarity
     private void genNextBlock() {
         Random rand = new Random();
         ImageView nextImg = findViewById(R.id.tetris_next_img);
@@ -350,5 +353,39 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
 
         // TODO: Update tetris_next_img
+    }
+
+    // Only used in update(), separated for clarity
+    private void checkRow() {
+        int rowsCleared = 0;
+        for (int i = 0; i < this.gridList.size(); i++) {
+            boolean rowFull = true;
+            for (GridBlock j: this.gridList.get(i)) {
+                if (j.getBlock() == null) {
+                    rowFull = false;
+                }
+            }
+            if (rowFull) {
+                // Reset rows
+                for (GridBlock j: this.gridList.get(i)) {
+                    j.unbindBlock();
+                }
+                // Move rows down by one
+                for (int j = i; j >= 0; j--) {
+                    for (int k = 0; k < this.gridList.get(j).size(); k++) {
+                        this.gridList.get(j).get(k).bindBlock(
+                                this.gridList.get(j - 1).get(k).getBlock()
+                        );
+                    }
+                }
+                // Reset top row
+                for (int j = 0; j < this.gridList.get(0).size(); j++) {
+                    this.gridList.get(0).get(j).unbindBlock();
+                }
+                rowsCleared++;
+            }
+        }
+        // Check points
+        this.score += (100 * rowsCleared * rowsCleared);
     }
 }

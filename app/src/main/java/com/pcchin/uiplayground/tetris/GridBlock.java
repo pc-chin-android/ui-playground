@@ -23,7 +23,11 @@ public class GridBlock extends GameObject {
 
     public void bindBlock(TetrisBlock block) {
         this.block = block;
-        this.bitmap = GeneralFunctions.colorToBitmap(this.block.getColor(), TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT);
+        if (this.block == null) {
+            this.bitmap = Bitmap.createBitmap(TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT, Bitmap.Config.ARGB_8888);
+        } else {
+            this.bitmap = GeneralFunctions.colorToBitmap(this.block.getColor(), TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT);
+        }
     }
 
     public void unbindBlock() {

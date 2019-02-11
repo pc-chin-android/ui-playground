@@ -14,10 +14,9 @@ import java.util.ArrayList;
 public abstract class TetrisBlock extends GameObject {
     static int DIR_UP = 1;
     static int DIR_RIGHT = 2;
-    static int DIR_DOWN = 3;
+    // static int DIR_DOWN = 3;
     static int DIR_LEFT = 4;
 
-    private Bitmap block;
     private Context context;
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
@@ -29,7 +28,6 @@ public abstract class TetrisBlock extends GameObject {
         super(GeneralFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), x, y);
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.context = tetrisSurfaceView.getContext();
-        this.block = image;
         this.type = type;
         this.color = color;
         this.block_dir = DIR_LEFT;
