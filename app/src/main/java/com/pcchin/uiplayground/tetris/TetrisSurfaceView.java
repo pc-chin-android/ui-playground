@@ -39,7 +39,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     static final int STOPPED = -1;
     int gameState;
 
-    TetrisThread tetrisThread;
+    private TetrisThread tetrisThread;
     private Context context;
     private ArrayList<TetrisBlock> blockList = new ArrayList<>();
     public ArrayList<ArrayList<GridBlock>> gridList = new ArrayList<>(); // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
@@ -87,8 +87,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.rowCoords = new ArrayList<>();
         this.gameState = STOPPED;
 
-        this.tetrisThread = new TetrisThread(this, getHolder());
-
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -125,12 +123,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 }
             }
         }).start();
-
-        if (this.tetrisThread.getState() == Thread.State.TERMINATED) {
-            this.tetrisThread = new TetrisThread(this, holder);
-        }
-        this.tetrisThread.setRunning(true);
-        this.tetrisThread.start();
     }
 
     @Override
@@ -143,21 +135,10 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
-
-        boolean retry = true;
-        while (retry) {
-            try{
-                this.tetrisThread.setRunning(false);
-                this.tetrisThread.join();
-                retry = false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(final Canvas canvas) {
         super.draw(canvas);
 
         // Set paint
@@ -191,6 +172,10 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         resetGame();
         mediaPlayer.start();
         this.gameState = NORMAL;
+
+        this.tetrisThread = new TetrisThread(this, this.getHolder());
+        this.tetrisThread.setRunning(true);
+        this.tetrisThread.start();
     }
 
     void onGamePause() {
@@ -198,6 +183,17 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.resume);
         mediaPlayer.pause();
         this.gameState = PAUSED;
+
+        boolean retryThread = true;
+        while (retryThread) {
+            try{
+                this.tetrisThread.setRunning(false);
+                this.tetrisThread.join();
+                retryThread = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     void onGameResume() {
@@ -205,6 +201,10 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
         mediaPlayer.start();
         this.gameState = NORMAL;
+
+        this.tetrisThread = new TetrisThread(this, this.getHolder());
+        this.tetrisThread.setRunning(true);
+        this.tetrisThread.start();
     }
 
     void onGameStop() {
@@ -212,23 +212,32 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
         mediaPlayer.stop();
-        this.gameState = STOPPED;
 
-        boolean retry = true;
-        while (retry) {
+        boolean retryPlayer = true;
+        while (retryPlayer) {
             try {
                 mediaPlayer.prepare();
-                retry = false;
+                retryPlayer = false;
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        boolean retryThread = true;
+        while (retryThread) {
+            try{
+                this.tetrisThread.setRunning(false);
+                this.tetrisThread.join();
+                retryThread = false;
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    // Triggered when game ends
     public void onGameOver() {
         // Display alert dialog
-        AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Dialog_Alert);
+        AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(this.getContext(), R.style.Theme_AppCompat_Dialog_Alert);
         scoreDialogBuilder.setTitle(R.string.game_over);
         scoreDialogBuilder.setIcon(R.drawable.tetris_icon);
         scoreDialogBuilder.setMessage(String.format(Locale.ENGLISH, "Your score is %d", score));
@@ -241,10 +250,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         AlertDialog scoreDialog = scoreDialogBuilder.create();
         scoreDialog.show();
 
-        (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(false);
-        (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
-        ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
-        mediaPlayer.stop();
+        this.onGameStop();
     }
 
     public void update() {
@@ -280,6 +286,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
         // Clear blockList
         this.blockList = new ArrayList<>();
+        this.targetBlock = null;
+        this.nextBlock = null;
     }
 
     // Only used in draw(), separated for clarity
@@ -319,7 +327,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     // Only used in update(), separated for clarity
     private void genNextBlock() {
-        System.out.println("genNextBlock");
         Random rand = new Random();
         ImageView nextImg = ((TetrisActivity) context).findViewById(R.id.tetris_next_img);
         switch (rand.nextInt(7)) {
@@ -392,6 +399,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         // Check points
-        this.score += (100 * rowsCleared * rowsCleared);
+        this.score += (10 * GRID_TOTAL_X * rowsCleared * rowsCleared);
     }
 }
