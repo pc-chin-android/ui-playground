@@ -319,40 +319,46 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     // Only used in update(), separated for clarity
     private void genNextBlock() {
+        System.out.println("genNextBlock");
         Random rand = new Random();
-        ImageView nextImg = findViewById(R.id.tetris_next_img);
+        ImageView nextImg = ((TetrisActivity) context).findViewById(R.id.tetris_next_img);
         switch (rand.nextInt(7)) {
             case 0:
                 // I Block
-                this.nextBlock = new TetrisI(this, 0, 0);
+                this.nextBlock = new TetrisI(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_i);
                 break;
             case 1:
                 // J Block
-                this.nextBlock = new TetrisJ(this, 0, 0);
+                this.nextBlock = new TetrisJ(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_j);
                 break;
             case 2:
                 // L Block
-                this.nextBlock = new TetrisL(this, 0, 0);
+                this.nextBlock = new TetrisL(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_l);
                 break;
             case 3:
                 // O Block
-                this.nextBlock = new TetrisO(this, 0, 0);
+                this.nextBlock = new TetrisO(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_o);
                 break;
             case 4:
                 // S Block
-                this.nextBlock = new TetrisS(this, 0, 0);
+                this.nextBlock = new TetrisS(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_s);
                 break;
             case 5:
                 // T Block
-                this.nextBlock = new TetrisT(this, 0, 0);
+                this.nextBlock = new TetrisT(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_t);
                 break;
             case 6:
                 // Z Block
-                this.nextBlock = new TetrisZ(this, 0, 0);
+                this.nextBlock = new TetrisZ(this);
+                nextImg.setImageResource(R.drawable.tetris_blk_z);
                 break;
         }
-
-        // TODO: Update tetris_next_img
     }
 
     // Only used in update(), separated for clarity

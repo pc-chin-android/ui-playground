@@ -8,8 +8,8 @@ import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 import java.util.ArrayList;
 
 public class TetrisO extends TetrisBlock {
-    public TetrisO(@NonNull TetrisSurfaceView tetrisSurfaceView, int x, int y) {
-        super(tetrisSurfaceView, "TetrisO", Color.WHITE, x, y);
+    public TetrisO(@NonNull TetrisSurfaceView tetrisSurfaceView) {
+        super(tetrisSurfaceView, "TetrisO", Color.WHITE);
     }
 
     @Override

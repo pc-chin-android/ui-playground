@@ -21,8 +21,8 @@ public abstract class TetrisBlock extends GameObject {
     int block_dir;
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
-    TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color, int x, int y) {
-        super(GeneralFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), x, y);
+    TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color) {
+        super(GeneralFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.type = type;
         this.color = color;
