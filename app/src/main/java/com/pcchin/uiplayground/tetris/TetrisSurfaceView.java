@@ -146,8 +146,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         paint.setColor(Color.GRAY);
         paint.setStrokeWidth(GRID_LINE_WIDTH);
 
-        this.iniArrays();
-
         // Draw gridBlocks
         for (int i = 0; i < gridList.size(); i++) {
             ArrayList<GridBlock> currentList = gridList.get(i);
@@ -156,12 +154,14 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
 
-        // Draw lines
-        for (int i = 0; i < GRID_TOTAL_X; i++) {
-            canvas.drawLine(colCoords.get(i), 0, colCoords.get(i), getHeight(), paint);
-        }
-        for (int j = 0; j < GRID_TOTAL_Y; j++) {
-            canvas.drawLine(0, rowCoords.get(j), getWidth(), rowCoords.get(j), paint);
+        if (colCoords.size() > 0 && rowCoords.size() > 0) {
+            // Draw lines
+            for (int i = 0; i < GRID_TOTAL_X; i++) {
+                canvas.drawLine(colCoords.get(i), 0, colCoords.get(i), getHeight(), paint);
+            }
+            for (int j = 0; j < GRID_TOTAL_Y; j++) {
+                canvas.drawLine(0, rowCoords.get(j), getWidth(), rowCoords.get(j), paint);
+            }
         }
     }
 
@@ -255,17 +255,28 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     public void update() {
         if (this.gameState == NORMAL) {
-            ((TetrisActivity) context).updateScore();
+            iniArrays();
+
+            ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TetrisActivity) context).updateScore();
+                }
+            });
 
             // Spawn block if null
             if (this.targetBlock == null) {
+                // Only when game starts
+                if (this.nextBlock == null) {
+                    this.genNextBlock();
+                }
                 this.targetBlock = this.nextBlock;
                 this.blockList.add(this.targetBlock);
                 this.genNextBlock();
             }
 
             // Check if any block is empty
-            for (TetrisBlock block : this.blockList) {
+            for (TetrisBlock block: this.blockList) {
                 if (block.currentBlockCoords.size() == 0) {
                     this.blockList.remove(block);
                 }

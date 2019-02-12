@@ -136,15 +136,17 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     boolean checkCollision(ArrayList<ArrayList<Integer>> coordsList) {
-        // Check collision
-        for (ArrayList<Integer> i: coordsList) {
-            for (Integer j: i) {
-                if (j < 0) {
+        if (coordsList.size() > 0) {
+            // Check collision
+            for (ArrayList<Integer> i : coordsList) {
+                for (Integer j : i) {
+                    if (j < 0) {
+                        return true;
+                    }
+                }
+                if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
                     return true;
                 }
-            }
-            if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
-                return true;
             }
         }
         return false;

@@ -1,5 +1,6 @@
 package com.pcchin.uiplayground.tetris;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -31,11 +32,20 @@ class TetrisThread extends Thread {
 
                 // Synchronized
                 synchronized (surfaceHolder)  {
-                    this.surfaceView.update();
-                    this.surfaceView.draw(canvas);
+                    final TetrisSurfaceView currentView = this.surfaceView;
+                    final Canvas currentCanvas = canvas;
+                    ((Activity)currentView.getContext()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentView.draw(currentCanvas);
+                            currentView.update();
+                        }
+                    });
                 }
             }catch(Exception e)  {
                 // Do nothing.
+                e.printStackTrace();
+
             } finally {
                 if(canvas != null)  {
                     // Unlock Canvas.
