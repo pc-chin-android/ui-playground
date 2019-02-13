@@ -30,11 +30,6 @@ public abstract class TetrisBlock extends GameObject {
 
         // Set coordinates to top and centre of code
         this.setStartingCoords();
-
-        // Check collision
-        if (this.checkCollision(this.currentBlockCoords)) {
-            tetrisSurfaceView.onGameOver();
-        }
     }
 
     // Differ for each block
@@ -135,7 +130,7 @@ public abstract class TetrisBlock extends GameObject {
         return this.color;
     }
 
-    boolean checkCollision(ArrayList<ArrayList<Integer>> coordsList) {
+    public boolean checkCollision(ArrayList<ArrayList<Integer>> coordsList) {
         if (coordsList.size() > 0) {
             // Check collision
             for (ArrayList<Integer> i : coordsList) {

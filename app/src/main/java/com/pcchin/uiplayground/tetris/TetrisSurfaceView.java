@@ -237,7 +237,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-    public void onGameOver() {
+    private void onGameOver() {
         // Display alert dialog
         AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(this.getContext(), R.style.Theme_AppCompat_Dialog_Alert);
         scoreDialogBuilder.setTitle(R.string.game_over);
@@ -276,6 +276,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 this.targetBlock = this.nextBlock;
                 this.blockList.add(this.targetBlock);
                 this.genNextBlock();
+
+                // Checks for any collision
+                if (this.targetBlock.checkCollision(this.targetBlock.currentBlockCoords)) {
+                    this.onGameOver();
+                }
             }
 
             // Check if any block is empty
