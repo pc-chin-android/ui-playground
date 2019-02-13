@@ -30,6 +30,7 @@ import com.pcchin.uiplayground.tetris.tetrisblock.TetrisZ;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 
@@ -278,9 +279,10 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
 
             // Check if any block is empty
-            for (TetrisBlock block: this.blockList) {
-                if (block.currentBlockCoords.size() == 0) {
-                    this.blockList.remove(block);
+            for (Iterator<TetrisBlock> iterator = this.blockList.iterator(); iterator.hasNext();) {
+                TetrisBlock block = iterator.next();
+                if (block == null || block.currentBlockCoords.size() == 0) {
+                    iterator.remove();
                 }
             }
 
