@@ -32,15 +32,8 @@ class TetrisThread extends Thread {
 
                 // Synchronized
                 synchronized (surfaceHolder)  {
-                    final TetrisSurfaceView currentView = this.surfaceView;
-                    final Canvas currentCanvas = canvas;
-                    ((Activity)currentView.getContext()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            currentView.draw(currentCanvas);
-                            currentView.update();
-                        }
-                    });
+                    this.surfaceView.draw(canvas);
+                    this.surfaceView.update();
                 }
             }catch(Exception e)  {
                 // Do nothing.

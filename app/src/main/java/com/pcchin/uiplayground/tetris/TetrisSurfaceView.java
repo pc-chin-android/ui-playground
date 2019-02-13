@@ -137,8 +137,9 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mediaPlayer = null;
     }
 
+    // Not run on UI thread
     @Override
-    public void draw(final Canvas canvas) {
+    public void draw(Canvas canvas) {
         super.draw(canvas);
 
         // Set paint
@@ -253,6 +254,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.onGameStop();
     }
 
+    // Not run on UI Thread
     public void update() {
         if (this.gameState == NORMAL) {
             iniArrays();
@@ -301,7 +303,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         this.nextBlock = null;
     }
 
-    // Only used in draw(), separated for clarity
     private void iniArrays() {
         int currentX = 0;
         int currentY = 0;
@@ -336,47 +337,53 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
     }
 
-    // Only used in update(), separated for clarity
+    // Needed to be run on UI thread
     private void genNextBlock() {
-        Random rand = new Random();
-        ImageView nextImg = ((TetrisActivity) context).findViewById(R.id.tetris_next_img);
-        switch (rand.nextInt(7)) {
-            case 0:
-                // I Block
-                this.nextBlock = new TetrisI(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_i);
-                break;
-            case 1:
-                // J Block
-                this.nextBlock = new TetrisJ(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_j);
-                break;
-            case 2:
-                // L Block
-                this.nextBlock = new TetrisL(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_l);
-                break;
-            case 3:
-                // O Block
-                this.nextBlock = new TetrisO(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_o);
-                break;
-            case 4:
-                // S Block
-                this.nextBlock = new TetrisS(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_s);
-                break;
-            case 5:
-                // T Block
-                this.nextBlock = new TetrisT(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_t);
-                break;
-            case 6:
-                // Z Block
-                this.nextBlock = new TetrisZ(this);
-                nextImg.setImageResource(R.drawable.tetris_blk_z);
-                break;
-        }
+        final ImageView nextImg = ((TetrisActivity) context).findViewById(R.id.tetris_next_img);
+        final TetrisSurfaceView currentView = this;
+        ((Activity)this.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Random rand = new Random();
+                switch (rand.nextInt(7)) {
+                    case 0:
+                        // I Block
+                        currentView.nextBlock = new TetrisI(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_i);
+                        break;
+                    case 1:
+                        // J Block
+                        currentView.nextBlock = new TetrisJ(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_j);
+                        break;
+                    case 2:
+                        // L Block
+                        currentView.nextBlock = new TetrisL(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_l);
+                        break;
+                    case 3:
+                        // O Block
+                        currentView.nextBlock = new TetrisO(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_o);
+                        break;
+                    case 4:
+                        // S Block
+                        currentView.nextBlock = new TetrisS(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_s);
+                        break;
+                    case 5:
+                        // T Block
+                        currentView.nextBlock = new TetrisT(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_t);
+                        break;
+                    case 6:
+                        // Z Block
+                        currentView.nextBlock = new TetrisZ(currentView);
+                        nextImg.setImageResource(R.drawable.tetris_blk_z);
+                        break;
+                }
+            }
+        });
     }
 
     // Only used in update(), separated for clarity
