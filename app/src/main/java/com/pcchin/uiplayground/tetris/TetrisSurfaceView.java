@@ -92,9 +92,9 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             @Override
             public void onGlobalLayout() {
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                GRID_WIDTH_HEIGHT = (getWidth() / GRID_TOTAL_X) / 6 * 5;
-                GRID_LINE_WIDTH = GRID_WIDTH_HEIGHT / 5;
-                GRID_TOTAL_Y = getHeight() /(GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH);
+                GRID_WIDTH_HEIGHT = Math.round(((float) getWidth() / GRID_TOTAL_X) * 5 / 6);
+                GRID_LINE_WIDTH = Math.round((float)GRID_WIDTH_HEIGHT / 5);
+                GRID_TOTAL_Y = Math.round((float) getHeight() /(GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH));
                 ((TetrisActivity) context).updateScore();
             }
         });
