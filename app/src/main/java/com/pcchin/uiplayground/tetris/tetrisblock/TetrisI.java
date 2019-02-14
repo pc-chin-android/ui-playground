@@ -47,6 +47,7 @@ public class TetrisI extends TetrisBlock {
             returnList.add(tempList);
         }
 
+        // TODO: Fix rotate
         if (! this.checkCollision(returnList)) {
             this.unbindGrid();
 

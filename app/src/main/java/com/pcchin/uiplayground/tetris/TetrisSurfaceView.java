@@ -238,21 +238,27 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     }
 
     private void onGameOver() {
-        // Display alert dialog
-        AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(this.getContext(), R.style.Theme_AppCompat_Dialog_Alert);
-        scoreDialogBuilder.setTitle(R.string.game_over);
-        scoreDialogBuilder.setIcon(R.drawable.tetris_icon);
-        scoreDialogBuilder.setMessage(String.format(Locale.ENGLISH, "Your score is %d", score));
-        scoreDialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        ((Activity)context).runOnUiThread(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void run() {
+                // Display alert dialog
+                AlertDialog.Builder scoreDialogBuilder = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Dialog_Alert);
+                scoreDialogBuilder.setTitle(R.string.game_over);
+                scoreDialogBuilder.setIcon(R.drawable.tetris_icon);
+                scoreDialogBuilder.setMessage(String.format(Locale.ENGLISH, "Your score is %d", score));
+                scoreDialogBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog scoreDialog = scoreDialogBuilder.create();
+                scoreDialog.show();
+
+                // Equivalent of this.onGameStop()
+                ((TetrisActivity)context).onResetBtnPressed(getRootView());
             }
         });
-        AlertDialog scoreDialog = scoreDialogBuilder.create();
-        scoreDialog.show();
-
-        this.onGameStop();
     }
 
     // Not run on UI Thread
@@ -277,9 +283,13 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 this.blockList.add(this.targetBlock);
                 this.genNextBlock();
 
-                // Checks for any collision
-                if (this.targetBlock.checkCollision(this.targetBlock.currentBlockCoords)) {
-                    this.onGameOver();
+                // Checks for any collision after new block spawns
+                if (this.targetBlock != null) {
+                    if (this.targetBlock.checkCollision(this.targetBlock.currentBlockCoords)) {
+                        this.onGameOver();
+                    } else {
+                        this.targetBlock.bindGrid();
+                    }
                 }
             }
 

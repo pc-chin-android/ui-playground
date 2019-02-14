@@ -20,6 +20,8 @@ import com.pcchin.uiplayground.R;
 import com.pcchin.uiplayground.TttActivity;
 import com.pcchin.uiplayground.pong.PongGame;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +30,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class GeneralFunctions {
     public static final int DRAW = 0;
@@ -123,6 +126,15 @@ public class GeneralFunctions {
         }
         AlertDialog displayDialog = displayDialogBuilder.create();
         displayDialog.show();
+    }
+
+    public static ArrayList<ArrayList<Integer>> deepCopy(@NotNull ArrayList<ArrayList<Integer>> originalList) {
+        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+        for (ArrayList<Integer> e: originalList) {
+            ArrayList<Integer> tempList = new ArrayList<>(e);
+            returnList.add(tempList);
+        }
+        return returnList;
     }
 
     @NonNull
