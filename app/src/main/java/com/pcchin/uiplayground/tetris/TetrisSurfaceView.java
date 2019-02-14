@@ -51,10 +51,10 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private AssetFileDescriptor assetBgmDescriptor;
 
     public int score;
-    public static int GRID_TOTAL_X; // Total number of columns in the grid
+    public static final int GRID_TOTAL_X = 10; // Total number of columns in the grid
     public static int GRID_TOTAL_Y; // Total number of rows in the grid
-    public static final int GRID_WIDTH_HEIGHT = 50; // Width and height of each box in pixels
-    private static final int GRID_LINE_WIDTH = 10; // Width of each lineA
+    public static int GRID_WIDTH_HEIGHT; // Width and height of each box in pixels
+    private static int GRID_LINE_WIDTH; // Width of each lineA
     private ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);
     private ArrayList<Integer> colCoords; // X-coordinates of each column (Reference pt tetrisSurfaceView);
 
@@ -92,8 +92,9 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             @Override
             public void onGlobalLayout() {
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                GRID_TOTAL_X = getWidth() /GRID_WIDTH_HEIGHT;
-                GRID_TOTAL_Y = getHeight() /GRID_WIDTH_HEIGHT;
+                GRID_WIDTH_HEIGHT = (getWidth() / GRID_TOTAL_X) / 6 * 5;
+                GRID_LINE_WIDTH = GRID_WIDTH_HEIGHT / 5;
+                GRID_TOTAL_Y = getHeight() /(GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH);
                 ((TetrisActivity) context).updateScore();
             }
         });
@@ -132,6 +133,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        this.onGameStop();
+
         // Close bgm
         mediaPlayer.stop();
         mediaPlayer.release();
