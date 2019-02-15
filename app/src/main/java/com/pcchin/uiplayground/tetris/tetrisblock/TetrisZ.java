@@ -51,18 +51,6 @@ public class TetrisZ extends TetrisBlock {
             }
         }
 
-        // TODO: Fix rotate
-        if (! this.checkCollision(returnList)) {
-            this.unbindGrid();
-
-            if (this.block_dir == TetrisBlock.DIR_UP) {
-                this.block_dir = TetrisBlock.DIR_LEFT;
-            } else {
-                this.block_dir = TetrisBlock.DIR_UP;
-            }
-            this.currentBlockCoords = returnList;
-
-            this.bindGrid();
-        }
+        this.flipDir(returnList);
     }
 }

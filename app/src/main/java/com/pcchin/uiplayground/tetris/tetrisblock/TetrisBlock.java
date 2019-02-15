@@ -47,7 +47,7 @@ public abstract class TetrisBlock extends GameObject {
         }
     }
 
-    void unbindGrid() {
+    private void unbindGrid() {
         // Remove current gridBlocks from reference
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).unbindBlock();
@@ -154,15 +154,15 @@ public abstract class TetrisBlock extends GameObject {
         return false;
     }
 
-    void swapDir(ArrayList<ArrayList<Integer>> originalList) {
+    void swapDir(ArrayList<ArrayList<Integer>> targetList) {
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
 
         if (this.block_dir == DIR_LEFT) {
-            returnList = CoordsFunctions.sideCoords(originalList, DIR_UP);
+            returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
         } else if (this.block_dir == DIR_UP) {
             int targetDir = this.block_dir;
             targetDir++;
-            returnList = CoordsFunctions.sideCoords(originalList, targetDir);
+            returnList = CoordsFunctions.sideCoords(targetList, targetDir);
         }
 
         if (!this.checkCollision(returnList)) {
@@ -175,6 +175,27 @@ public abstract class TetrisBlock extends GameObject {
 
             this.currentBlockCoords = returnList;
 
+            this.bindGrid();
+        }
+    }
+
+    void flipDir(ArrayList<ArrayList<Integer>> targetList) {
+        ArrayList<ArrayList<Integer>> returnList;
+        if (this.block_dir == DIR_UP) {
+            returnList = CoordsFunctions.sideCoords(targetList, DIR_LEFT);
+        } else {
+            returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
+        }
+
+        if (! this.checkCollision(returnList)) {
+            this.unbindGrid();
+
+            if (this.block_dir == TetrisBlock.DIR_UP) {
+                this.block_dir = TetrisBlock.DIR_LEFT;
+            } else {
+                this.block_dir = TetrisBlock.DIR_UP;
+            }
+            this.currentBlockCoords = returnList;
             this.bindGrid();
         }
     }
