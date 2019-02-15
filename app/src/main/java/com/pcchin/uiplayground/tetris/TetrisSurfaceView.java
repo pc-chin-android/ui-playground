@@ -327,29 +327,36 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         int currentX = 0;
         int currentY = 0;
 
+        /*
+        Due to a problem with the bottom grid of the canvas extending out of the screen,
+        both rowCoords and colCoords will check if their respective coordinates exceed the bottom
+         */
+
+        // Initialize rowCoords if empty
+        if (rowCoords.size() == 0) {
+            for (int j = 0; j < GRID_TOTAL_Y; j++) {
+                if (currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH < getHeight()) {
+                    // Draw rows
+                    rowCoords.add(currentY);
+                    currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
+                }
+            }
+        }
+
         // Initialize colCoords if empty
         if (colCoords.size() == 0) {
-            for (int i = 0; i < GRID_TOTAL_X; i++) {
+            for (int i = 0; i < rowCoords.size(); i++) {
                 // Draw columns
                 colCoords.add(currentX);
                 currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
             }
         }
 
-        // Initialize rowCoords if empty
-        if (rowCoords.size() == 0) {
-            for (int j = 0; j < GRID_TOTAL_Y; j++) {
-                // Draw rows
-                rowCoords.add(currentY);
-                currentY = currentY + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
-            }
-        }
-
         // Initialize gridBlocks if empty
         if (gridList.size() == 0) {
-            for (int k = 0; k < GRID_TOTAL_X; k++) {
+            for (int k = 0; k < colCoords.size(); k++) {
                 ArrayList<GridBlock> tempList = new ArrayList<>();
-                for (int l = 0; l < GRID_TOTAL_Y; l++) {
+                for (int l = 0; l < rowCoords.size(); l++) {
                     tempList.add(new GridBlock(colCoords.get(k), rowCoords.get(l), GRID_WIDTH_HEIGHT));
                 }
                 gridList.add(tempList);
@@ -410,8 +417,11 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private void checkRow() {
         int rowsCleared = 0;
         for (int i = 0; i < this.gridList.size(); i++) {
+            // TODO: Remove
+            System.out.println(i);
             boolean rowFull = true;
             for (GridBlock j: this.gridList.get(i)) {
+                System.out.println(j.getBlock());
                 if (j.getBlock() == null) {
                     rowFull = false;
                 }
@@ -437,6 +447,6 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         // Check points
-        this.score += (10 * GRID_TOTAL_X * rowsCleared * rowsCleared);
+        this.score += (100 * rowsCleared * rowsCleared * GRID_TOTAL_Y / 20);
     }
 }

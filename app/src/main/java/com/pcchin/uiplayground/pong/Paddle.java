@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
+import com.pcchin.uiplayground.gamedata.BitmapFunctions;
 import com.pcchin.uiplayground.gamedata.GameObject;
-import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 
 class Paddle extends GameObject {
@@ -16,8 +16,8 @@ class Paddle extends GameObject {
     private Bitmap paddle;
 
     Paddle(@NonNull PongSurfaceView pongSurfaceView, int x, int y) {
-        super(GeneralFunctions.getBitmap(R.drawable.pong_paddle, pongSurfaceView.getContext()), x, y);
-        this.paddle = GeneralFunctions.getBitmap(R.drawable.pong_paddle, pongSurfaceView.getContext());
+        super(BitmapFunctions.getBitmap(R.drawable.pong_paddle, pongSurfaceView.getContext()), x, y);
+        this.paddle = BitmapFunctions.getBitmap(R.drawable.pong_paddle, pongSurfaceView.getContext());
     }
 
     void update(){

@@ -3,8 +3,8 @@ package com.pcchin.uiplayground.tetris;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.pcchin.uiplayground.gamedata.BitmapFunctions;
 import com.pcchin.uiplayground.gamedata.GameObject;
-import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
 
 public class GridBlock extends GameObject {
@@ -21,7 +21,7 @@ public class GridBlock extends GameObject {
         if (this.block == null) {
             this.bitmap = Bitmap.createBitmap(TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT, Bitmap.Config.ARGB_8888);
         } else {
-            this.bitmap = GeneralFunctions.colorToBitmap(this.block.getColor(), TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT);
+            this.bitmap = BitmapFunctions.colorToBitmap(this.block.getColor(), TetrisSurfaceView.GRID_WIDTH_HEIGHT, TetrisSurfaceView.GRID_WIDTH_HEIGHT);
         }
     }
 

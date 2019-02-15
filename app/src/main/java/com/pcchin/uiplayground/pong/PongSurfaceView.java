@@ -20,6 +20,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.pcchin.uiplayground.gamedata.BitmapFunctions;
 import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 
@@ -76,13 +77,13 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Bitmap pausedBitmap = GeneralFunctions.textToBitmap("Game paused", Color.RED,
+        Bitmap pausedBitmap = BitmapFunctions.textToBitmap("Game paused", Color.RED,
                 120, "orbitron", Typeface.BOLD, true, this.getContext());
 
         this.paddleL = new Paddle(this, PADDLE_WALL_DIST, getHeight()/2 - PADDLE_HEIGHT);
         this.paddleR = new Paddle(this, getWidth() - PADDLE_WALL_DIST - PADDLE_WIDTH, getHeight()/2 - PADDLE_HEIGHT);
         this.ball = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR,
-                GeneralFunctions.getBitmap(R.drawable.white_circle, getContext()), true);
+                BitmapFunctions.getBitmap(R.drawable.white_circle, getContext()), true);
         this.fakeBall = new PongBall(this, getWidth()/2 - BALL_DIAMETER/2 - 8, getHeight()/2 - BALL_DIAMETER /2, this.paddleL, this.paddleR,
                 Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888), false);
         this.scoreL = new Score(this,Double.valueOf(getWidth()*0.25).intValue(), 10);

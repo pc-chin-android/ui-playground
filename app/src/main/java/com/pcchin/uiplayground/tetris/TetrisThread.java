@@ -37,7 +37,6 @@ class TetrisThread extends Thread {
                 }
             }catch(Exception e)  {
                 // Do nothing.
-                e.printStackTrace();
 
             } finally {
                 if(canvas != null)  {

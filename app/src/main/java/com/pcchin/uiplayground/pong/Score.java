@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 
+import com.pcchin.uiplayground.gamedata.BitmapFunctions;
 import com.pcchin.uiplayground.gamedata.GameObject;
-import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 
 class Score extends GameObject {
     private long lastDrawNanoTime =-1;
@@ -66,7 +66,7 @@ class Score extends GameObject {
         }
 
         if (show) {
-            this.currentBmp = GeneralFunctions.textToBitmap(content, Color.RED, 120,
+            this.currentBmp = BitmapFunctions.textToBitmap(content, Color.RED, 120,
                     "orbitron", Typeface.BOLD, true, pongSurfaceView.getContext());
         } else {
             this.currentBmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
@@ -74,7 +74,7 @@ class Score extends GameObject {
     }
 
     static Bitmap scoreToBitmap(int score, @NonNull Context context) {
-        return GeneralFunctions.textToBitmap(Integer.toString(score), Color.WHITE, 120,
+        return BitmapFunctions.textToBitmap(Integer.toString(score), Color.WHITE, 120,
                 "orbitron", Typeface.BOLD,true, context);
     }
 }

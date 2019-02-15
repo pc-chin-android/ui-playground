@@ -1,26 +1,16 @@
 package com.pcchin.uiplayground.gamedata;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.text.TextPaint;
 
 import com.pcchin.uiplayground.R;
 import com.pcchin.uiplayground.TttActivity;
-import com.pcchin.uiplayground.pong.PongGame;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,58 +22,16 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+/** Functions used in all games **/
 public class GeneralFunctions {
+
     public static final int DRAW = 0;
     public static final int ONE_WIN = 1;
     public static final int ONE_LOSE = 2;
     public static final int TWO_1_WIN = -1;
     public static final int TWO_2_WIN = -2;
 
-    public static Bitmap getBitmap(int drawableRes, @NonNull Context context) {
-        Drawable drawable = context.getResources().getDrawable(drawableRes, context.getTheme());
-        Canvas canvas = new Canvas();
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        canvas.setBitmap(bitmap);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
-    public static Bitmap textToBitmap(String text, int textColor, float textSize, String fontFamily,
-                                      int typefaceType, boolean importFont, @NonNull Context context) {
-        // Set up text properties
-        TextPaint paint = new TextPaint();
-        paint.setTextSize(textSize);
-        paint.setColor(textColor);
-
-        // Special for imported text
-        if (importFont) {
-            paint.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/" + fontFamily + ".ttf"));
-        } else {
-            paint.setTypeface(Typeface.create(fontFamily, typefaceType));
-        }
-        paint.setTextAlign(Paint.Align.LEFT);
-
-        // Drawing actual text
-        float baseline = -paint.ascent(); // ascent() is negative
-        int width = (int) (paint.measureText(text) + 0.5f); // round
-        int height = (int) (baseline + paint.descent() + 0.5f);
-        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(image);
-        canvas.drawText(text, 0, baseline, paint);
-        return image;
-    }
-
-    public static Bitmap colorToBitmap(int bitmapColor, int width, int height) {
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setColor(bitmapColor);
-        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
-        return bitmap;
-    }
-
+    /** Display alert dialog with icon of current game and whether the game is won **/
     public static void displayDialog(Context context, int state, DialogInterface.OnDismissListener listener) {
         int iconType = R.drawable.ic_launcher_foreground;
         try {
@@ -128,15 +76,7 @@ public class GeneralFunctions {
         displayDialog.show();
     }
 
-    public static ArrayList<ArrayList<Integer>> deepCopy(@NotNull ArrayList<ArrayList<Integer>> originalList) {
-        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
-        for (ArrayList<Integer> e: originalList) {
-            ArrayList<Integer> tempList = new ArrayList<>(e);
-            returnList.add(tempList);
-        }
-        return returnList;
-    }
-
+    /** Returns a string of text from specific text file in the assets folder **/
     @NonNull
     public static String getReadTextFromAssets(@NonNull Context context, String textFileName) {
         String text;
@@ -156,6 +96,7 @@ public class GeneralFunctions {
         return stringBuilder.toString();
     }
 
+    /** Returns MediaPlayer that will not trigger any subtitle warnings **/
     @SuppressLint("PrivateApi")
     public static MediaPlayer getMediaPlayer(Context context, int contentType) {
         // Removes "No subtitles" error for MediaPlayer

@@ -3,8 +3,9 @@ package com.pcchin.uiplayground.tetris.tetrisblock;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
+import com.pcchin.uiplayground.gamedata.BitmapFunctions;
+import com.pcchin.uiplayground.gamedata.CoordsFunctions;
 import com.pcchin.uiplayground.gamedata.GameObject;
-import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public abstract class TetrisBlock extends GameObject {
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color) {
-        super(GeneralFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
+        super(BitmapFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.type = type;
         this.color = color;
@@ -56,28 +57,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveDown() {
-        ArrayList<ArrayList<Integer>> originalList = GeneralFunctions.deepCopy(this.currentBlockCoords);
-
-        // Checking if the coordinates is above other ones (lower y)
-        boolean[] isTop = new boolean[originalList.size()];
-        for (int i = 0; i < originalList.size(); i++) {
-            isTop[i] = false;
-            for (ArrayList<Integer> other: originalList) {
-                if (Objects.equals(originalList.get(i).get(0), other.get(0)) && originalList.get(i).get(1) < other.get(1)) {
-                    isTop[i] = true;
-                }
-            }
-        }
-
-        // Removing any coordinates that is above other ones
-        int index = 0;
-        for (Iterator<ArrayList<Integer>> iterator = originalList.iterator(); iterator.hasNext();) {
-            iterator.next();
-            if (isTop[index]) {
-                iterator.remove();
-            }
-            index++;
-        }
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.downCoords(CoordsFunctions.deepCopy(this.currentBlockCoords));
 
         for (ArrayList<Integer> i: originalList) {
             // Check if bottom of grid reached
@@ -102,28 +82,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveLeft() {
-        ArrayList<ArrayList<Integer>> originalList = GeneralFunctions.deepCopy(this.currentBlockCoords);
-
-        // Checking if the coordinates is to the right of other ones (higher x)
-        boolean[] isRight = new boolean[originalList.size()];
-        for (int i = 0; i < originalList.size(); i++) {
-            isRight[i] = false;
-            for (ArrayList<Integer> other: originalList) {
-                if (Objects.equals(originalList.get(i).get(1), other.get(1)) && originalList.get(i).get(0) > other.get(0)) {
-                    isRight[i] = true;
-                }
-            }
-        }
-
-        // Removing any coordinates that is to the right of other ones
-        int index = 0;
-        for (Iterator<ArrayList<Integer>> iterator = originalList.iterator(); iterator.hasNext();) {
-            iterator.next();
-            if (isRight[index]) {
-                iterator.remove();
-            }
-            index++;
-        }
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.leftCoords(CoordsFunctions.deepCopy(this.currentBlockCoords));
 
         boolean canMove = true;
 
@@ -150,28 +109,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveRight() {
-        ArrayList<ArrayList<Integer>> originalList = GeneralFunctions.deepCopy(this.currentBlockCoords);
-
-        // Checking if the coordinates is to the left of other ones (lower x)
-        boolean[] isLeft = new boolean[originalList.size()];
-        for (int i = 0; i < originalList.size(); i++) {
-            isLeft[i] = false;
-            for (ArrayList<Integer> other: originalList) {
-                if (Objects.equals(originalList.get(i).get(1), other.get(1)) && originalList.get(i).get(0) < other.get(0)) {
-                    isLeft[i] = true;
-                }
-            }
-        }
-
-        // Removing any coordinates that is to the right of other ones
-        int index = 0;
-        for (Iterator<ArrayList<Integer>> iterator = originalList.iterator(); iterator.hasNext();) {
-            iterator.next();
-            if (isLeft[index]) {
-                iterator.remove();
-            }
-            index++;
-        }
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.rightCoords(CoordsFunctions.deepCopy(this.currentBlockCoords));
 
         boolean canMove = true;
 
