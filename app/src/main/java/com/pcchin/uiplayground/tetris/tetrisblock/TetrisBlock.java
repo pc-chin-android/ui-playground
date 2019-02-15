@@ -9,8 +9,6 @@ import com.pcchin.uiplayground.gamedata.GameObject;
 import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Objects;
 
 public abstract class TetrisBlock extends GameObject {
     static int DIR_UP = 1;
@@ -157,13 +155,26 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     void swapDir(ArrayList<ArrayList<Integer>> returnList) {
-        // TODO: Fix rotate
+        // TODO: Fix
+        if (this.block_dir == DIR_LEFT) {
+            // Change to DIR_UP
+        } else if (this.block_dir == DIR_UP) {
+            // Change to DIR_RIGHT
+            CoordsFunctions.rightCoords(returnList);
+        } else if (this.block_dir == DIR_RIGHT) {
+            // Change to DIR_DOWN
+            CoordsFunctions.downCoords(returnList);
+        } else {
+            // Change to DIR_LEFT
+            CoordsFunctions.leftCoords(returnList);
+        }
+
         if (!this.checkCollision(returnList)) {
             this.unbindGrid();
 
             this.block_dir++;
-            if (this.block_dir > TetrisBlock.DIR_LEFT) {
-                this.block_dir = TetrisBlock.DIR_UP;
+            if (this.block_dir > DIR_LEFT) {
+                this.block_dir = DIR_UP;
             }
 
             this.currentBlockCoords = returnList;

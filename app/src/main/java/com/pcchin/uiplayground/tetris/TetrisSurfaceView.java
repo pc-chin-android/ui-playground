@@ -417,11 +417,8 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private void checkRow() {
         int rowsCleared = 0;
         for (int i = 0; i < this.gridList.size(); i++) {
-            // TODO: Remove
-            System.out.println(i);
             boolean rowFull = true;
             for (GridBlock j: this.gridList.get(i)) {
-                System.out.println(j.getBlock());
                 if (j.getBlock() == null) {
                     rowFull = false;
                 }
