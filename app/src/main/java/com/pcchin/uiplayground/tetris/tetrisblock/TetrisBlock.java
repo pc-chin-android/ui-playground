@@ -11,10 +11,10 @@ import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 import java.util.ArrayList;
 
 public abstract class TetrisBlock extends GameObject {
-    static int DIR_UP = 1;
-    static int DIR_RIGHT = 2;
-    // static int DIR_DOWN = 3;
-    static int DIR_LEFT = 4;
+    public static int DIR_UP = 1;
+    public static int DIR_RIGHT = 2;
+    public static int DIR_DOWN = 3;
+    public static int DIR_LEFT = 4;
 
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
@@ -55,7 +55,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveDown() {
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.downCoords(CoordsFunctions.deepCopy(this.currentBlockCoords));
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_DOWN);
 
         for (ArrayList<Integer> i: originalList) {
             // Check if bottom of grid reached
@@ -80,7 +80,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveLeft() {
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.leftCoords(CoordsFunctions.deepCopy(this.currentBlockCoords));
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_LEFT);
 
         boolean canMove = true;
 
@@ -107,7 +107,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveRight() {
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.rightCoords(CoordsFunctions.deepCopy(this.currentBlockCoords));
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_RIGHT);
 
         boolean canMove = true;
 
@@ -154,20 +154,15 @@ public abstract class TetrisBlock extends GameObject {
         return false;
     }
 
-    void swapDir(ArrayList<ArrayList<Integer>> returnList) {
-        // TODO: Fix
+    void swapDir(ArrayList<ArrayList<Integer>> originalList) {
+        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+
         if (this.block_dir == DIR_LEFT) {
-            // Change to DIR_UP
-            CoordsFunctions.rightCoords(returnList);
+            returnList = CoordsFunctions.sideCoords(originalList, DIR_UP);
         } else if (this.block_dir == DIR_UP) {
-            // Change to DIR_RIGHT
-            CoordsFunctions.rightCoords(returnList);
-        } else if (this.block_dir == DIR_RIGHT) {
-            // Change to DIR_DOWN
-            CoordsFunctions.downCoords(returnList);
-        } else {
-            // Change to DIR_LEFT
-            CoordsFunctions.leftCoords(returnList);
+            int targetDir = this.block_dir;
+            targetDir++;
+            returnList = CoordsFunctions.sideCoords(originalList, targetDir);
         }
 
         if (!this.checkCollision(returnList)) {
