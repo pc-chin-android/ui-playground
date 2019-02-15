@@ -158,6 +158,7 @@ public abstract class TetrisBlock extends GameObject {
         // TODO: Fix
         if (this.block_dir == DIR_LEFT) {
             // Change to DIR_UP
+            CoordsFunctions.rightCoords(returnList);
         } else if (this.block_dir == DIR_UP) {
             // Change to DIR_RIGHT
             CoordsFunctions.rightCoords(returnList);

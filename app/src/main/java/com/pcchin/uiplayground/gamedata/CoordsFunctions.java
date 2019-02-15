@@ -3,7 +3,6 @@ package com.pcchin.uiplayground.gamedata;
 import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,13 +12,42 @@ import java.util.Objects;
 public class CoordsFunctions {
 
     /** Returns a deep copy of the original coordinates list, useful in collision detection */
-    public static ArrayList<ArrayList<Integer>> deepCopy(@NotNull ArrayList<ArrayList<Integer>> originalList) {
+    public static ArrayList<ArrayList<Integer>> deepCopy(@NonNull ArrayList<ArrayList<Integer>> originalList) {
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
         for (ArrayList<Integer> e: originalList) {
             ArrayList<Integer> tempList = new ArrayList<>(e);
             returnList.add(tempList);
         }
         return returnList;
+    }
+
+    // TODO: Optimize
+
+    /** Returns only the coordinates at the top**/
+    @Contract("_ -> param1")
+    public static ArrayList<ArrayList<Integer>> upCoords(@NonNull ArrayList<ArrayList<Integer>> originalList) {
+        // Checking if the coordinates is above other ones (lower y)
+        boolean[] isBottom = new boolean[originalList.size()];
+        for (int i = 0; i < originalList.size(); i++) {
+            isBottom[i] = false;
+            for (ArrayList<Integer> other: originalList) {
+                if (Objects.equals(originalList.get(i).get(0), other.get(0)) && originalList.get(i).get(1) > other.get(1)) {
+                    isBottom[i] = true;
+                }
+            }
+        }
+
+        // Removing any coordinates that is above other ones
+        int index = 0;
+        for (Iterator<ArrayList<Integer>> iterator = originalList.iterator(); iterator.hasNext();) {
+            iterator.next();
+            if (isBottom[index]) {
+                iterator.remove();
+            }
+            index++;
+        }
+
+        return originalList;
     }
 
     /** Returns only the coordinates at the bottom **/
