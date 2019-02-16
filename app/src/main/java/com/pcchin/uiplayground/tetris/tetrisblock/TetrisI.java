@@ -35,7 +35,7 @@ public class TetrisI extends TetrisBlock {
 
         for (int i = 0; i < 4; i++) {
             ArrayList<Integer> tempList = new ArrayList<>();
-            if (this.block_dir == TetrisBlock.DIR_UP) {
+            if (this.blockDir == TetrisBlock.DIR_UP) {
                 // Horizontal
                 tempList.add(ctrGrid.get(0) + i - 1);
                 tempList.add(ctrGrid.get(1));

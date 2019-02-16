@@ -6,12 +6,14 @@ import android.view.SurfaceHolder;
 /** Common thread used in all games **/
 public class GameThread extends Thread {
     private boolean running;
+    private boolean updateOnTop;
     private final SurfaceHolder surfaceHolder;
     private GameView surfaceView;
 
-    public GameThread(GameView surfaceView, SurfaceHolder surfaceHolder) {
+    public GameThread(GameView surfaceView, SurfaceHolder surfaceHolder, boolean updateOnTop) {
         this.surfaceView = surfaceView;
         this.surfaceHolder = surfaceHolder;
+        this.updateOnTop = updateOnTop;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class GameThread extends Thread {
         int targetFPS = 30;
         long targetTime = 1000 / targetFPS;
 
-        while(running)  {
+        while(this.running)  {
             startTime = System.nanoTime();
             Canvas canvas = null;
             try {
@@ -32,8 +34,13 @@ public class GameThread extends Thread {
 
                 // Synchronized
                 synchronized (surfaceHolder)  {
-                    this.surfaceView.draw(canvas);
-                    this.surfaceView.update();
+                    if (updateOnTop) {
+                        this.surfaceView.update();
+                        this.surfaceView.draw(canvas);
+                    } else {
+                        this.surfaceView.draw(canvas);
+                        this.surfaceView.update();
+                    }
                 }
             }catch(Exception e)  {
                 // Do nothing.

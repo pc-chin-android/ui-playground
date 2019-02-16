@@ -1,14 +1,12 @@
 package com.pcchin.uiplayground.gamedata;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 /** SurfaceView for all games
  * This is added to merge all GameThreads into one, reducing file size **/
-public abstract class GameView extends SurfaceView implements SurfaceHolder.Callback {
+public abstract class GameView extends SurfaceView {
 
     /** Constructor when called from Java **/
     public GameView(Context context) {

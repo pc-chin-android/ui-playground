@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 
-public class TetrisSurfaceView extends GameView {
+public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callback {
     static final int NORMAL = 0;
     static final int PAUSED = 1;
     static final int STOPPED = -1;
@@ -179,7 +179,7 @@ public class TetrisSurfaceView extends GameView {
         mediaPlayer.start();
         this.gameState = NORMAL;
 
-        this.tetrisThread = new GameThread(this, this.getHolder());
+        this.tetrisThread = new GameThread(this, this.getHolder(), false);
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
     }
@@ -208,7 +208,7 @@ public class TetrisSurfaceView extends GameView {
         mediaPlayer.start();
         this.gameState = NORMAL;
 
-        this.tetrisThread = new GameThread(this, this.getHolder());
+        this.tetrisThread = new GameThread(this, this.getHolder(), false);
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
     }

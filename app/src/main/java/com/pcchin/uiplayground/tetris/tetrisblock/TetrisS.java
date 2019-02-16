@@ -26,7 +26,7 @@ public class TetrisS extends TetrisBlock {
 
     @Override
     ArrayList<Integer> getCtrGrid() {
-        if (this.block_dir == TetrisBlock.DIR_UP) {
+        if (this.blockDir == TetrisBlock.DIR_UP) {
             return this.currentBlockCoords.get(0);
         } else {
             return this.currentBlockCoords.get(1);
@@ -42,7 +42,7 @@ public class TetrisS extends TetrisBlock {
             for (int j = 0; j < 2; j++) {
                 // S and Z Block structured differently because S has different ctr blocks
                 ArrayList<Integer> tempList = new ArrayList<>();
-                if (this.block_dir == TetrisBlock.DIR_UP) {
+                if (this.blockDir == TetrisBlock.DIR_UP) {
                     // Change to horizontal
                     tempList.add(ctrGrid.get(0) - i + j);
                     tempList.add(ctrGrid.get(1) + i);

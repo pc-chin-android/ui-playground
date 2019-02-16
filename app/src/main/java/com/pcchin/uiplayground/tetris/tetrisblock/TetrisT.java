@@ -36,7 +36,7 @@ public class TetrisT extends TetrisBlock {
         ArrayList<Integer> ctrGrid = this.getCtrGrid();
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
 
-        if (this.block_dir == TetrisBlock.DIR_LEFT || this.block_dir == TetrisBlock.DIR_RIGHT) {
+        if (this.blockDir == TetrisBlock.DIR_LEFT || this.blockDir == TetrisBlock.DIR_RIGHT) {
             // Originally horizontal, now vertical
             for (int i = 0; i < 3; i++) {
                 ArrayList<Integer> tempList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class TetrisT extends TetrisBlock {
             // Final block
             ArrayList<Integer> tempList = new ArrayList<>();
             // X-Coords is 1 to left/right
-            if (this.block_dir == TetrisBlock.DIR_LEFT) {
+            if (this.blockDir == TetrisBlock.DIR_LEFT) {
                 tempList.add(ctrGrid.get(0) - 1);
                 tempList.add(ctrGrid.get(1));
             } else {
@@ -69,7 +69,7 @@ public class TetrisT extends TetrisBlock {
             // Final block
             ArrayList<Integer> tempList = new ArrayList<>();
             // Y-Coords is 1 up/down
-            if (this.block_dir == TetrisBlock.DIR_UP) {
+            if (this.blockDir == TetrisBlock.DIR_UP) {
                 tempList.add(ctrGrid.get(0));
                 tempList.add(ctrGrid.get(1) - 1);
             } else {

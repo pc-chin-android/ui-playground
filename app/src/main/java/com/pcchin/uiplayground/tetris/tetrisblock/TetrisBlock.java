@@ -19,7 +19,7 @@ public abstract class TetrisBlock extends GameObject {
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
     private String type;
-    int block_dir;
+    int blockDir;
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color) {
@@ -27,7 +27,7 @@ public abstract class TetrisBlock extends GameObject {
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.type = type;
         this.color = color;
-        this.block_dir = DIR_LEFT;
+        this.blockDir = DIR_LEFT;
 
         // Set coordinates to top and centre of code
         this.setStartingCoords();
@@ -155,22 +155,29 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     void swapDir(ArrayList<ArrayList<Integer>> targetList) {
+        System.out.println("swapDir called");
+
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
 
-        if (this.block_dir == DIR_LEFT) {
+        if (this.blockDir == DIR_LEFT) {
             returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
-        } else if (this.block_dir == DIR_UP) {
-            int targetDir = this.block_dir;
+        } else if (this.blockDir == DIR_UP) {
+            int targetDir = this.blockDir;
             targetDir++;
             returnList = CoordsFunctions.sideCoords(targetList, targetDir);
         }
 
+        System.out.println(returnList);
+        System.out.println(this.blockDir);
+
         if (!this.checkCollision(returnList)) {
+            System.out.println("Able to rotate");
+
             this.unbindGrid();
 
-            this.block_dir++;
-            if (this.block_dir > DIR_LEFT) {
-                this.block_dir = DIR_UP;
+            this.blockDir++;
+            if (this.blockDir > DIR_LEFT) {
+                this.blockDir = DIR_UP;
             }
 
             this.currentBlockCoords = returnList;
@@ -181,7 +188,7 @@ public abstract class TetrisBlock extends GameObject {
 
     void flipDir(ArrayList<ArrayList<Integer>> targetList) {
         ArrayList<ArrayList<Integer>> returnList;
-        if (this.block_dir == DIR_UP) {
+        if (this.blockDir == DIR_UP) {
             returnList = CoordsFunctions.sideCoords(targetList, DIR_LEFT);
         } else {
             returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
@@ -190,10 +197,10 @@ public abstract class TetrisBlock extends GameObject {
         if (! this.checkCollision(returnList)) {
             this.unbindGrid();
 
-            if (this.block_dir == TetrisBlock.DIR_UP) {
-                this.block_dir = TetrisBlock.DIR_LEFT;
+            if (this.blockDir == TetrisBlock.DIR_UP) {
+                this.blockDir = TetrisBlock.DIR_LEFT;
             } else {
-                this.block_dir = TetrisBlock.DIR_UP;
+                this.blockDir = TetrisBlock.DIR_UP;
             }
             this.currentBlockCoords = returnList;
             this.bindGrid();

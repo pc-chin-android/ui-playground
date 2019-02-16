@@ -27,7 +27,7 @@ import com.pcchin.uiplayground.R;
 
 import java.util.Objects;
 
-class PongSurfaceView extends GameView{
+class PongSurfaceView extends GameView implements SurfaceHolder.Callback {
 
     private GameThread pongThread;
     private Context context;
@@ -73,7 +73,7 @@ class PongSurfaceView extends GameView{
 
         this.context = context;
         this.gameOverDisplayed = false;
-        pongThread = new GameThread(this, getHolder());
+        pongThread = new GameThread(this, getHolder(), true);
     }
 
     @Override
@@ -107,7 +107,7 @@ class PongSurfaceView extends GameView{
         soundIds[2] = soundPool.load(context, R.raw.robot_bleep, 1);
 
         if (this.pongThread.getState() == Thread.State.TERMINATED) {
-            this.pongThread = new GameThread(this, holder);
+            this.pongThread = new GameThread(this, holder, true);
         }
         this.pongThread.setRunning(true);
         this.pongThread.start();
@@ -138,7 +138,6 @@ class PongSurfaceView extends GameView{
 
     @Override
     public void draw(Canvas canvas) {
-
         super.draw(canvas);
         this.paddleL.draw(canvas);
         this.paddleR.draw(canvas);
@@ -216,6 +215,7 @@ class PongSurfaceView extends GameView{
         return true;
     }
 
+    @Override
     public void update() {
         if ((!twoUser) && this.touchEnabled) {
             this.updateAi();
@@ -236,7 +236,7 @@ class PongSurfaceView extends GameView{
             soundPool.play(soundIds[1], 1, 1, 1, 0, 1);
 
             this.touchEnabled = false;
-            this.pongThread = new GameThread(this, getHolder());
+            this.pongThread = new GameThread(this, getHolder(), true);
 
             // Right scores
             if (this.ball.getX() < 0) {
