@@ -18,17 +18,15 @@ public abstract class TetrisBlock extends GameObject {
 
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
-    private String type;
     int blockDir;
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
-    TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color) {
+    TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, int color) {
         super(BitmapFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
 
         System.out.println("a");
 
         this.tetrisSurfaceView = tetrisSurfaceView;
-        this.type = type;
         this.color = color;
         this.blockDir = DIR_LEFT;
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class TetrisZ extends TetrisBlock {
     public TetrisZ(@NonNull TetrisSurfaceView tetrisSurfaceView) {
-        super(tetrisSurfaceView, "TetrisZ", Color.MAGENTA);
+        super(tetrisSurfaceView, Color.MAGENTA);
     }
 
     @Override
