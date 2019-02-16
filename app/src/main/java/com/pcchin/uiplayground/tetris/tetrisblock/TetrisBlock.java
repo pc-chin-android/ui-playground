@@ -41,6 +41,7 @@ public abstract class TetrisBlock extends GameObject {
     public abstract void rotate();
 
     public void bindGrid() {
+        System.out.println("bindGrid called");
         // Set gridBlocks according to currentBlockCoords
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).bindBlock(this);
@@ -48,6 +49,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     private void unbindGrid() {
+        System.out.println("unbindGrid called");
         // Remove current gridBlocks from reference
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).unbindBlock();
@@ -55,6 +57,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveDown() {
+        System.out.println("moveDown called");
         ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_DOWN);
 
         for (ArrayList<Integer> i: originalList) {
@@ -80,6 +83,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveLeft() {
+        System.out.println("moveLeft called");
         ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_LEFT);
 
         boolean canMove = true;
@@ -107,6 +111,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveRight() {
+        System.out.println("moveRight called");
         ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_RIGHT);
 
         boolean canMove = true;
@@ -156,6 +161,7 @@ public abstract class TetrisBlock extends GameObject {
 
     void swapDir(ArrayList<ArrayList<Integer>> targetList) {
         System.out.println("swapDir called");
+        System.out.println(targetList);
 
         ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
 
@@ -187,6 +193,9 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     void flipDir(ArrayList<ArrayList<Integer>> targetList) {
+        System.out.println("flipDir called");
+        System.out.println(targetList);
+
         ArrayList<ArrayList<Integer>> returnList;
         if (this.blockDir == DIR_UP) {
             returnList = CoordsFunctions.sideCoords(targetList, DIR_LEFT);
@@ -194,7 +203,9 @@ public abstract class TetrisBlock extends GameObject {
             returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
         }
 
+        System.out.println(returnList);
         if (! this.checkCollision(returnList)) {
+            System.out.println("Able to rotate");
             this.unbindGrid();
 
             if (this.blockDir == TetrisBlock.DIR_UP) {

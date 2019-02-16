@@ -34,6 +34,7 @@ public class GameThread extends Thread {
 
                 // Synchronized
                 synchronized (surfaceHolder)  {
+                    // Certain games are picky about which order these two are called
                     if (updateOnTop) {
                         this.surfaceView.update();
                         this.surfaceView.draw(canvas);
@@ -44,6 +45,7 @@ public class GameThread extends Thread {
                 }
             }catch(Exception e)  {
                 // Do nothing.
+                e.printStackTrace();
             } finally {
                 if(canvas != null)  {
                     // Unlock Canvas.
