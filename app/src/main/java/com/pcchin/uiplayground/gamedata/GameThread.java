@@ -1,15 +1,15 @@
-package com.pcchin.uiplayground.tetris;
+package com.pcchin.uiplayground.gamedata;
 
-import android.app.Activity;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-class TetrisThread extends Thread {
+/** Common thread used in all games **/
+public class GameThread extends Thread {
     private boolean running;
     private final SurfaceHolder surfaceHolder;
-    private TetrisSurfaceView surfaceView;
+    private GameView surfaceView;
 
-    TetrisThread(TetrisSurfaceView surfaceView, SurfaceHolder surfaceHolder) {
+    public GameThread(GameView surfaceView, SurfaceHolder surfaceHolder) {
         this.surfaceView = surfaceView;
         this.surfaceHolder = surfaceHolder;
     }
@@ -37,7 +37,6 @@ class TetrisThread extends Thread {
                 }
             }catch(Exception e)  {
                 // Do nothing.
-
             } finally {
                 if(canvas != null)  {
                     // Unlock Canvas.
@@ -63,7 +62,7 @@ class TetrisThread extends Thread {
         }
     }
 
-    void setRunning(boolean running)  {
+    public void setRunning(boolean running)  {
         this.running= running;
     }
 }

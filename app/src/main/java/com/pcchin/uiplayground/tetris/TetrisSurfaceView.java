@@ -12,11 +12,12 @@ import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.pcchin.uiplayground.gamedata.GameThread;
+import com.pcchin.uiplayground.gamedata.GameView;
 import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 import com.pcchin.uiplayground.tetris.tetrisblock.TetrisBlock;
@@ -34,13 +35,13 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 
-public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+public class TetrisSurfaceView extends GameView {
     static final int NORMAL = 0;
     static final int PAUSED = 1;
     static final int STOPPED = -1;
     int gameState;
 
-    private TetrisThread tetrisThread;
+    private GameThread tetrisThread;
     private Context context;
     private ArrayList<TetrisBlock> blockList = new ArrayList<>();
     public ArrayList<ArrayList<GridBlock>> gridList = new ArrayList<>(); // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
@@ -178,7 +179,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mediaPlayer.start();
         this.gameState = NORMAL;
 
-        this.tetrisThread = new TetrisThread(this, this.getHolder());
+        this.tetrisThread = new GameThread(this, this.getHolder());
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
     }
@@ -207,7 +208,7 @@ public class TetrisSurfaceView extends SurfaceView implements SurfaceHolder.Call
         mediaPlayer.start();
         this.gameState = NORMAL;
 
-        this.tetrisThread = new TetrisThread(this, this.getHolder());
+        this.tetrisThread = new GameThread(this, this.getHolder());
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
     }

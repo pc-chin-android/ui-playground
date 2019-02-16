@@ -17,18 +17,19 @@ import android.support.annotation.NonNull;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.pcchin.uiplayground.gamedata.BitmapFunctions;
+import com.pcchin.uiplayground.gamedata.GameThread;
+import com.pcchin.uiplayground.gamedata.GameView;
 import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.R;
 
 import java.util.Objects;
 
-class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+class PongSurfaceView extends GameView{
 
-    private PongThread pongThread;
+    private GameThread pongThread;
     private Context context;
     private int winCount;
     Paddle paddleL;
@@ -72,7 +73,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
         this.context = context;
         this.gameOverDisplayed = false;
-        pongThread = new PongThread(this, getHolder());
+        pongThread = new GameThread(this, getHolder());
     }
 
     @Override
@@ -106,7 +107,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
         soundIds[2] = soundPool.load(context, R.raw.robot_bleep, 1);
 
         if (this.pongThread.getState() == Thread.State.TERMINATED) {
-            this.pongThread = new PongThread(this, holder);
+            this.pongThread = new GameThread(this, holder);
         }
         this.pongThread.setRunning(true);
         this.pongThread.start();
@@ -235,7 +236,7 @@ class PongSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
             soundPool.play(soundIds[1], 1, 1, 1, 0, 1);
 
             this.touchEnabled = false;
-            this.pongThread = new PongThread(this, getHolder());
+            this.pongThread = new GameThread(this, getHolder());
 
             // Right scores
             if (this.ball.getX() < 0) {
