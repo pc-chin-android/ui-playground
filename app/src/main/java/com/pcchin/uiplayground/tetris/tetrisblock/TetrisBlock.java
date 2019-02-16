@@ -24,6 +24,9 @@ public abstract class TetrisBlock extends GameObject {
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, String type, int color) {
         super(BitmapFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
+
+        System.out.println("a");
+
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.type = type;
         this.color = color;
@@ -41,7 +44,6 @@ public abstract class TetrisBlock extends GameObject {
     public abstract void rotate();
 
     public void bindGrid() {
-        System.out.println("bindGrid called");
         // Set gridBlocks according to currentBlockCoords
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).bindBlock(this);
@@ -49,7 +51,6 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     private void unbindGrid() {
-        System.out.println("unbindGrid called");
         // Remove current gridBlocks from reference
         for (ArrayList<Integer> i: this.currentBlockCoords) {
             tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).unbindBlock();
@@ -57,16 +58,16 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveDown() {
-        System.out.println("moveDown called");
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_DOWN);
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.deepCopy(this.currentBlockCoords);
 
         for (ArrayList<Integer> i: originalList) {
             // Check if bottom of grid reached
-            if ((i.get(1) + 1) > TetrisSurfaceView.GRID_TOTAL_Y - 1) {
+            if ((i.get(1) + 1) > tetrisSurfaceView.rowCoords.size() - 1) {
                 tetrisSurfaceView.targetBlock = null;
                 return;
                 // Check if bottom of current block is occupied
-            } else if ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != null) {
+            } else if (((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != null)
+            && ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != this)) {
                 tetrisSurfaceView.targetBlock = null;
                 return;
             }
@@ -83,8 +84,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveLeft() {
-        System.out.println("moveLeft called");
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_LEFT);
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.deepCopy(this.currentBlockCoords);
 
         boolean canMove = true;
 
@@ -93,7 +93,8 @@ public abstract class TetrisBlock extends GameObject {
             if ((i.get(0) - 1) < 0) {
                 canMove = false;
             // Check if left of current block is occupied
-            } else if ((tetrisSurfaceView.gridList.get(i.get(0) - 1).get(i.get(1))).getBlock() != null) {
+            } else if (((tetrisSurfaceView.gridList.get(i.get(0) - 1).get(i.get(1))).getBlock() != null)
+            && ((tetrisSurfaceView.gridList.get(i.get(0) - 1).get(i.get(1))).getBlock() != this)) {
                 canMove = false;
             }
         }
@@ -111,8 +112,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveRight() {
-        System.out.println("moveRight called");
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.sideCoords(CoordsFunctions.deepCopy(this.currentBlockCoords), DIR_RIGHT);
+        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.deepCopy(this.currentBlockCoords);
 
         boolean canMove = true;
 
@@ -121,7 +121,8 @@ public abstract class TetrisBlock extends GameObject {
             if ((i.get(0) + 1) > TetrisSurfaceView.GRID_TOTAL_X - 1) {
                 canMove = false;
                 // Check if right of current block is occupied
-            } else if ((tetrisSurfaceView.gridList.get(i.get(0) + 1).get(i.get(1)).getBlock()) != null) {
+            } else if (((tetrisSurfaceView.gridList.get(i.get(0) + 1).get(i.get(1)).getBlock()) != null)
+            && ((tetrisSurfaceView.gridList.get(i.get(0) + 1).get(i.get(1)).getBlock()) != this)) {
                 canMove = false;
             }
         }
@@ -151,7 +152,8 @@ public abstract class TetrisBlock extends GameObject {
                         return true;
                     }
                 }
-                if (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null) {
+                if ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null)
+                && (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != this)) {
                     return true;
                 }
             }
@@ -160,25 +162,9 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     void swapDir(ArrayList<ArrayList<Integer>> targetList) {
-        System.out.println("swapDir called");
-        System.out.println(targetList);
-
-        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
-
-        if (this.blockDir == DIR_LEFT) {
-            returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
-        } else if (this.blockDir == DIR_UP) {
-            int targetDir = this.blockDir;
-            targetDir++;
-            returnList = CoordsFunctions.sideCoords(targetList, targetDir);
-        }
-
-        System.out.println(returnList);
-        System.out.println(this.blockDir);
+        ArrayList<ArrayList<Integer>> returnList = CoordsFunctions.deepCopy(targetList);
 
         if (!this.checkCollision(returnList)) {
-            System.out.println("Able to rotate");
-
             this.unbindGrid();
 
             this.blockDir++;
@@ -186,26 +172,16 @@ public abstract class TetrisBlock extends GameObject {
                 this.blockDir = DIR_UP;
             }
 
-            this.currentBlockCoords = returnList;
+            this.currentBlockCoords = targetList;
 
             this.bindGrid();
         }
     }
 
     void flipDir(ArrayList<ArrayList<Integer>> targetList) {
-        System.out.println("flipDir called");
-        System.out.println(targetList);
+        ArrayList<ArrayList<Integer>> returnList = CoordsFunctions.deepCopy(targetList);
 
-        ArrayList<ArrayList<Integer>> returnList;
-        if (this.blockDir == DIR_UP) {
-            returnList = CoordsFunctions.sideCoords(targetList, DIR_LEFT);
-        } else {
-            returnList = CoordsFunctions.sideCoords(targetList, DIR_UP);
-        }
-
-        System.out.println(returnList);
         if (! this.checkCollision(returnList)) {
-            System.out.println("Able to rotate");
             this.unbindGrid();
 
             if (this.blockDir == TetrisBlock.DIR_UP) {
@@ -213,7 +189,7 @@ public abstract class TetrisBlock extends GameObject {
             } else {
                 this.blockDir = TetrisBlock.DIR_UP;
             }
-            this.currentBlockCoords = returnList;
+            this.currentBlockCoords = targetList;
             this.bindGrid();
         }
     }

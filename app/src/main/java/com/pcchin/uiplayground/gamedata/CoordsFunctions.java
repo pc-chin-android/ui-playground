@@ -31,7 +31,7 @@ public class CoordsFunctions {
         for (int i = 0; i < originalList.size(); i++) {
             isWrongSide[i] = false;
             for (ArrayList<Integer> other: originalList) {
-                if ((targetSide == TetrisBlock.DIR_LEFT && Objects.equals(originalList.get(i).get(1), other.get(1)) && originalList.get(i).get(0) < other.get(0))
+                if ((targetSide == TetrisBlock.DIR_LEFT && Objects.equals(originalList.get(i).get(1), other.get(1)) && originalList.get(i).get(0) > other.get(0))
                 || (targetSide == TetrisBlock.DIR_RIGHT && Objects.equals(originalList.get(i).get(1), other.get(1)) && originalList.get(i).get(0) < other.get(0))
                 || (targetSide == TetrisBlock.DIR_DOWN && Objects.equals(originalList.get(i).get(0), other.get(0)) && originalList.get(i).get(1) < other.get(1))
                 || (targetSide == TetrisBlock.DIR_UP && Objects.equals(originalList.get(i).get(0), other.get(0)) && originalList.get(i).get(1) > other.get(1))) {

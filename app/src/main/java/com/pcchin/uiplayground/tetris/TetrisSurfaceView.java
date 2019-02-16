@@ -56,8 +56,8 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     public static int GRID_TOTAL_Y; // Total number of rows in the grid
     public static int GRID_WIDTH_HEIGHT; // Width and height of each box in pixels
     private static int GRID_LINE_WIDTH; // Width of each lineA
-    private ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);
-    private ArrayList<Integer> colCoords; // X-coordinates of each column (Reference pt tetrisSurfaceView);
+    public ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);
+    public ArrayList<Integer> colCoords; // X-coordinates of each column (Reference pt tetrisSurfaceView);
 
     // Constructor for Java file
     public TetrisSurfaceView(Context context) {
@@ -79,8 +79,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
 
     // Used in all constructors
     public void onCreate(final Context context) {
-        System.out.println("TetrisSurfaceView.onCreate called");
-
         this.setFocusable(true);
         this.getHolder().addCallback(this);
 
@@ -104,8 +102,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        System.out.println("TetrisSurfaceView.surfaceCreated called");
-
         // Set up music
         mediaPlayer = GeneralFunctions.getMediaPlayer(context, AudioAttributes.CONTENT_TYPE_MUSIC);
         assetBgmDescriptor = context.getResources().openRawResourceFd(R.raw.tetris);
@@ -137,7 +133,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        System.out.println("TetrisSurfaceView.surfaceDestroyed called");
         this.onGameStop();
 
         // Close bgm
@@ -176,8 +171,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     }
 
     void onGameStart() {
-        System.out.println("onGameStart called");
-
         (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(true);
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(true);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
@@ -191,8 +184,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     }
 
     void onGamePause() {
-        System.out.println("onGamePause called");
-
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.resume);
         mediaPlayer.pause();
@@ -211,8 +202,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     }
 
     void onGameResume() {
-        System.out.println("onGameResume called");
-
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(true);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.pause);
         mediaPlayer.start();
@@ -224,8 +213,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     }
 
     void onGameStop() {
-        System.out.println("onGameStop called");
-
         (((Activity)context).findViewById(R.id.tetris_stop)).setEnabled(false);
         (((Activity)context).findViewById(R.id.tetris_rotate)).setEnabled(false);
         ((Button)((Activity)context).findViewById(R.id.tetris_button)).setText(R.string.start);
@@ -254,8 +241,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     }
 
     private void onGameOver() {
-        System.out.println("onGameOver called");
-
         ((Activity)context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
