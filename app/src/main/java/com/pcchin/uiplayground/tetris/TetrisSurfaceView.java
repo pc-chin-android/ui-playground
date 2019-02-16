@@ -41,7 +41,9 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     static final int STOPPED = -1;
     int gameState;
 
+    private int currentDuration;
     private GameThread tetrisThread;
+    private BlockDownThread blockDownThread;
     private Context context;
     private ArrayList<TetrisBlock> blockList = new ArrayList<>();
     public ArrayList<ArrayList<GridBlock>> gridList = new ArrayList<>(); // Order, <<C1R1, C1R2, C1R3>, <C2R1, C2R2 ...
@@ -181,6 +183,10 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         this.tetrisThread = new GameThread(this, this.getHolder(), false);
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
+
+        this.blockDownThread = new BlockDownThread(this);
+        this.blockDownThread.setRunning(true);
+        this.blockDownThread.start();
     }
 
     void onGamePause() {
@@ -189,16 +195,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         mediaPlayer.pause();
         this.gameState = PAUSED;
 
-        boolean retryThread = true;
-        while (retryThread) {
-            try{
-                this.tetrisThread.setRunning(false);
-                this.tetrisThread.join();
-                retryThread = false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        this.stopThreads();
     }
 
     void onGameResume() {
@@ -210,6 +207,10 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         this.tetrisThread = new GameThread(this, this.getHolder(), false);
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
+
+        this.blockDownThread = new BlockDownThread(this, currentDuration);
+        this.blockDownThread.setRunning(true);
+        this.blockDownThread.start();
     }
 
     void onGameStop() {
@@ -228,16 +229,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
             }
         }
 
-        boolean retryThread = true;
-        while (retryThread) {
-            try{
-                this.tetrisThread.setRunning(false);
-                this.tetrisThread.join();
-                retryThread = false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        this.stopThreads();
     }
 
     private void onGameOver() {
@@ -445,5 +437,31 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         }
         // Check points
         this.score += (100 * rowsCleared * rowsCleared * GRID_TOTAL_Y / 20);
+    }
+
+    // Stop tetrisThread and blockDownThread
+    private void stopThreads() {
+        boolean retryThread = true;
+        while (retryThread) {
+            try{
+                this.tetrisThread.setRunning(false);
+                this.tetrisThread.join();
+                retryThread = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        currentDuration = this.blockDownThread.getWaitDuration();
+        boolean retryDownThread = true;
+        while (retryDownThread) {
+            try {
+                this.blockDownThread.setRunning(false);
+                this.blockDownThread.join();
+                retryDownThread = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
