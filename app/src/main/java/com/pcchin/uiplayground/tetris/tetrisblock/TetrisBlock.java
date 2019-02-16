@@ -4,17 +4,17 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.pcchin.uiplayground.gamedata.BitmapFunctions;
-import com.pcchin.uiplayground.gamedata.CoordsFunctions;
 import com.pcchin.uiplayground.gamedata.GameObject;
+import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
 import java.util.ArrayList;
 
 public abstract class TetrisBlock extends GameObject {
-    public static int DIR_UP = 1;
-    public static int DIR_RIGHT = 2;
-    public static int DIR_DOWN = 3;
-    public static int DIR_LEFT = 4;
+    static int DIR_UP = 1;
+    static int DIR_RIGHT = 2;
+    // static int DIR_DOWN = 3;
+    static int DIR_LEFT = 4;
 
     private TetrisSurfaceView tetrisSurfaceView;
     private int color;
@@ -23,8 +23,6 @@ public abstract class TetrisBlock extends GameObject {
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, int color) {
         super(BitmapFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
-
-        System.out.println("a");
 
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.color = color;
@@ -56,7 +54,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveDown() {
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.deepCopy(this.currentBlockCoords);
+        ArrayList<ArrayList<Integer>> originalList = GeneralFunctions.deepCopy(this.currentBlockCoords);
 
         for (ArrayList<Integer> i: originalList) {
             // Check if bottom of grid reached
@@ -82,7 +80,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveLeft() {
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.deepCopy(this.currentBlockCoords);
+        ArrayList<ArrayList<Integer>> originalList = GeneralFunctions.deepCopy(this.currentBlockCoords);
 
         boolean canMove = true;
 
@@ -110,7 +108,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     public void moveRight() {
-        ArrayList<ArrayList<Integer>> originalList = CoordsFunctions.deepCopy(this.currentBlockCoords);
+        ArrayList<ArrayList<Integer>> originalList = GeneralFunctions.deepCopy(this.currentBlockCoords);
 
         boolean canMove = true;
 
@@ -160,7 +158,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     void swapDir(ArrayList<ArrayList<Integer>> targetList) {
-        ArrayList<ArrayList<Integer>> returnList = CoordsFunctions.deepCopy(targetList);
+        ArrayList<ArrayList<Integer>> returnList = GeneralFunctions.deepCopy(targetList);
 
         if (!this.checkCollision(returnList)) {
             this.unbindGrid();
@@ -177,7 +175,7 @@ public abstract class TetrisBlock extends GameObject {
     }
 
     void flipDir(ArrayList<ArrayList<Integer>> targetList) {
-        ArrayList<ArrayList<Integer>> returnList = CoordsFunctions.deepCopy(targetList);
+        ArrayList<ArrayList<Integer>> returnList = GeneralFunctions.deepCopy(targetList);
 
         if (! this.checkCollision(returnList)) {
             this.unbindGrid();

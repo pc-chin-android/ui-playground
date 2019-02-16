@@ -3,7 +3,6 @@ package com.pcchin.uiplayground.tetris;
 class BlockDownThread extends Thread {
     // Thread to deal with moving the block down
 
-    private int WAIT_DURATION = 1000;
     private boolean running;
     private TetrisSurfaceView tetrisSurfaceView;
 
@@ -11,16 +10,17 @@ class BlockDownThread extends Thread {
         this.tetrisSurfaceView = tetrisSurfaceView;
     }
 
-    BlockDownThread(TetrisSurfaceView tetrisSurfaceView, int waitDuration) {
-        this.tetrisSurfaceView = tetrisSurfaceView;
-        WAIT_DURATION = waitDuration;
-    }
-
     @Override
     public void run() {
         while (this.running) {
             try {
-                sleep(WAIT_DURATION);
+                // Variable set to allow for easy editing in future
+                int WAIT_DURATION = 1000;
+                if (WAIT_DURATION - (tetrisSurfaceView.blocksAdded * 2) < 50) {
+                    sleep(50);
+                } else {
+                    sleep(WAIT_DURATION - (tetrisSurfaceView.blocksAdded * 5));
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -28,20 +28,10 @@ class BlockDownThread extends Thread {
             if (tetrisSurfaceView.targetBlock != null) {
                 tetrisSurfaceView.targetBlock.moveDown();
             }
-
-            WAIT_DURATION -= 2;
-
-            if (WAIT_DURATION <= 0) {
-                WAIT_DURATION = 2;
-            }
         }
     }
 
     void setRunning(boolean running)  {
         this.running= running;
-    }
-
-    int getWaitDuration() {
-        return this.WAIT_DURATION;
     }
 }

@@ -40,8 +40,8 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     static final int PAUSED = 1;
     static final int STOPPED = -1;
     int gameState;
+    int blocksAdded;
 
-    private int currentDuration;
     private GameThread tetrisThread;
     private BlockDownThread blockDownThread;
     private Context context;
@@ -57,7 +57,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     public static final int GRID_TOTAL_X = 10; // Total number of columns in the grid
     public static int GRID_TOTAL_Y; // Total number of rows in the grid
     public static int GRID_WIDTH_HEIGHT; // Width and height of each box in pixels
-    private static int GRID_LINE_WIDTH; // Width of each lineA
+    private static int GRID_LINE_WIDTH; // Width of each line
     public ArrayList<Integer> rowCoords; // Y-coordinates of each row (Reference pt tetrisSurfaceView);
     public ArrayList<Integer> colCoords; // X-coordinates of each column (Reference pt tetrisSurfaceView);
 
@@ -185,6 +185,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         this.tetrisThread.start();
 
         this.blockDownThread = new BlockDownThread(this);
+        this.blocksAdded = 0;
         this.blockDownThread.setRunning(true);
         this.blockDownThread.start();
     }
@@ -208,7 +209,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         this.tetrisThread.setRunning(true);
         this.tetrisThread.start();
 
-        this.blockDownThread = new BlockDownThread(this, currentDuration);
+        this.blockDownThread = new BlockDownThread(this);
         this.blockDownThread.setRunning(true);
         this.blockDownThread.start();
     }
@@ -358,6 +359,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
 
     // Needed to be run on UI thread
     private void genNextBlock() {
+        this.blocksAdded += 1;
         final ImageView nextImg = ((TetrisActivity) context).findViewById(R.id.tetris_next_img);
         final TetrisSurfaceView currentView = this;
         ((Activity)this.getContext()).runOnUiThread(new Runnable() {
@@ -408,17 +410,18 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     // Only used in update(), separated for clarity
     private void checkRow() {
         int rowsCleared = 0;
-        for (int i = 0; i < this.gridList.size(); i++) {
+        for (int i = 0; i < GRID_TOTAL_X; i++) {
             boolean rowFull = true;
-            for (GridBlock j: this.gridList.get(i)) {
-                if (j.getBlock() == null) {
+            for (int j = 0; j < GRID_TOTAL_Y; j++) {
+                if (this.gridList.get(j).get(i).getBlock() == null) {
                     rowFull = false;
                 }
             }
+
             if (rowFull) {
                 // Reset rows
-                for (GridBlock j: this.gridList.get(i)) {
-                    j.unbindBlock();
+                for (int j = 0; j < this.gridList.size(); j++) {
+                    this.gridList.get(j).get(i).unbindBlock();
                 }
                 // Move rows down by one
                 for (int j = i; j >= 0; j--) {
@@ -452,7 +455,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
             }
         }
 
-        currentDuration = this.blockDownThread.getWaitDuration();
         boolean retryDownThread = true;
         while (retryDownThread) {
             try {

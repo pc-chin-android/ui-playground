@@ -133,4 +133,14 @@ public class GeneralFunctions {
 
         return mediaplayer;
     }
+
+    /** Returns a deep copy of the original coordinates list, useful in collision detection */
+    public static ArrayList<ArrayList<Integer>> deepCopy(@NonNull ArrayList<ArrayList<Integer>> originalList) {
+        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+        for (ArrayList<Integer> e: originalList) {
+            ArrayList<Integer> tempList = new ArrayList<>(e);
+            returnList.add(tempList);
+        }
+        return returnList;
+    }
 }
