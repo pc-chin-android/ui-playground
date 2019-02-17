@@ -51,6 +51,6 @@ public class TetrisZ extends TetrisBlock {
             }
         }
 
-        this.flipDir(returnList);
+        this.swapDir(returnList, true);
     }
 }

@@ -79,6 +79,6 @@ public class TetrisT extends TetrisBlock {
             returnList.add(tempList);
         }
 
-        this.swapDir(returnList);
+        this.swapDir(returnList, false);
     }
 }

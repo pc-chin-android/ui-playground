@@ -55,6 +55,6 @@ public class TetrisS extends TetrisBlock {
             }
         }
 
-        this.flipDir(returnList);
+        this.swapDir(returnList, true);
     }
 }

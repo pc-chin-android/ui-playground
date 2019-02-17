@@ -10,6 +10,9 @@ import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
 import java.util.ArrayList;
 
+import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_X;
+import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_Y;
+
 public abstract class TetrisBlock extends GameObject {
     static int DIR_UP = 1;
     static int DIR_RIGHT = 2;
@@ -60,11 +63,14 @@ public abstract class TetrisBlock extends GameObject {
             // Check if bottom of grid reached
             if ((i.get(1) + 1) > tetrisSurfaceView.rowCoords.size() - 1) {
                 tetrisSurfaceView.targetBlock = null;
+                checkRow(tetrisSurfaceView);
                 return;
+                // These two are separated to prevent OutOfBoundsException
                 // Check if bottom of current block is occupied
             } else if (((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != null)
             && ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != this)) {
                 tetrisSurfaceView.targetBlock = null;
+                checkRow(tetrisSurfaceView);
                 return;
             }
         }
@@ -114,7 +120,7 @@ public abstract class TetrisBlock extends GameObject {
 
         for (ArrayList<Integer> i: originalList) {
             // Exit if right of grid reached
-            if ((i.get(0) + 1) > TetrisSurfaceView.GRID_TOTAL_X - 1) {
+            if ((i.get(0) + 2) > GRID_TOTAL_X) {
                 canMove = false;
                 // Check if right of current block is occupied
             } else if (((tetrisSurfaceView.gridList.get(i.get(0) + 1).get(i.get(1)).getBlock()) != null)
@@ -157,36 +163,68 @@ public abstract class TetrisBlock extends GameObject {
         return false;
     }
 
-    void swapDir(ArrayList<ArrayList<Integer>> targetList) {
+    void swapDir(ArrayList<ArrayList<Integer>> targetList, boolean isFlip) {
         ArrayList<ArrayList<Integer>> returnList = GeneralFunctions.deepCopy(targetList);
 
         if (!this.checkCollision(returnList)) {
             this.unbindGrid();
 
-            this.blockDir++;
-            if (this.blockDir > DIR_LEFT) {
-                this.blockDir = DIR_UP;
+            if (isFlip) {
+                // For blocks with 2 sides
+                if (this.blockDir == TetrisBlock.DIR_UP) {
+                    this.blockDir = TetrisBlock.DIR_LEFT;
+                } else {
+                    this.blockDir = TetrisBlock.DIR_UP;
+                }
+            } else {
+                // For blocks with 4 sides
+                this.blockDir++;
+                if (this.blockDir > DIR_LEFT) {
+                    this.blockDir = DIR_UP;
+                }
             }
 
             this.currentBlockCoords = targetList;
-
             this.bindGrid();
         }
     }
 
-    void flipDir(ArrayList<ArrayList<Integer>> targetList) {
-        ArrayList<ArrayList<Integer>> returnList = GeneralFunctions.deepCopy(targetList);
+    // Only used in moveDown(), separated for clarity
+    private static void checkRow(TetrisSurfaceView tetrisSurfaceView) {
+        int rowsCleared = 0;
 
-        if (! this.checkCollision(returnList)) {
-            this.unbindGrid();
-
-            if (this.blockDir == TetrisBlock.DIR_UP) {
-                this.blockDir = TetrisBlock.DIR_LEFT;
-            } else {
-                this.blockDir = TetrisBlock.DIR_UP;
+        // Check rows from bottom up
+        for (int currentY = GRID_TOTAL_Y - 2; currentY >= 0; currentY--) {
+            boolean rowFull = true;
+            // Check columns from left to right
+            for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {
+                if (tetrisSurfaceView.gridList.get(currentX).get(currentY).getBlock() == null) {
+                    rowFull = false;
+                }
             }
-            this.currentBlockCoords = targetList;
-            this.bindGrid();
+
+            if (rowFull) {
+                // Reset rows
+                for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {
+                    tetrisSurfaceView.gridList.get(currentX).get(currentY).unbindBlock();
+                }
+                // Move rows down by one
+                for (int tempY = currentY; tempY > 0; tempY--) {
+                    for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
+                        tetrisSurfaceView.gridList.get(tempX).get(tempY).bindBlock(
+                                tetrisSurfaceView.gridList.get(tempX).get(tempY - 1).getBlock()
+                        );
+                    }
+                }
+                // Reset top row
+                for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
+                    tetrisSurfaceView.gridList.get(tempX).get(0).unbindBlock();
+                }
+
+                rowsCleared++;
+            }
         }
+        // Check points
+        tetrisSurfaceView.score += (100 * rowsCleared * rowsCleared);
     }
 }

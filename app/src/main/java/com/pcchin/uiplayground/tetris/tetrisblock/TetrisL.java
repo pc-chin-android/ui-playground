@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class TetrisL extends TetrisBlock {
     public TetrisL(@NonNull TetrisSurfaceView tetrisSurfaceView) {
-        super(tetrisSurfaceView, Color.BLUE);
+        super(tetrisSurfaceView, Color.RED);
     }
 
     @Override
@@ -79,6 +79,6 @@ public class TetrisL extends TetrisBlock {
             returnList.add(tempList);
         }
 
-        this.swapDir(returnList);
+        this.swapDir(returnList, false);
     }
 }

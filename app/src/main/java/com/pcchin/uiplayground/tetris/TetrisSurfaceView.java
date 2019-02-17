@@ -296,8 +296,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
                     iterator.remove();
                 }
             }
-
-            this.checkRow();
         }
     }
 
@@ -316,6 +314,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         this.nextBlock = null;
     }
 
+    // Only used in update(), separated for clarity
     private void iniArrays() {
         int currentX = 0;
         int currentY = 0;
@@ -338,7 +337,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
 
         // Initialize colCoords if empty
         if (colCoords.size() == 0) {
-            for (int i = 0; i < rowCoords.size(); i++) {
+            for (int i = 0; i < GRID_TOTAL_X; i++) {
                 // Draw columns
                 colCoords.add(currentX);
                 currentX = currentX + GRID_WIDTH_HEIGHT + GRID_LINE_WIDTH;
@@ -357,6 +356,7 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         }
     }
 
+    // Only used in update(), separated for clarity
     // Needed to be run on UI thread
     private void genNextBlock() {
         this.blocksAdded += 1;
@@ -405,41 +405,6 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
                 }
             }
         });
-    }
-
-    // Only used in update(), separated for clarity
-    private void checkRow() {
-        int rowsCleared = 0;
-        for (int i = 0; i < GRID_TOTAL_X; i++) {
-            boolean rowFull = true;
-            for (int j = 0; j < GRID_TOTAL_Y; j++) {
-                if (this.gridList.get(j).get(i).getBlock() == null) {
-                    rowFull = false;
-                }
-            }
-
-            if (rowFull) {
-                // Reset rows
-                for (int j = 0; j < this.gridList.size(); j++) {
-                    this.gridList.get(j).get(i).unbindBlock();
-                }
-                // Move rows down by one
-                for (int j = i; j >= 0; j--) {
-                    for (int k = 0; k < this.gridList.get(j).size(); k++) {
-                        this.gridList.get(j).get(k).bindBlock(
-                                this.gridList.get(j - 1).get(k).getBlock()
-                        );
-                    }
-                }
-                // Reset top row
-                for (int j = 0; j < this.gridList.get(0).size(); j++) {
-                    this.gridList.get(0).get(j).unbindBlock();
-                }
-                rowsCleared++;
-            }
-        }
-        // Check points
-        this.score += (100 * rowsCleared * rowsCleared * GRID_TOTAL_Y / 20);
     }
 
     // Stop tetrisThread and blockDownThread
