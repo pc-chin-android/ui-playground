@@ -150,7 +150,7 @@ public abstract class TetrisBlock extends GameObject {
             // Check collision
             for (ArrayList<Integer> i : coordsList) {
                 for (Integer j : i) {
-                    if (j < 0) {
+                    if (j < 0 || j >= GRID_TOTAL_X) {
                         return true;
                     }
                 }
@@ -211,19 +211,21 @@ public abstract class TetrisBlock extends GameObject {
         // Reset top row
         if (rowsCleared.size() > 0) {
             // Remove counted rows
+            int index = 0;
             for (int currentY = rowsCleared.size() - 1; currentY >= 0; currentY--) {
-                // Clear current row
-                for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {
-                    tetrisSurfaceView.gridList.get(currentX).get(rowsCleared.get(currentY)).unbindBlock();
-                }
+                System.out.println("Fired");
+                System.out.println(index);
+                System.out.println(currentY);
+                System.out.println(rowsCleared.get(currentY));
                 // Move rows down by 1
-                for (int tempY = rowsCleared.get(currentY); tempY >= 0; tempY--) {
+                for (int tempY = rowsCleared.get(currentY) + index; tempY > 0; tempY--) {
                     for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
                         tetrisSurfaceView.gridList.get(tempX).get(tempY).bindBlock(
                                 tetrisSurfaceView.gridList.get(tempX).get(tempY - 1).getBlock()
                         );
                     }
                 }
+                index++;
             }
 
             for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
