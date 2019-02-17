@@ -191,7 +191,7 @@ public abstract class TetrisBlock extends GameObject {
 
     // Only used in moveDown(), separated for clarity
     private static void checkRow(TetrisSurfaceView tetrisSurfaceView) {
-        int rowsCleared = 0;
+        ArrayList<Integer> rowsCleared = new ArrayList<>();
 
         // Check rows from bottom up
         for (int currentY = GRID_TOTAL_Y - 2; currentY >= 0; currentY--) {
@@ -204,27 +204,34 @@ public abstract class TetrisBlock extends GameObject {
             }
 
             if (rowFull) {
-                // Reset rows
+                rowsCleared.add(currentY);
+            }
+        }
+
+        // Reset top row
+        if (rowsCleared.size() > 0) {
+            // Remove counted rows
+            for (int currentY = rowsCleared.size() - 1; currentY >= 0; currentY--) {
+                // Clear current row
                 for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {
-                    tetrisSurfaceView.gridList.get(currentX).get(currentY).unbindBlock();
+                    tetrisSurfaceView.gridList.get(currentX).get(rowsCleared.get(currentY)).unbindBlock();
                 }
-                // Move rows down by one
-                for (int tempY = currentY; tempY > 0; tempY--) {
+                // Move rows down by 1
+                for (int tempY = rowsCleared.get(currentY); tempY >= 0; tempY--) {
                     for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
                         tetrisSurfaceView.gridList.get(tempX).get(tempY).bindBlock(
                                 tetrisSurfaceView.gridList.get(tempX).get(tempY - 1).getBlock()
                         );
                     }
                 }
-                // Reset top row
-                for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
-                    tetrisSurfaceView.gridList.get(tempX).get(0).unbindBlock();
-                }
+            }
 
-                rowsCleared++;
+            for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
+                tetrisSurfaceView.gridList.get(tempX).get(0).unbindBlock();
             }
         }
+
         // Check points
-        tetrisSurfaceView.score += (100 * rowsCleared * rowsCleared);
+        tetrisSurfaceView.score += (100 * rowsCleared.size() * rowsCleared.size());
     }
 }

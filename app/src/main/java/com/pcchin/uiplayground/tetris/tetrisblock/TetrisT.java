@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class TetrisT extends TetrisBlock {
     public TetrisT(@NonNull TetrisSurfaceView tetrisSurfaceView) {
-        super(tetrisSurfaceView, Color.CYAN);
+        super(tetrisSurfaceView, Color.rgb(66, 120, 244));
     }
 
     @Override
