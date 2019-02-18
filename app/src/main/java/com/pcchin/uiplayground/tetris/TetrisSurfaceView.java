@@ -415,6 +415,17 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
 
         // Check rows from bottom up
         for (int currentY = GRID_TOTAL_Y - 1; currentY >= 0; currentY--) {
+            /*
+            Occasionally, the GRID_TOTAL_Y would have an extra 1, causing it to be out of bounds.
+            Thus, this check is implemented to prevent it from occurring.
+             */
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                gridList.get(0).get(currentY);
+            } catch (ArrayIndexOutOfBoundsException e){
+                currentY--;
+            }
+
             boolean rowFull = true;
             // Check columns from left to right
             for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {

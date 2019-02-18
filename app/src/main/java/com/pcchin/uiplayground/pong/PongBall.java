@@ -64,15 +64,15 @@ class PongBall extends GameObject {
             float deltaV;
             if (isReal) {
                 if (this.VELOCITY < 1) {
-                    deltaV = (float) 0.0012;
+                    deltaV = (float) 0.0011;
                 } else {
-                    deltaV = (float) 0.0012 / this.VELOCITY;
+                    deltaV = (float) 0.0011 / this.VELOCITY;
                 }
             } else {
                 if (this.VELOCITY < 1) {
-                    deltaV = (float) 0.001205;
+                    deltaV = (float) 0.001102;
                 } else {
-                    deltaV = (float) 0.001205/ this.VELOCITY;
+                    deltaV = (float) 0.001102/ this.VELOCITY;
                 }
             }
             this.VELOCITY += deltaV;
@@ -94,7 +94,7 @@ class PongBall extends GameObject {
         this.enabled = enabled;
         this.movingVectorX = 10;
         this.movingVectorY = 5;
-        VELOCITY = 0.4f;
+        VELOCITY = 0.35f;
     }
 
     // Only used in update(), separated for clarity
@@ -112,7 +112,7 @@ class PongBall extends GameObject {
         ) && (
                 Math.abs(this.y + this.height / 2 - paddleR.y - paddleR.height / 2) < (this.height + this.paddleR.getHeight()) / 2
         ))) {
-            // Condition seperated from main If statement as Java can only deal with a && b, not a && b && c
+            // Condition separated from main If statement as Java can only deal with a && b, not a && b && c
             if (((lastDrawNanoTime - lastVectorXChange) / 1000000) > 50) {
                 // Play R.raw.beep
                 pongSurfaceView.soundPool.play(pongSurfaceView.soundIds[0], 1, 1, 1, 0, (float) 1.0);
