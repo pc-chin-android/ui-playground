@@ -2,7 +2,9 @@
   <dictionary name="ChinPC">
     <words>
       <w>coords</w>
+      <w>pcchin</w>
       <w>tetris</w>
+      <w>uiplayground</w>
     </words>
   </dictionary>
 </component>

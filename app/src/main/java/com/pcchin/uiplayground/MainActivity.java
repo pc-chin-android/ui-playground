@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.pcchin.uiplayground.chess.ChessActivity;
 import com.pcchin.uiplayground.mainmenu.MainMenuFragment1;
 import com.pcchin.uiplayground.mainmenu.MainMenuFragment2;
 import com.pcchin.uiplayground.pong.PongActivity;
@@ -107,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
             case (R.id.main_menu_tetris_text):
                 Intent intent_tetris = new Intent(this, TetrisActivity.class);
                 startActivity(intent_tetris);
+                break;
+
+            // Chess
+            case (R.id.main_menu_chess_img ):
+            case (R.id.main_menu_chess_text):
+                Intent intent_chess = new Intent(this, ChessActivity.class);
+                startActivity(intent_chess);
                 break;
 
             // TODO: Add on click listeners in the future

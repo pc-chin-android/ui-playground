@@ -11,6 +11,7 @@ import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 import java.util.ArrayList;
 
 import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_X;
+import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_Y;
 
 public abstract class TetrisBlock extends GameObject {
     static int DIR_UP = 1;
@@ -146,12 +147,10 @@ public abstract class TetrisBlock extends GameObject {
         if (coordsList.size() > 0) {
             // Check collision
             for (ArrayList<Integer> i : coordsList) {
-                for (Integer j : i) {
-                    if (j < 0 || j >= GRID_TOTAL_X) {
-                        return true;
-                    }
-                }
-                if ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null)
+                if (i.get(0) < 0 || i.get(1) < 0 || i.get(0) >= GRID_TOTAL_X || i.get(1) >= GRID_TOTAL_Y) {
+                    return true;
+                    // Separated to prevent ArrayIndexOutOfBoundsException
+                } else if ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != null)
                 && (tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1)).getBlock() != this)) {
                     return true;
                 }

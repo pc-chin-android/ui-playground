@@ -9,6 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity
+            android:name=".chess.ChessSettings"
+            android:label="@string/title_activity_chess_settings"
+            android:parentActivityName=".chess.ChessActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pcchin.uiplayground.chess.ChessActivity" />
+        </activity>
+        <activity android:name=".chess.ChessActivity" />
         <activity android:name=".LicenseActivity" />
         <activity
             android:name=".tetris.TetrisActivity"
