@@ -1,10 +1,7 @@
 package com.pcchin.uiplayground.tetris.tetrisblock;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 
-import com.pcchin.uiplayground.gamedata.BitmapFunctions;
-import com.pcchin.uiplayground.gamedata.GameObject;
 import com.pcchin.uiplayground.gamedata.GeneralFunctions;
 import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 
@@ -13,7 +10,7 @@ import java.util.ArrayList;
 import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_X;
 import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_Y;
 
-public abstract class TetrisBlock extends GameObject {
+public abstract class TetrisBlock {
     static int DIR_UP = 1;
     static int DIR_RIGHT = 2;
     // static int DIR_DOWN = 3;
@@ -25,8 +22,6 @@ public abstract class TetrisBlock extends GameObject {
     public ArrayList<ArrayList<Integer>> currentBlockCoords = new ArrayList<>(); // <<x1, y1>, <x2, y2>, <x3, y3> ... (In terms of gridBlock)
 
     TetrisBlock(@NonNull TetrisSurfaceView tetrisSurfaceView, int color) {
-        super(BitmapFunctions.colorToBitmap(Color.TRANSPARENT,1, 1), 0, 0);
-
         this.tetrisSurfaceView = tetrisSurfaceView;
         this.color = color;
         this.blockDir = DIR_LEFT;
