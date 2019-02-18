@@ -111,11 +111,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             // Chess
-            /*case (R.id.main_menu_chess_img ):
+            case (R.id.main_menu_chess_img ):
             case (R.id.main_menu_chess_text):
                 Intent intent_chess = new Intent(this, ChessActivity.class);
                 startActivity(intent_chess);
-                break; */
+                break;
 
             // TODO: Add on click listeners in the future
         }
