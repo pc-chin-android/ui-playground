@@ -45,10 +45,10 @@ public class TetrisS extends TetrisBlock {
                 if (this.blockDir == TetrisBlock.DIR_UP) {
                     // Change to horizontal
                     tempList.add(ctrGrid.get(0) - i + j);
-                    tempList.add(ctrGrid.get(1) + i);
+                    tempList.add(ctrGrid.get(1) + i + 1);
                 } else {
                     // Change to vertical
-                    tempList.add(ctrGrid.get(0) + i);
+                    tempList.add(ctrGrid.get(0) + i - 1);
                     tempList.add(ctrGrid.get(1) + j + i - 1);
                 }
                 returnList.add(tempList);

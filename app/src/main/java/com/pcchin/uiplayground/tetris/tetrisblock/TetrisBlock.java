@@ -11,7 +11,6 @@ import com.pcchin.uiplayground.tetris.TetrisSurfaceView;
 import java.util.ArrayList;
 
 import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_X;
-import static com.pcchin.uiplayground.tetris.TetrisSurfaceView.GRID_TOTAL_Y;
 
 public abstract class TetrisBlock extends GameObject {
     static int DIR_UP = 1;
@@ -63,14 +62,12 @@ public abstract class TetrisBlock extends GameObject {
             // Check if bottom of grid reached
             if ((i.get(1) + 1) > tetrisSurfaceView.rowCoords.size() - 1) {
                 tetrisSurfaceView.targetBlock = null;
-                checkRow(tetrisSurfaceView);
                 return;
                 // These two are separated to prevent OutOfBoundsException
                 // Check if bottom of current block is occupied
             } else if (((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != null)
             && ((tetrisSurfaceView.gridList.get(i.get(0)).get(i.get(1) + 1).getBlock()) != this)) {
                 tetrisSurfaceView.targetBlock = null;
-                checkRow(tetrisSurfaceView);
                 return;
             }
         }
@@ -187,53 +184,5 @@ public abstract class TetrisBlock extends GameObject {
             this.currentBlockCoords = targetList;
             this.bindGrid();
         }
-    }
-
-    // Only used in moveDown(), separated for clarity
-    private static void checkRow(TetrisSurfaceView tetrisSurfaceView) {
-        ArrayList<Integer> rowsCleared = new ArrayList<>();
-
-        // Check rows from bottom up
-        for (int currentY = GRID_TOTAL_Y - 2; currentY >= 0; currentY--) {
-            boolean rowFull = true;
-            // Check columns from left to right
-            for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {
-                if (tetrisSurfaceView.gridList.get(currentX).get(currentY).getBlock() == null) {
-                    rowFull = false;
-                }
-            }
-
-            if (rowFull) {
-                rowsCleared.add(currentY);
-            }
-        }
-
-        // Reset top row
-        if (rowsCleared.size() > 0) {
-            // Remove counted rows
-            int index = 0;
-            for (int currentY = rowsCleared.size() - 1; currentY >= 0; currentY--) {
-                System.out.println("Fired");
-                System.out.println(index);
-                System.out.println(currentY);
-                System.out.println(rowsCleared.get(currentY));
-                // Move rows down by 1
-                for (int tempY = rowsCleared.get(currentY) + index; tempY > 0; tempY--) {
-                    for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
-                        tetrisSurfaceView.gridList.get(tempX).get(tempY).bindBlock(
-                                tetrisSurfaceView.gridList.get(tempX).get(tempY - 1).getBlock()
-                        );
-                    }
-                }
-                index++;
-            }
-
-            for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
-                tetrisSurfaceView.gridList.get(tempX).get(0).unbindBlock();
-            }
-        }
-
-        // Check points
-        tetrisSurfaceView.score += (100 * rowsCleared.size() * rowsCleared.size());
     }
 }

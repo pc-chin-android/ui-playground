@@ -279,6 +279,8 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
                 this.blockList.add(this.targetBlock);
                 this.genNextBlock();
 
+                this.checkRow();
+
                 // Checks for any collision after new block spawns
                 if (this.targetBlock != null) {
                     if (this.targetBlock.checkCollision(this.targetBlock.currentBlockCoords)) {
@@ -405,6 +407,48 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
                 }
             }
         });
+    }
+
+    // Only used in update(), separated for clarity
+    private void checkRow() {
+        ArrayList<Integer> rowsCleared = new ArrayList<>();
+
+        // Check rows from bottom up
+        for (int currentY = GRID_TOTAL_Y - 1; currentY >= 0; currentY--) {
+            boolean rowFull = true;
+            // Check columns from left to right
+            for (int currentX = 0; currentX < GRID_TOTAL_X; currentX++) {
+                if (gridList.get(currentX).get(currentY).getBlock() == null) {
+                    rowFull = false;
+                }
+            }
+
+            if (rowFull) {
+                rowsCleared.add(currentY);
+            }
+        }
+
+        // Reset top row
+        if (rowsCleared.size() > 0) {
+            // Remove counted rows
+            for (int currentY = rowsCleared.size() - 1; currentY >= 0; currentY--) {
+                // Move rows down by 1
+                for (int tempY = rowsCleared.get(currentY); tempY > 0; tempY--) {
+                    for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
+                        gridList.get(tempX).get(tempY).bindBlock(
+                                gridList.get(tempX).get(tempY - 1).getBlock()
+                        );
+                    }
+                }
+            }
+
+            for (int tempX = 0; tempX < GRID_TOTAL_X; tempX++) {
+                gridList.get(tempX).get(0).unbindBlock();
+            }
+        }
+
+        // Check points
+        this.score += (100 * rowsCleared.size() * rowsCleared.size());
     }
 
     // Stop tetrisThread and blockDownThread
