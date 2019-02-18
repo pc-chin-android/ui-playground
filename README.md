@@ -20,7 +20,7 @@ If you wish to compile the apk yourself, you can compile it directly from the [s
 
 ## Contribution
 
-Pull requests are welcome. However, as this is a private project, please email me at [my email](mailto:chin.pengcheng@gmail.com).
+Pull requests are welcome. However, as this is a private project, please email me at [my email](mailto:chin.pengcheng@gmail.com) for any changes.
 
 ## License
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
