@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:id="@+id/chess_warning_reset"
+        android:persistent="true"
+        android:title="@string/take_effect_reset" />
+
+    <SwitchPreference
+        android:id="@+id/chess_two_player"
+        android:defaultValue="false"
+        android:key="chess_2p"
+        android:text="@string/ttt_r_button" />
+
+    <Preference
+        android:id="@+id/chess_difficulty"
+        android:defaultValue="50"
+        android:key="chess_hard"
+        android:layout="@layout/layout_slider" />
+</PreferenceScreen>
