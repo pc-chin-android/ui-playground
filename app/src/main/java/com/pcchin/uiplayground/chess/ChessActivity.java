@@ -43,8 +43,8 @@ public class ChessActivity extends AppCompatActivity {
                 startActivity(returnIntent);
                 return true;
             case R.id.menu_settings:
-                // Intent settingsIntent = new Intent(this, ChessSettings.class);
-                // startActivity(settingsIntent);
+                Intent settingsIntent = new Intent(this, ChessSettings.class);
+                startActivity(settingsIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

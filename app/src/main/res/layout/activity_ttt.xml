@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/ttt_l_button"
+            android:text="@string/one_player"
             android:textSize="24sp" />
 
         <RadioButton
@@ -159,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/ttt_r_button"
+            android:text="@string/two_player"
             android:textSize="24sp" />
     </RadioGroup>
 
