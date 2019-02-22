@@ -11,8 +11,6 @@ import android.view.View;
 import com.pcchin.uiplayground.MainActivity;
 import com.pcchin.uiplayground.R;
 
-import java.util.Objects;
-
 public class ChessActivity extends AppCompatActivity {
 
     @Override
@@ -45,8 +43,8 @@ public class ChessActivity extends AppCompatActivity {
                 startActivity(returnIntent);
                 return true;
             case R.id.menu_settings:
-                Intent settingsIntent = new Intent(this, ChessSettings.class);
-                startActivity(settingsIntent);
+                // Intent settingsIntent = new Intent(this, ChessSettings.class);
+                // startActivity(settingsIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

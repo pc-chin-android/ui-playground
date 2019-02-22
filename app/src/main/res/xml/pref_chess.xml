@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
     <Preference
         android:id="@+id/chess_warning_reset"
         android:persistent="true"
@@ -8,11 +9,17 @@
         android:id="@+id/chess_two_player"
         android:defaultValue="false"
         android:key="chess_2p"
-        android:text="@string/ttt_r_button" />
+        android:textSize="18sp" />
 
-    <Preference
-        android:id="@+id/chess_difficulty"
-        android:defaultValue="50"
+    <com.pavelsikun.seekbarpreference.SeekBarPreference
+        android:id="@+id/chess_diff"
         android:key="chess_hard"
-        android:layout="@layout/layout_slider" />
+        android:title="@string/difficulty"
+        android:summary="@string/difficulty"
+        android:defaultValue="25"
+
+        sample:msbp_minValue="0"
+        sample:msbp_maxValue="100"
+        sample:msbp_measurementUnit="%"
+        sample:msbp_dialogEnabled="false" />
 </PreferenceScreen>

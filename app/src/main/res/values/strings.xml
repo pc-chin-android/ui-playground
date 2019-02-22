@@ -41,7 +41,7 @@
     <string name="main_menu_sudoku">Sudoku</string>
     <string name="main_menu_invaders">Space Invaders</string>
     <string name="main_menu_snakes">Snakes &amp; Ladders</string>
-    <string name="main_menu_chess">Chess (2 Player)</string>
+    <string name="main_menu_chess">Chess</string>
     <string name="main_menu_asteroids">Asteroids</string>
 
     <!-- About Menu -->
