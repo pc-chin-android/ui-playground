@@ -67,4 +67,5 @@
     <string name="title_settings">Settings</string>
     <string name="undo">Undo</string>
     <string name="history">History</string>
+    <string name="export_text">Export to Text File</string>
 </resources>

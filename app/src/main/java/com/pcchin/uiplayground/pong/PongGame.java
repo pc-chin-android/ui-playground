@@ -16,7 +16,7 @@ public class PongGame extends Activity {
     int playerCount;
     int winCount;
     int gameState;
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
 
     private PongSurfaceView pongSurfaceView;
 
@@ -89,7 +89,7 @@ public class PongGame extends Activity {
         }
     }
 
-    void pressExit() {
+    private void pressExit() {
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
 

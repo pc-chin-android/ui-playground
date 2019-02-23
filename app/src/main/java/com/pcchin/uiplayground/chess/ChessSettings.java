@@ -1,6 +1,7 @@
 package com.pcchin.uiplayground.chess;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -13,6 +14,12 @@ public class ChessSettings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment()).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ChessActivity.class);
+        startActivity(intent);
     }
 
     public static class PrefsFragment extends PreferenceFragment {

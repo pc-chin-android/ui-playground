@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class TetrisActivity extends AppCompatActivity {
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
     private TetrisSurfaceView tetrisSurfaceView;
 
     @Override
@@ -57,7 +57,16 @@ public class TetrisActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
-            pressExit();
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 1500);
         }
     }
 
@@ -121,19 +130,6 @@ public class TetrisActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    void pressExit() {
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 1500);
     }
 
     void updateScore() {
