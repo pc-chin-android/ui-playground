@@ -33,14 +33,12 @@ public class CustomSeekBar extends Preference implements OnSeekBarChangeListener
         super.onBindView(view);
         SeekBar mSeekBar = view.findViewById(R.id.seekbar);
         mSeekBar.setProgress(mProgress);
+        setSummary(Integer.toString(mProgress) + "%");
         mSeekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (!fromUser)
-            return;
-
         setSummary(Integer.toString(progress) + "%");
         setValue(progress);
     }
