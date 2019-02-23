@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
@@ -53,6 +54,8 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
     MediaPlayer mediaPlayer;
     private AssetFileDescriptor assetBgmDescriptor;
 
+    private SoundPool soundPool;
+    private int soundId;
     public int score;
     public static final int GRID_TOTAL_X = 10; // Total number of columns in the grid
     public static int GRID_TOTAL_Y; // Total number of rows in the grid
@@ -100,6 +103,17 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
                 ((TetrisActivity) context).updateScore();
             }
         });
+
+        // Setting up sound
+        AudioAttributes attrs = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(2)
+                .setAudioAttributes(attrs)
+                .build();
+        soundId = soundPool.load(getContext(), R.raw.robot_bleep, 1);
     }
 
     @Override
@@ -141,6 +155,8 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
         mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = null;
+        soundPool.release();
+        soundPool = null;
     }
 
     // Not run on UI thread
@@ -275,6 +291,8 @@ public class TetrisSurfaceView extends GameView implements SurfaceHolder.Callbac
                 if (this.nextBlock == null) {
                     this.genNextBlock();
                 }
+                // Play R.raw.robot_bleep
+                soundPool.play(soundId, 1, 1, 1, 0, 1);
                 this.targetBlock = this.nextBlock;
                 this.blockList.add(this.targetBlock);
                 this.genNextBlock();

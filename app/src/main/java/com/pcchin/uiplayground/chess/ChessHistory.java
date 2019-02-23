@@ -10,8 +10,9 @@ import android.widget.Toast;
 import com.pcchin.uiplayground.R;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class ChessHistory extends AppCompatActivity {
 
@@ -28,12 +29,13 @@ public class ChessHistory extends AppCompatActivity {
     }
 
     public void exportTxt(View view) {
+        // Note: this function does not work on emulators
         TextView historyText = findViewById(R.id.chess_hist_text);
         File exportDir = new File("/storage/emulated/0/Download");
-        String EXPORT_FILENAME = "/UIPlayground-Chess";
+        String EXPORT_FILENAME = "UIPlayground-Chess";
 
         // Directory check
-        if (historyText.getText() != null) {
+        if (historyText.getText().length() > 0) {
             // Check if directory exists
             if (! (exportDir.exists() && exportDir.isDirectory())) {
                 // Make file
@@ -45,13 +47,13 @@ public class ChessHistory extends AppCompatActivity {
             }
 
             // Check if file name exists
-            File export_txt = new File(exportDir.getAbsolutePath() + EXPORT_FILENAME + ".txt");
+            File export_txt = new File(exportDir, EXPORT_FILENAME + ".txt");
             File target_txt;
             if (export_txt.exists()) {
                 int index = 1;
                 while (true) {
                     // Add index to file name
-                    target_txt = new File(exportDir.getAbsolutePath() + EXPORT_FILENAME
+                    target_txt = new File(exportDir, EXPORT_FILENAME
                             + "(" + Integer.toString(index) + ").txt");
                     if (target_txt.exists()) {
                         index++;
@@ -65,12 +67,14 @@ public class ChessHistory extends AppCompatActivity {
 
             // Write to file
             try {
-                FileWriter fileWriter = new FileWriter(target_txt);
-                fileWriter.append(String.valueOf(historyText.getText()));
-                fileWriter.append("\n\n");
-                fileWriter.flush();
-                fileWriter.close();
-                Toast.makeText(this, "Text file saved to" + target_txt.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                // Separated to avoid IOException if mkdirs == false
+                if (target_txt.createNewFile()) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(target_txt);
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+                    outputStreamWriter.write(String.valueOf(historyText.getText()));
+                    outputStreamWriter.close();
+                    Toast.makeText(this, "Text file saved to" + target_txt.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

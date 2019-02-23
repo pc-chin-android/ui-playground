@@ -61,11 +61,14 @@
     <string name="exit_popup_left_button">Cancel</string>
     <string name="exit_popup_right_button">Quit</string>
 
-    <!-- Settings -->
+    <!-- Chess strings -->
     <string name="take_effect_reset">These settings will take effect in the next game.</string>
+    <string name="export_text">Export to Text File</string>
+    <string name="move_rec">Recommend Move</string>
+
+    <!-- Settings -->
     <string name="difficulty">Difficulty</string>
     <string name="title_settings">Settings</string>
     <string name="undo">Undo</string>
-    <string name="history">History</string>
-    <string name="export_text">Export to Text File</string>
+    <string name="move_hist">Move History</string>
 </resources>

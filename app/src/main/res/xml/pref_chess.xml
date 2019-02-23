@@ -8,11 +8,14 @@
         android:id="@+id/chess_two_player"
         android:defaultValue="false"
         android:key="chess_2p"
-        android:textSize="18sp"
         android:title="@string/two_player" />
 
     <com.pcchin.uiplayground.gamedata.CustomSeekBar
         android:id="@+id/chess_difficulty"
         android:key="chess_diff"
         android:title="@string/difficulty" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="chess_recommend"
+        android:title="@string/move_rec" />
 </PreferenceScreen>

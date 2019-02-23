@@ -44,6 +44,10 @@ public class ChessActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(this, ChessSettings.class);
                 startActivity(settingsIntent);
                 return true;
+            case R.id.menu_history:
+                Intent historyIntent = new Intent(this, ChessHistory.class);
+                startActivity(historyIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

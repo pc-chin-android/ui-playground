@@ -1,6 +1,8 @@
 package com.pcchin.uiplayground.tetris;
 
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,11 @@ public class TetrisActivity extends AppCompatActivity {
         // Set action bar
         Toolbar toolbar = findViewById(R.id.toolbar_tetris);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
