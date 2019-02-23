@@ -21,11 +21,6 @@ public class ChessActivity extends AppCompatActivity {
         // Set action bar
         Toolbar toolbar = findViewById(R.id.toolbar_chess);
         setSupportActionBar(toolbar);
-
-        // Hide status bar
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 
     @Override

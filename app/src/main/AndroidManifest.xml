@@ -11,7 +11,7 @@
         tools:ignore="AllowBackup">
         <activity
             android:name=".chess.ChessSettings"
-            android:label="@string/title_activity_chess_settings"
+            android:label="@string/title_settings"
             android:parentActivityName=".chess.ChessActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

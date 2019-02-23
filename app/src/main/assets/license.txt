@@ -22,5 +22,6 @@
 <br/><a href="http://soundbible.com/1252-Bleep.html">Bleep</a> - Recorded by Mike Koenig on soundbible.com (Audio, no changes made)
 <br/><a href="http://soundbible.com/1251-Beep.html">Beep</a> - Recorded by Mike Koenig on soundbible.com (Audio, no changes made)
 <br/><a href="http://soundbible.com/1682-Robot-Blip.html">Robot Blip Sound</a> - Recorded by Marianne Gagnon on soundbible.com (Audio, no changes made)
+<br/>Undo icon made by <a href="https://www.flaticon.com/authors/daniel-bruce" title="Daniel Bruce">Daniel Bruce</a> from <a href="https://www.flaticon.com/">Flaticon</a>
 <br/>
 <br/>The full license can be found at <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons</a>

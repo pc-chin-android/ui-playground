@@ -64,5 +64,7 @@
     <!-- Settings -->
     <string name="take_effect_reset">These settings will take effect in the next game.</string>
     <string name="difficulty">Difficulty</string>
-    <string name="title_activity_chess_settings">Settings (Chess)</string>
+    <string name="title_settings">Settings</string>
+    <string name="undo">Undo</string>
+    <string name="history">History</string>
 </resources>
