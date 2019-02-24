@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
+import org.jetbrains.annotations.Contract;
+
 /** General Functions for bitmaps **/
 public class BitmapFunctions {
 
@@ -60,5 +62,15 @@ public class BitmapFunctions {
         paint.setColor(bitmapColor);
         canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
         return bitmap;
+    }
+
+    /** Adds an overlay bitmap based on the original bitmap.
+     * Note: Overlay bitmap has to be smaller than the original **/
+    @Contract("_, _ -> param1")
+    public static Bitmap overlayBitmap(Bitmap original, Bitmap overlay) {
+        Canvas canvas = new Canvas(original);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        canvas.drawBitmap(overlay, 0, 0, paint);
+        return original;
     }
 }

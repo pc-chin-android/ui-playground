@@ -37,10 +37,4 @@ class Paddle extends GameObject {
         // Last draw time.
         this.lastDrawNanoTime= System.nanoTime();
     }
-
-    void setX(int x) { this.x = x; }
-
-    void setY(int y) {
-        this.y = y;
-    }
 }

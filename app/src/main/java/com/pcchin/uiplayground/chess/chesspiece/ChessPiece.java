@@ -1,4 +1,4 @@
 package com.pcchin.uiplayground.chess.chesspiece;
 
-abstract class ChessPiece {
+public abstract class ChessPiece {
 }

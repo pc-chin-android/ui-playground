@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.pcchin.uiplayground.MainActivity;
@@ -15,6 +14,7 @@ import com.pcchin.uiplayground.R;
 
 public class ChessActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
+    private ChessSurfaceView chessSurfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,9 @@ public class ChessActivity extends AppCompatActivity {
         // Set action bar
         Toolbar toolbar = findViewById(R.id.toolbar_chess);
         setSupportActionBar(toolbar);
+
+        // Set surface view
+        chessSurfaceView = findViewById(R.id.chessSurfaceView);
     }
 
     @Override
@@ -51,6 +54,12 @@ public class ChessActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        chessSurfaceView.draw(chessSurfaceView.getHolder().lockCanvas());
     }
 
     @Override

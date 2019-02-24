@@ -86,10 +86,6 @@ class PongBall extends GameObject {
         this.lastDrawNanoTime= System.nanoTime();
     }
 
-    void setX(int x) {this.x = x;}
-
-    void setY(int y) {this.y = y;}
-
     void setEnabled(boolean enabled) {
         this.enabled = enabled;
         this.movingVectorX = 10;

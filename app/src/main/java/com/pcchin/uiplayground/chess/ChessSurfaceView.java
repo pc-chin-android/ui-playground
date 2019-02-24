@@ -1,14 +1,21 @@
 package com.pcchin.uiplayground.chess;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import java.util.ArrayList;
 
 public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+    private Context context;
+
     private ArrayList<ChessGrid> gridList = new ArrayList<>();
+    private ArrayList<ChessGrid> blackOutList = new ArrayList<>();
+    private ArrayList<ChessGrid> whiteOutList = new ArrayList<>();
 
     public ChessSurfaceView(Context context) {
         super(context);
@@ -33,6 +40,16 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private void onCreate(Context context) {
         this.setFocusable(true);
         this.getHolder().addCallback(this);
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.performClick();
+                onTouchCalled(event.getX(), event.getY());
+                return false;
+            }
+        });
+
+        this.context = context;
     }
 
     @Override
@@ -44,4 +61,20 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void surfaceDestroyed(SurfaceHolder holder) {
 
     }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        // TODO: Draw
+    }
+
+    @Override
+    public boolean performClick() {
+        // Placeholder function
+        super.performClick();
+        return true;
+    }
+
+    // Only used in onCreate, separated for clarity
+    private void onTouchCalled(float x, float y) {}
 }
