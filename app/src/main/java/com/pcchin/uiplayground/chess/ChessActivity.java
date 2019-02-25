@@ -12,6 +12,10 @@ import android.widget.Toast;
 import com.pcchin.uiplayground.MainActivity;
 import com.pcchin.uiplayground.R;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
 public class ChessActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     private ChessSurfaceView chessSurfaceView;
@@ -27,6 +31,8 @@ public class ChessActivity extends AppCompatActivity {
 
         // Set surface view
         chessSurfaceView = findViewById(R.id.chessSurfaceView);
+        chessSurfaceView.moveList = getIntList(savedInstanceState, "ChessHistMoveList");
+        chessSurfaceView.currentBoardCoords = getIntList(savedInstanceState, "ChessHistBoardCoords");
     }
 
     @Override
@@ -49,6 +55,8 @@ public class ChessActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_history:
                 Intent historyIntent = new Intent(this, ChessHistory.class);
+                putIntList(historyIntent, chessSurfaceView.moveList, "ChessMoveList");
+                putIntList(historyIntent, chessSurfaceView.currentBoardCoords, "ChessBoardCoords");
                 startActivity(historyIntent);
                 return true;
             default:
@@ -59,7 +67,7 @@ public class ChessActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        chessSurfaceView.draw(chessSurfaceView.getHolder().lockCanvas());
+        chessSurfaceView.carryForwardDraw();
     }
 
     @Override
@@ -79,5 +87,25 @@ public class ChessActivity extends AppCompatActivity {
                 }
             }, 1500);
         }
+    }
+
+    static void putIntList(Intent intent, @NotNull ArrayList<ArrayList<Integer>> original, String referenceVal) {
+        ArrayList<String> referenceList = new ArrayList<>();
+        for (int i = 0; i < original.size(); i++) {
+            referenceList.add(referenceVal + Integer.toString(i));
+            intent.putIntegerArrayListExtra(referenceVal + Integer.toString(i), original.get(i));
+        }
+        intent.putStringArrayListExtra(referenceVal, referenceList);
+    }
+
+    static ArrayList<ArrayList<Integer>> getIntList(@NotNull Bundle savedInstanceState, String referenceVal) {
+        ArrayList<ArrayList<Integer>> returnList = new ArrayList<>();
+        ArrayList<String> referenceList = savedInstanceState.getStringArrayList(referenceVal);
+        if (referenceList != null) {
+            for (String s : referenceList) {
+                returnList.add(savedInstanceState.getIntegerArrayList(s));
+            }
+        }
+        return returnList;
     }
 }

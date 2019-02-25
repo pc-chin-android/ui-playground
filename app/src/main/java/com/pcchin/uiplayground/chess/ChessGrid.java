@@ -16,18 +16,18 @@ class ChessGrid extends GameObject {
 
     public static int TYPE_WHITE = 1;
     public static int TYPE_BLACK = -1;
-    public static int TYPE_OUT = 10;
+    public static int TYPE_OUT = 2;
 
     ChessGrid(Context context, int x, int y, int widthHeight, int type) {
         super(BitmapFunctions.colorToBitmap(Color.TRANSPARENT, widthHeight, widthHeight), x, y);
 
     }
 
-    private void bindBlock(ChessPiece chessPiece) {
+    private void bindPiece(ChessPiece chessPiece) {
         this.currentPiece = chessPiece;
     }
 
-    private void unbindBlock(ChessPiece chessPiece) {
+    private void unbindPiece(ChessPiece chessPiece) {
         this.currentPiece = null;
     }
 

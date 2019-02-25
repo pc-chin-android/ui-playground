@@ -11,11 +11,17 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+    public static int MOVE_NORMAL = 10;
+    public static int MOVE_CHECK = 15;
+    public static int MOVE_FINAL = 20;
+
     private Context context;
 
     private ArrayList<ChessGrid> gridList = new ArrayList<>();
     private ArrayList<ChessGrid> blackOutList = new ArrayList<>();
     private ArrayList<ChessGrid> whiteOutList = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> moveList = new ArrayList<>(); // <Piece type, new x, new y, move type>
+    ArrayList<ArrayList<Integer>> currentBoardCoords = new ArrayList<>(); // <Piece type, current x, current y>
 
     public ChessSurfaceView(Context context) {
         super(context);
@@ -62,10 +68,27 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     }
 
+    // Carry forward function
+    public void carryForwardDraw() {
+        Canvas canvas = this.getHolder().lockCanvas();
+        this.draw(canvas);
+        if (canvas != null) {
+            this.getHolder().unlockCanvasAndPost(canvas);
+        }
+    }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        // TODO: Draw
+        for (ChessGrid c: gridList) {
+            c.draw(canvas);
+        }
+        for (ChessGrid c: blackOutList) {
+            c.draw(canvas);
+        }
+        for (ChessGrid c: whiteOutList) {
+            c.draw(canvas);
+        }
     }
 
     @Override
@@ -76,5 +99,7 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     // Only used in onCreate, separated for clarity
-    private void onTouchCalled(float x, float y) {}
+    private void onTouchCalled(float x, float y) {
+        this.carryForwardDraw();
+    }
 }

@@ -1,6 +1,7 @@
 package com.pcchin.uiplayground.gamedata;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
 public abstract class GameObject {

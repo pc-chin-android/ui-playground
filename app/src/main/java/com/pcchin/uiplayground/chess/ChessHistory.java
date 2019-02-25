@@ -13,18 +13,25 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class ChessHistory extends AppCompatActivity {
+    private ArrayList<ArrayList<Integer>> moveList = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> currentCoordsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        moveList = ChessActivity.getIntList(savedInstanceState, "ChessMoveList");
+        currentCoordsList = ChessActivity.getIntList(savedInstanceState, "ChessBoardCoords");
         setContentView(R.layout.activity_chess_history);
     }
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ChessActivity.class);
+        ChessActivity.putIntList(intent, moveList, "ChessHistMoveList");
+        ChessActivity.putIntList(intent, currentCoordsList, "ChessHistBoardCoords");
         startActivity(intent);
     }
 
