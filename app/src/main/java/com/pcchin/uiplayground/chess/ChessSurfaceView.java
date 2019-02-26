@@ -11,9 +11,11 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
-    public static int MOVE_NORMAL = 10;
-    public static int MOVE_CHECK = 15;
-    public static int MOVE_FINAL = 20;
+    public static final int MOVE_NORMAL = 10;
+    public static final int MOVE_CHECK = 15;
+    public static final int MOVE_FINAL = 20;
+
+    public static int PIECE_WIDTH_HEIGHT;
 
     private Context context;
 

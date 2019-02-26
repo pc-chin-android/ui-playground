@@ -3,6 +3,7 @@ package com.pcchin.uiplayground.gamedata;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -10,11 +11,14 @@ import android.support.annotation.NonNull;
 import android.text.TextPaint;
 
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /** General Functions for bitmaps **/
 public class BitmapFunctions {
 
-    /** Converts drawable eg bmp, xml to Bitmap **/
+    /**
+     * Converts drawable eg bmp, xml to Bitmap
+     **/
     public static Bitmap getBitmap(int drawableRes, @NonNull Context context) {
         Drawable drawable = context.getResources().getDrawable(drawableRes, context.getTheme());
         Canvas canvas = new Canvas();
@@ -26,7 +30,8 @@ public class BitmapFunctions {
         return bitmap;
     }
 
-    /** Convert a string of text with inputted properties to Bitmap.
+    /**
+     * Convert a string of text with inputted properties to Bitmap.
      * Bitmap size is based on text size, font & typeface.
      **/
     public static Bitmap textToBitmap(String text, int textColor, float textSize, String fontFamily,
@@ -54,7 +59,9 @@ public class BitmapFunctions {
         return image;
     }
 
-    /** Creates full colored bitmap based on given color, width and height **/
+    /**
+     * Creates full colored bitmap based on given color, width and height
+     **/
     public static Bitmap colorToBitmap(int bitmapColor, int width, int height) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -64,13 +71,33 @@ public class BitmapFunctions {
         return bitmap;
     }
 
-    /** Adds an overlay bitmap based on the original bitmap.
-     * Note: Overlay bitmap has to be smaller than the original **/
+    /**
+     * Adds an overlay bitmap based on the original bitmap.
+     * Note: Overlay bitmap has to be smaller than the original
+     **/
     @Contract("_, _ -> param1")
     public static Bitmap overlayBitmap(Bitmap original, Bitmap overlay) {
         Canvas canvas = new Canvas(original);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(overlay, 0, 0, paint);
         return original;
+    }
+
+    /** Resize a bitmap to a specific width and height **/
+    public static Bitmap getResizedBitmap(@NotNull Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // Create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // Resize the Bitmap
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "Recreate" the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
     }
 }
