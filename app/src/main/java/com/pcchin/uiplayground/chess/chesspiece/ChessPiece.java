@@ -34,6 +34,10 @@ public abstract class ChessPiece {
         return this.isWhite;
     }
 
+    public Bitmap getBitmap() {
+        return this.pieceBitmap;
+    }
+
     //****** Abstract functions ******//
 
     abstract ArrayList<int[]> possibleMoves();

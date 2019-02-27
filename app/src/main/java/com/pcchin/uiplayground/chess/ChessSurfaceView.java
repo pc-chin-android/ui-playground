@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,7 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     public static int PIECE_WIDTH_HEIGHT;
 
-    private Context context;
-
-    private ArrayList<ChessGrid> gridList = new ArrayList<>();
+    private ArrayList<ArrayList<ChessGrid>> gridList = new ArrayList<>(); // <<x1y1, x1y2, x1y3>, <x2y1, x2y2..
     private ArrayList<ChessGrid> blackOutList = new ArrayList<>();
     private ArrayList<ChessGrid> whiteOutList = new ArrayList<>();
     ArrayList<ArrayList<Integer>> moveList = new ArrayList<>(); // <Piece type, new x, new y, move type>
@@ -27,25 +26,20 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     public ChessSurfaceView(Context context) {
         super(context);
-        this.onCreate(context);
+        this.onCreate();
     }
 
     public ChessSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.onCreate(context);
+        this.onCreate();
     }
 
     public ChessSurfaceView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.onCreate(context);
+        this.onCreate();
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-    }
-
-    private void onCreate(Context context) {
+    private void onCreate() {
         this.setFocusable(true);
         this.getHolder().addCallback(this);
         this.setOnTouchListener(new OnTouchListener() {
@@ -57,7 +51,51 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             }
         });
 
-        this.context = context;
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                PIECE_WIDTH_HEIGHT = getWidth() / 8;
+                if (12 * PIECE_WIDTH_HEIGHT > getHeight()) {
+                    PIECE_WIDTH_HEIGHT = getHeight() / 12;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        // Set up Grids
+        for (int currentX = 0; currentX < 8; currentX++) {
+            ArrayList<ChessGrid> tempList = new ArrayList<>();
+            for (int currentY = 0; currentY < 8; currentY++) {
+                // Check current type
+                int currentType;
+                if ((currentX + currentY) % 2 != 0) {
+                    currentType = ChessGrid.TYPE_WHITE;
+                } else {
+                    currentType = ChessGrid.TYPE_BLACK;
+                }
+
+                tempList.add(new ChessGrid((getWidth() / 2) - (4 * PIECE_WIDTH_HEIGHT) + (currentX * PIECE_WIDTH_HEIGHT),
+                        (getHeight() / 2) - (4 * PIECE_WIDTH_HEIGHT) + (currentY * PIECE_WIDTH_HEIGHT),
+                        PIECE_WIDTH_HEIGHT, currentType));
+            }
+            gridList.add(tempList);
+        }
+
+        // Set up black/white out grid
+        for (int currentX = 0; currentX < 8; currentX++) {
+            for (int currentY = 0; currentY < 2; currentY++) {
+                whiteOutList.add(new ChessGrid((getWidth() / 2) - (4 * PIECE_WIDTH_HEIGHT) + (currentX * PIECE_WIDTH_HEIGHT),
+                        (getHeight() / 2) - (6 * PIECE_WIDTH_HEIGHT) + (currentY * PIECE_WIDTH_HEIGHT),
+                        PIECE_WIDTH_HEIGHT, ChessGrid.TYPE_OUT));
+
+                blackOutList.add(new ChessGrid((getWidth() / 2) - (4 * PIECE_WIDTH_HEIGHT) + (currentX * PIECE_WIDTH_HEIGHT),
+                        (getHeight() / 2) + (5 * PIECE_WIDTH_HEIGHT) - (currentY * PIECE_WIDTH_HEIGHT),
+                        PIECE_WIDTH_HEIGHT, ChessGrid.TYPE_OUT));
+            }
+        }
     }
 
     @Override
@@ -82,8 +120,10 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        for (ChessGrid c: gridList) {
-            c.draw(canvas);
+        for (ArrayList<ChessGrid> list: gridList) {
+            for (ChessGrid c: list) {
+                c.draw(canvas);
+            }
         }
         for (ChessGrid c: blackOutList) {
             c.draw(canvas);
@@ -103,5 +143,23 @@ public class ChessSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     // Only used in onCreate, separated for clarity
     private void onTouchCalled(float x, float y) {
         this.carryForwardDraw();
+    }
+
+    private void resetGame() {
+        for (ArrayList<ChessGrid> list: gridList) {
+            for (ChessGrid c: list) {
+                c.unbindPiece();
+            }
+        }
+        for (ChessGrid c: blackOutList) {
+            c.unbindPiece();
+        }
+        for (ChessGrid c: whiteOutList) {
+            c.unbindPiece();
+        }
+        this.carryForwardDraw();
+
+        moveList = new ArrayList<>();
+        currentBoardCoords = new ArrayList<>();
     }
 }

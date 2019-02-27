@@ -75,12 +75,12 @@ public class BitmapFunctions {
      * Adds an overlay bitmap based on the original bitmap.
      * Note: Overlay bitmap has to be smaller than the original
      **/
-    @Contract("_, _ -> param1")
     public static Bitmap overlayBitmap(Bitmap original, Bitmap overlay) {
-        Canvas canvas = new Canvas(original);
+        Bitmap returnBitmap = Bitmap.createBitmap(original);
+        Canvas canvas = new Canvas(returnBitmap);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(overlay, 0, 0, paint);
-        return original;
+        return returnBitmap;
     }
 
     /** Resize a bitmap to a specific width and height **/
